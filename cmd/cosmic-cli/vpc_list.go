@@ -25,7 +25,6 @@ import (
 	"sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/config"
 	"sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/cosmic/client"
 	"sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/cosmic/vpc"
-	"sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/output"
 )
 
 func newVPCListCmd() *cobra.Command {
@@ -78,7 +77,7 @@ func runVPCListCmd() error {
 	if cfg.ShowID {
 		fields = append(fields, "ID")
 	}
-	output.Print(cfg.Output, "VPCs", fields, VPCs)
+	printResult(cfg.Output, cfg.Filter, "VPC", fields, VPCs)
 
 	return nil
 }

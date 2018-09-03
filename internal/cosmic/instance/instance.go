@@ -53,11 +53,7 @@ func ListAll(clientMap map[string]*cosmic.CosmicClient, filter, sortBy string, r
 				log.Fatalf("Error returned using profile \"%s\": %s", client, err)
 			}
 
-		Loop:
 			for _, vm := range listVirtualMachines {
-				if MatchFilter(vm, filter) == false {
-					continue Loop
-				}
 				VirtualMachines = append(VirtualMachines, vm)
 			}
 		}(client)

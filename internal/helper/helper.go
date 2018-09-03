@@ -18,9 +18,7 @@ package helper
 
 import (
 	"fmt"
-	"os"
 	"reflect"
-	"regexp"
 	"strings"
 )
 
@@ -52,49 +50,4 @@ func InterfaceSlice(slice interface{}) []interface{} {
 	}
 
 	return ret
-}
-
-func MatchFilter(obj interface{}, filter string) bool {
-	if filter == "" {
-		return true
-	}
-
-	if validFilter, _ := regexp.MatchString("=", filter); validFilter == false {
-		fmt.Println("Invalid filter string passed, filters should be in the form of \"field=string\".")
-		os.Exit(1)
-	}
-
-	split := strings.Split(filter, "=")
-	filterField := strings.TrimSpace(split[0])
-	filterString := strings.TrimSpace(split[1])
-
-	valueOf := reflect.Indirect(reflect.ValueOf(obj))
-
-	if filterField == "ipaddress" {
-		v := valueOf.FieldByName("Nic")
-		if v.IsValid() == false {
-			return false
-		}
-		ip := fmt.Sprintf("%v", v.Index(0).FieldByName("Ipaddress"))
-		match, _ := regexp.MatchString(strings.ToLower(filterString), ip)
-		if match == true {
-			return true
-		}
-
-		return false
-	}
-
-	for i := 0; i < valueOf.NumField(); i++ {
-		if strings.EqualFold(filterField, valueOf.Type().Field(i).Name) {
-			match, _ := regexp.MatchString(
-				strings.ToLower(filterString),
-				strings.ToLower(fmt.Sprintf("%v", valueOf.Field(i).Interface())),
-			)
-			if match == true {
-				return true
-			}
-		}
-	}
-
-	return false
 }

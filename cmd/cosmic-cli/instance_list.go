@@ -25,7 +25,6 @@ import (
 	"sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/config"
 	"sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/cosmic/client"
 	"sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/cosmic/instance"
-	"sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/output"
 )
 
 func newInstanceListCmd() *cobra.Command {
@@ -88,7 +87,7 @@ func runInstanceListCmd() error {
 	if cfg.ShowTemplate {
 		fields = append(fields, "Template Name")
 	}
-	output.Print(cfg.Output, "instances", fields, instances)
+	printResult(cfg.Output, cfg.Filter, "instance", fields, instances)
 
 	return nil
 }
