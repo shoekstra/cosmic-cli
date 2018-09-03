@@ -69,6 +69,21 @@ func MatchFilter(obj interface{}, filter string) bool {
 	filterString := strings.TrimSpace(split[1])
 
 	valueOf := reflect.Indirect(reflect.ValueOf(obj))
+
+	if filterField == "ipaddress" {
+		v := valueOf.FieldByName("Nic")
+		if v.IsValid() == false {
+			return false
+		}
+		ip := fmt.Sprintf("%v", v.Index(0).FieldByName("Ipaddress"))
+		match, _ := regexp.MatchString(strings.ToLower(filterString), ip)
+		if match == true {
+			return true
+		}
+
+		return false
+	}
+
 	for i := 0; i < valueOf.NumField(); i++ {
 		if strings.EqualFold(filterField, valueOf.Type().Field(i).Name) {
 			match, _ := regexp.MatchString(

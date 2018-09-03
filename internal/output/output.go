@@ -43,9 +43,17 @@ func PrintTable(cosmicType string, fields []string, output interface{}) {
 	for _, s := range slice {
 		row := []string{}
 		val := reflect.Indirect(reflect.ValueOf(s))
-		for i := 0; i < val.NumField(); i++ {
-			if ContainsNoSpaces(fields, val.Type().Field(i).Name) {
-				row = append(row, fmt.Sprintf("%v", val.Field(i).Interface()))
+		for _, f := range fields {
+			fns := fmt.Sprintf("%s", strings.Replace(f, " ", "", -1))
+			fns = strings.Title(strings.ToLower(fns))
+			// We have some exceptions where the field name does not exist on the reflected object.
+			switch fns {
+			// *cosmic.VirtualMachine does not contain a "ipaddress" field so we need to manually
+			// add the primary NIC IP to our table.
+			case "Ipaddress":
+				row = append(row, fmt.Sprintf("%v", val.FieldByName("Nic").Index(0).FieldByName("Ipaddress")))
+			default:
+				row = append(row, fmt.Sprintf("%v", val.FieldByName(fns).Interface()))
 			}
 		}
 		table.Append(row)

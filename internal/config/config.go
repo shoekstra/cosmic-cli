@@ -26,13 +26,15 @@ import (
 )
 
 type Config struct {
-	Filter      string `mapstructure:"filter"`
-	Output      string `mapstructure:"output"`
-	Profile     string `mapstructure:"profile"`
-	ReverseSort bool   `mapstructure:"reverse-sort"`
-	ShowID      bool   `mapstructure:"show-id"`
-	SortBy      string `mapstructure:"sort-by"`
-	Profiles    map[string]struct {
+	Filter              string `mapstructure:"filter"`
+	Output              string `mapstructure:"output"`
+	Profile             string `mapstructure:"profile"`
+	ReverseSort         bool   `mapstructure:"reverse-sort"`
+	ShowID              bool   `mapstructure:"show-id"`
+	ShowServiceOffering bool   `mapstructure:"show-service-offering"`
+	ShowTemplate        bool   `mapstructure:"show-template"`
+	SortBy              string `mapstructure:"sort-by"`
+	Profiles            map[string]struct {
 		ApiUrl    string `mapstructure:"api_url"`
 		ApiKey    string `mapstructure:"api_key"`
 		SecretKey string `mapstructure:"secret_key"`
