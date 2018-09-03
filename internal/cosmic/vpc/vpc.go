@@ -28,7 +28,12 @@ import (
 	. "sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/helper"
 )
 
-// List returns a slice of *cosmic.VPC objects using a *cosmic.CosmicClient object.
+type VPC struct {
+	*cosmic.VPC
+	SourceNatIP string
+}
+
+// List returns a slice of *VPC objects using a *cosmic.CosmicClient object.
 func List(client *cosmic.CosmicClient) ([]*cosmic.VPC, error) {
 	params := client.VPC.NewListVPCsParams()
 	resp, err := client.VPC.ListVPCs(params)
@@ -39,9 +44,9 @@ func List(client *cosmic.CosmicClient) ([]*cosmic.VPC, error) {
 	return resp.VPCs, nil
 }
 
-// List returns a slice of *cosmic.VPC objects using all configured *cosmic.CosmicClient objects.
-func ListAll(clientMap map[string]*cosmic.CosmicClient, filter, sortBy string, reverseSort bool) []*cosmic.VPC {
-	VPCs := []*cosmic.VPC{}
+// List returns a slice of *VPC objects using all configured *cosmic.CosmicClient objects.
+func ListAll(clientMap map[string]*cosmic.CosmicClient, filter, sortBy string, reverseSort bool) []*VPC {
+	var VPCs []*VPC
 	var wg sync.WaitGroup
 	wg.Add(len(clientMap))
 
@@ -55,7 +60,9 @@ func ListAll(clientMap map[string]*cosmic.CosmicClient, filter, sortBy string, r
 			}
 
 			for _, vpc := range listVPCs {
-				VPCs = append(VPCs, vpc)
+				VPCs = append(VPCs, &VPC{
+					VPC: vpc,
+				})
 			}
 		}(client)
 	}
@@ -66,8 +73,8 @@ func ListAll(clientMap map[string]*cosmic.CosmicClient, filter, sortBy string, r
 	return VPCs
 }
 
-// Sort returns a sorted slice of []*cosmic.VPC objects.
-func Sort(VPCs []*cosmic.VPC, sortBy string, reverseSort bool) []*cosmic.VPC {
+// Sort returns a sorted slice of []*VPC objects.
+func Sort(VPCs []*VPC, sortBy string, reverseSort bool) []*VPC {
 	if Contains([]string{"cidr", "name", "vpcofferingname", "zonename"}, sortBy) == false {
 		fmt.Println("Invalid sort option provided, provide either \"cidr\", \"name\", \"vpcofferingname\" or \"zonename\".")
 		os.Exit(1)

@@ -31,6 +31,7 @@ type Config struct {
 	Profile             string `mapstructure:"profile"`
 	ReverseSort         bool   `mapstructure:"reverse-sort"`
 	ShowID              bool   `mapstructure:"show-id"`
+	ShowSNAT            bool   `mapstructure:"show-snat"`
 	ShowServiceOffering bool   `mapstructure:"show-service-offering"`
 	ShowTemplate        bool   `mapstructure:"show-template"`
 	SortBy              string `mapstructure:"sort-by"`

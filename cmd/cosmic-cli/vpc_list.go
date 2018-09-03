@@ -24,6 +24,7 @@ import (
 	"github.com/spf13/viper"
 	"sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/config"
 	"sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/cosmic/client"
+	"sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/cosmic/publicip"
 	"sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/cosmic/vpc"
 )
 
@@ -38,6 +39,7 @@ func newVPCListCmd() *cobra.Command {
 			viper.BindPFlag("output", cmd.Flags().Lookup("output"))
 			viper.BindPFlag("reverse-sort", cmd.Flags().Lookup("reverse-sort"))
 			viper.BindPFlag("show-id", cmd.Flags().Lookup("show-id"))
+			viper.BindPFlag("show-snat", cmd.Flags().Lookup("show-snat"))
 			viper.BindPFlag("sort-by", cmd.Flags().Lookup("sort-by"))
 		},
 		Run: func(cmd *cobra.Command, args []string) {
@@ -51,6 +53,7 @@ func newVPCListCmd() *cobra.Command {
 	// Add local flags.
 	cmd.Flags().BoolP("reverse-sort", "", false, "reverse sort order")
 	cmd.Flags().BoolP("show-id", "", false, "show VPC id in result")
+	cmd.Flags().BoolP("show-snat", "", false, "show VPC Source NAT IP in result")
 	cmd.Flags().StringP("filter", "f", "", "filter results (supports regex)")
 	cmd.Flags().StringP("output", "o", "table", "specify output type")
 	cmd.Flags().StringP("profile", "p", "", "specify profile to limit results")
@@ -72,10 +75,34 @@ func runVPCListCmd() error {
 		cfg.ReverseSort,
 	)
 
+	if cfg.ShowSNAT {
+		publicIPs := publicip.ListAll(
+			client.NewAsyncClientMap(cfg),
+			cfg.Filter,
+			cfg.SortBy,
+			cfg.ReverseSort,
+		)
+
+		for _, p := range publicIPs {
+			if p.Issourcenat == false {
+				continue
+			}
+
+			for _, v := range VPCs {
+				if v.Id == p.Vpcid {
+					v.SourceNatIP = p.Ipaddress
+				}
+			}
+		}
+	}
+
 	// Print table
 	fields := []string{"Name", "CIDR", "VPC Offering Name", "Zone Name"}
 	if cfg.ShowID {
 		fields = append(fields, "ID")
+	}
+	if cfg.ShowSNAT {
+		fields = append(fields, "Source NAT IP")
 	}
 	printResult(cfg.Output, cfg.Filter, "VPC", fields, VPCs)
 
