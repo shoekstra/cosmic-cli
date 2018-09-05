@@ -32,29 +32,10 @@ func filterMatch(obj interface{}, filter string) bool {
 	if filter == "" {
 		return true
 	}
-
-	if validFilter, _ := regexp.MatchString("=", filter); validFilter == false {
-		fmt.Println("Invalid filter string passed, filters should be in the form of \"field=string\".")
-		os.Exit(1)
-	}
-
-	split := strings.Split(filter, "=")
-	filterField := strings.TrimSpace(split[0])
-	filterString := strings.TrimSpace(split[1])
-
-	// bval represents the base type if val is a nested type, this is only needed when we embed
-	// an existing cosmic type with one of our own to add additional fields (e.g. cosmic.VPC is
-	// nested within vpc.VPC)
-	// var bval reflect.Value
-	var val reflect.Value
-	switch fmt.Sprintf("%s", reflect.TypeOf(obj)) {
-	case "*vpc.VPC":
-		val = reflect.Indirect(reflect.ValueOf(obj).Elem().FieldByName("VPC"))
-	default:
-		val = reflect.Indirect(reflect.ValueOf(obj))
-	}
+	filterField, filterString := filterSplit(filter)
 
 	var value string
+	val := reflect.Indirect(reflect.ValueOf(obj))
 	switch {
 	case strings.EqualFold(filterField, "ipaddress"):
 		v := val.FieldByName("Nic")
@@ -62,34 +43,32 @@ func filterMatch(obj interface{}, filter string) bool {
 			return false
 		}
 		value = fmt.Sprintf("%v", v.Index(0).FieldByName("Ipaddress"))
-	case strings.EqualFold(filterField, "networkname"):
-		val = reflect.Indirect(reflect.ValueOf(obj))
-		v := val.FieldByName("NetworkName")
-		if v.IsValid() == false {
-			return false
-		}
-		value = fmt.Sprintf("%v", v)
-	case strings.EqualFold(filterField, "sourcenatip") || strings.EqualFold(filterField, "snatip"):
-		val = reflect.Indirect(reflect.ValueOf(obj))
-		v := val.FieldByName("SourceNatIP")
-		if v.IsValid() == false {
-			return false
-		}
-		value = fmt.Sprintf("%v", v)
-	case strings.EqualFold(filterField, "vpcname"):
-		val = reflect.Indirect(reflect.ValueOf(obj))
-		v := val.FieldByName("VPCName")
-		if v.IsValid() == false {
-			return false
-		}
-		value = fmt.Sprintf("%v", v)
 	default:
-		f := strings.Title(strings.ToLower(filterField))
-		v := val.FieldByName(f)
-		if v.IsValid() == false {
+		// First try to read the field directly; if it exists set the value and break.
+		fn := strings.Title(strings.ToLower(filterField))
+		valueField := val.FieldByName(fn)
+		if valueField.IsValid() {
+			value = fmt.Sprintf("%v", valueField.Interface())
+			break
+		}
+
+		// If we can't read the field directly, we'll then loop through all field names and set
+		// value if we find a matchin field name.
+		for i := 0; i < val.NumField(); i++ {
+			typeField := val.Type().Field(i)
+
+			if strings.EqualFold(filterField, typeField.Name) {
+				valueField := val.Field(i)
+				value = fmt.Sprintf("%v", valueField.Interface())
+				break
+			}
+		}
+
+		// If nothing is set at this point we'll assume the field doesn't exist; if it has some
+		// funky key then probably better to add as an exception to the switch statement.
+		if value == "" {
 			return false
 		}
-		value = fmt.Sprintf("%v", v.Interface())
 	}
 
 	match, _ := regexp.MatchString(strings.ToLower(filterString), strings.ToLower(value))
@@ -119,6 +98,19 @@ func filterOutput(result interface{}, filter string) interface{} {
 	}
 
 	return slice
+}
+
+func filterSplit(filter string) (field, value string) {
+	if validFilter, _ := regexp.MatchString("=", filter); validFilter == false {
+		fmt.Println("Invalid filter string passed, filters should be in the form of \"field=value\".")
+		os.Exit(1)
+	}
+
+	split := strings.Split(filter, "=")
+	filterField := strings.TrimSpace(split[0])
+	filterString := strings.TrimSpace(split[1])
+
+	return filterField, filterString
 }
 
 func printTable(cosmicType string, fields []string, result interface{}) {
@@ -164,7 +156,7 @@ func printTable(cosmicType string, fields []string, result interface{}) {
 			case "Sourcenatip":
 				row = append(row, fmt.Sprintf("%v", bval.FieldByName("SourceNatIP").Interface()))
 			case "Vpcname":
-				row = append(row, fmt.Sprintf("%v", bval.FieldByName("VPCName").Interface()))
+				row = append(row, fmt.Sprintf("%v", val.FieldByName("VPCName").Interface()))
 			default:
 				row = append(row, fmt.Sprintf("%v", val.FieldByName(fns).Interface()))
 			}
