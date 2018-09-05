@@ -30,7 +30,9 @@ type Config struct {
 	Output              string `mapstructure:"output"`
 	Profile             string `mapstructure:"profile"`
 	ReverseSort         bool   `mapstructure:"reverse-sort"`
+	ShowHost            bool   `mapstructure:"show-host"`
 	ShowID              bool   `mapstructure:"show-id"`
+	ShowNetwork         bool   `mapstructure:"show-network"`
 	ShowSNAT            bool   `mapstructure:"show-snat"`
 	ShowServiceOffering bool   `mapstructure:"show-service-offering"`
 	ShowTemplate        bool   `mapstructure:"show-template"`

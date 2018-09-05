@@ -62,9 +62,23 @@ func filterMatch(obj interface{}, filter string) bool {
 			return false
 		}
 		value = fmt.Sprintf("%v", v.Index(0).FieldByName("Ipaddress"))
+	case strings.EqualFold(filterField, "networkname"):
+		val = reflect.Indirect(reflect.ValueOf(obj))
+		v := val.FieldByName("NetworkName")
+		if v.IsValid() == false {
+			return false
+		}
+		value = fmt.Sprintf("%v", v)
 	case strings.EqualFold(filterField, "sourcenatip") || strings.EqualFold(filterField, "snatip"):
 		val = reflect.Indirect(reflect.ValueOf(obj))
 		v := val.FieldByName("SourceNatIP")
+		if v.IsValid() == false {
+			return false
+		}
+		value = fmt.Sprintf("%v", v)
+	case strings.EqualFold(filterField, "vpcname"):
+		val = reflect.Indirect(reflect.ValueOf(obj))
+		v := val.FieldByName("VPCName")
 		if v.IsValid() == false {
 			return false
 		}
@@ -128,9 +142,9 @@ func printTable(cosmicType string, fields []string, result interface{}) {
 		var bval reflect.Value
 		var val reflect.Value
 		switch fmt.Sprintf("%s", reflect.TypeOf(s)) {
-		case "*vpc.VPC":
+		case "*instance.VirtualMachine", "*vpc.VPC":
 			bval = reflect.Indirect(reflect.ValueOf(s))
-			// We set any embedded type at position 1.
+			// We set any embedded type at position 0.
 			val = reflect.Indirect(reflect.ValueOf(s).Elem().Field(0))
 		default:
 			val = reflect.Indirect(reflect.ValueOf(s))
@@ -145,8 +159,12 @@ func printTable(cosmicType string, fields []string, result interface{}) {
 			// add the primary NIC IP to our table.
 			case "Ipaddress":
 				row = append(row, fmt.Sprintf("%v", val.FieldByName("Nic").Index(0).FieldByName("Ipaddress")))
+			case "Networkname":
+				row = append(row, fmt.Sprintf("%v", bval.FieldByName("NetworkName").Interface()))
 			case "Sourcenatip":
 				row = append(row, fmt.Sprintf("%v", bval.FieldByName("SourceNatIP").Interface()))
+			case "Vpcname":
+				row = append(row, fmt.Sprintf("%v", bval.FieldByName("VPCName").Interface()))
 			default:
 				row = append(row, fmt.Sprintf("%v", val.FieldByName(fns).Interface()))
 			}

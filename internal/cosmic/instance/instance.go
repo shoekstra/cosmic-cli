@@ -28,6 +28,12 @@ import (
 	. "sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/helper"
 )
 
+type VirtualMachine struct {
+	*cosmic.VirtualMachine
+	NetworkName string
+	VPCName     string
+}
+
 // List returns a slice of *cosmic.VirtualMachine objects using a *cosmic.CosmicClient object.
 func List(client *cosmic.CosmicClient) ([]*cosmic.VirtualMachine, error) {
 	params := client.VirtualMachine.NewListVirtualMachinesParams()
@@ -39,8 +45,8 @@ func List(client *cosmic.CosmicClient) ([]*cosmic.VirtualMachine, error) {
 	return resp.VirtualMachines, nil
 }
 
-func ListAll(clientMap map[string]*cosmic.CosmicClient, filter, sortBy string, reverseSort bool) []*cosmic.VirtualMachine {
-	VirtualMachines := []*cosmic.VirtualMachine{}
+func ListAll(clientMap map[string]*cosmic.CosmicClient, filter, sortBy string, reverseSort bool) []*VirtualMachine {
+	VirtualMachines := []*VirtualMachine{}
 	var wg sync.WaitGroup
 	wg.Add(len(clientMap))
 
@@ -54,7 +60,9 @@ func ListAll(clientMap map[string]*cosmic.CosmicClient, filter, sortBy string, r
 			}
 
 			for _, vm := range listVirtualMachines {
-				VirtualMachines = append(VirtualMachines, vm)
+				VirtualMachines = append(VirtualMachines, &VirtualMachine{
+					VirtualMachine: vm,
+				})
 			}
 		}(client)
 	}
@@ -66,7 +74,7 @@ func ListAll(clientMap map[string]*cosmic.CosmicClient, filter, sortBy string, r
 }
 
 // Sort returns a sorted []*cosmic.VirtualMachine slice.
-func Sort(VirtualMachines []*cosmic.VirtualMachine, sortBy string, reverseSort bool) []*cosmic.VirtualMachine {
+func Sort(VirtualMachines []*VirtualMachine, sortBy string, reverseSort bool) []*VirtualMachine {
 	if Contains([]string{"ipaddress", "name", "zonename"}, sortBy) == false {
 		fmt.Println("Invalid sort option provided, provide either \"ipaddress\", \"name\" or \"zonename\".")
 		os.Exit(1)

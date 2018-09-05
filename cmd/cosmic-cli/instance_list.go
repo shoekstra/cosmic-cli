@@ -25,6 +25,8 @@ import (
 	"sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/config"
 	"sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/cosmic/client"
 	"sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/cosmic/instance"
+	"sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/cosmic/network"
+	"sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/cosmic/vpc"
 )
 
 func newInstanceListCmd() *cobra.Command {
@@ -37,7 +39,9 @@ func newInstanceListCmd() *cobra.Command {
 			viper.BindPFlag("output", cmd.Flags().Lookup("output"))
 			viper.BindPFlag("profile", cmd.Flags().Lookup("profile"))
 			viper.BindPFlag("reverse-sort", cmd.Flags().Lookup("reverse-sort"))
+			viper.BindPFlag("show-host", cmd.Flags().Lookup("show-host"))
 			viper.BindPFlag("show-id", cmd.Flags().Lookup("show-id"))
+			viper.BindPFlag("show-network", cmd.Flags().Lookup("show-network"))
 			viper.BindPFlag("show-service-offering", cmd.Flags().Lookup("show-service-offering"))
 			viper.BindPFlag("show-template", cmd.Flags().Lookup("show-template"))
 			viper.BindPFlag("sort-by", cmd.Flags().Lookup("sort-by"))
@@ -52,7 +56,9 @@ func newInstanceListCmd() *cobra.Command {
 
 	// Add local flags.
 	cmd.Flags().BoolP("reverse-sort", "", false, "reverse sort order")
+	cmd.Flags().BoolP("show-host", "", false, "show hypervisor hostname in result")
 	cmd.Flags().BoolP("show-id", "", false, "show instance id in result")
+	cmd.Flags().BoolP("show-network", "", false, "show network info in result")
 	cmd.Flags().BoolP("show-service-offering", "", false, "show instance service offering in result")
 	cmd.Flags().BoolP("show-template", "", false, "show instance template name in result")
 	cmd.Flags().StringP("filter", "f", "", "filter results (supports regex)")
@@ -76,16 +82,57 @@ func runInstanceListCmd() error {
 		cfg.ReverseSort,
 	)
 
+	if cfg.ShowNetwork {
+		networks := network.ListAll(
+			client.NewAsyncClientMap(cfg),
+			cfg.Filter,
+			cfg.SortBy,
+			cfg.ReverseSort,
+		)
+
+		vpcs := vpc.ListAll(
+			client.NewAsyncClientMap(cfg),
+			cfg.Filter,
+			cfg.SortBy,
+			cfg.ReverseSort,
+		)
+
+		for _, i := range instances {
+			var vpcid string
+			for _, n := range networks {
+				if n.Id == i.Nic[0].Networkid {
+					i.NetworkName = n.Name
+					vpcid = n.Vpcid
+					break
+				}
+			}
+
+			for _, v := range vpcs {
+				if v.Id == vpcid {
+					i.VPCName = v.Name
+					break
+				}
+			}
+		}
+	}
+
 	// Print table
-	fields := []string{"Name", "State", "IP Address", "Zone Name"}
+	fields := []string{"Name", "Instance Name", "State", "IP Address", "Zone Name"}
 	if cfg.ShowID {
 		fields = append(fields, "ID")
+	}
+	if cfg.ShowHost {
+		fields = append(fields, "Hostname")
 	}
 	if cfg.ShowServiceOffering {
 		fields = append(fields, "Service Offering Name")
 	}
 	if cfg.ShowTemplate {
 		fields = append(fields, "Template Name")
+	}
+	if cfg.ShowNetwork {
+		fields = append(fields, "Network Name")
+		fields = append(fields, "VPC Name")
 	}
 	printResult(cfg.Output, cfg.Filter, "instance", fields, instances)
 
