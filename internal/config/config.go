@@ -25,6 +25,7 @@ import (
 	"github.com/spf13/viper"
 )
 
+// Config contains cosmic-cli options.
 type Config struct {
 	Filter              string `mapstructure:"filter"`
 	Output              string `mapstructure:"output"`
@@ -38,18 +39,21 @@ type Config struct {
 	ShowTemplate        bool   `mapstructure:"show-template"`
 	SortBy              string `mapstructure:"sort-by"`
 	Profiles            map[string]struct {
-		ApiUrl    string `mapstructure:"api_url"`
-		ApiKey    string `mapstructure:"api_key"`
+		APIURL    string `mapstructure:"api_url"`
+		APIKey    string `mapstructure:"api_key"`
 		SecretKey string `mapstructure:"secret_key"`
 	}
 }
 
+// ValidProfile will check the profile exists.
 func (c *Config) ValidProfile(p string) {
 	if _, ok := c.Profiles[p]; ok == false {
 		log.Fatalf("Cannot find config for specified profile \"%v\"", p)
 	}
 }
 
+// CheckDuplicatedProfile will check for any profiles; if any find an error will be returned asking
+// the user to fix their config before proceeding.
 func (c *Config) CheckDuplicatedProfile() {
 	duplicate := false
 

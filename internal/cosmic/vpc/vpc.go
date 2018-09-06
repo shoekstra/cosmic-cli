@@ -25,9 +25,10 @@ import (
 	"sync"
 
 	"github.com/MissionCriticalCloud/go-cosmic/cosmic"
-	. "sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/helper"
+	h "sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/helper"
 )
 
+// VPC embeds *cosmic.VPC to allow additional fields.
 type VPC struct {
 	*cosmic.VPC
 	SourceNatIP string
@@ -44,7 +45,7 @@ func List(client *cosmic.CosmicClient) ([]*cosmic.VPC, error) {
 	return resp.VPCs, nil
 }
 
-// List returns a slice of *VPC objects using all configured *cosmic.CosmicClient objects.
+// ListAll returns a slice of *VPC objects using all configured *cosmic.CosmicClient objects.
 func ListAll(clientMap map[string]*cosmic.CosmicClient, filter, sortBy string, reverseSort bool) []*VPC {
 	var VPCs []*VPC
 	var wg sync.WaitGroup
@@ -75,7 +76,7 @@ func ListAll(clientMap map[string]*cosmic.CosmicClient, filter, sortBy string, r
 
 // Sort returns a sorted slice of []*VPC objects.
 func Sort(VPCs []*VPC, sortBy string, reverseSort bool) []*VPC {
-	if Contains([]string{"cidr", "name", "vpcofferingname", "zonename"}, sortBy) == false {
+	if h.Contains([]string{"cidr", "name", "vpcofferingname", "zonename"}, sortBy) == false {
 		fmt.Println("Invalid sort option provided, provide either \"cidr\", \"name\", \"vpcofferingname\" or \"zonename\".")
 		os.Exit(1)
 	}

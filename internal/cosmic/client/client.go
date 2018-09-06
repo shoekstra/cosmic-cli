@@ -36,8 +36,8 @@ func NewAsyncClientMap(cfg *config.Config) map[string]*cosmic.CosmicClient {
 
 	for _, profile := range profiles {
 		clientMap[profile] = cosmic.NewAsyncClient(
-			cfg.Profiles[profile].ApiUrl,
-			cfg.Profiles[profile].ApiKey,
+			cfg.Profiles[profile].APIURL,
+			cfg.Profiles[profile].APIKey,
 			cfg.Profiles[profile].SecretKey,
 			tlsConfig,
 			httpTimeout,
@@ -50,7 +50,7 @@ func NewAsyncClientMap(cfg *config.Config) map[string]*cosmic.CosmicClient {
 func getProfile(cfg *config.Config) []string {
 	result := []string{}
 
-	for p, _ := range cfg.Profiles {
+	for p := range cfg.Profiles {
 		result = append(result, p)
 	}
 

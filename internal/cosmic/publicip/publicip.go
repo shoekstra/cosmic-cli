@@ -34,7 +34,8 @@ func List(client *cosmic.CosmicClient) ([]*cosmic.PublicIpAddress, error) {
 	return resp.PublicIpAddresses, nil
 }
 
-// List returns a slice of *VPC objects using all configured *cosmic.CosmicClient objects.
+// ListAll returns a slice of *cosmic.PublicIpAddress objects using all configured *cosmic.CosmicClient
+// objects.
 func ListAll(clientMap map[string]*cosmic.CosmicClient, filter, sortBy string, reverseSort bool) []*cosmic.PublicIpAddress {
 	publicIPs := []*cosmic.PublicIpAddress{}
 	var wg sync.WaitGroup

@@ -22,6 +22,7 @@ import (
 	"strings"
 )
 
+// Contains return true if the slice contains an element matching the provided string.
 func Contains(slice []string, str string) bool {
 	for _, a := range slice {
 		if strings.EqualFold(a, str) {
@@ -32,6 +33,8 @@ func Contains(slice []string, str string) bool {
 	return false
 }
 
+// ContainsNoSpaces return true if the slice contains an element matching the provided string, first
+// removing any spaces from string elements in the slice.
 func ContainsNoSpaces(slice []string, str string) bool {
 	var sliceNoSpaces []string
 	for _, a := range slice {
@@ -41,6 +44,7 @@ func ContainsNoSpaces(slice []string, str string) bool {
 	return Contains(sliceNoSpaces, str)
 }
 
+// InterfaceSlice returns a slice of interfaces.
 func InterfaceSlice(slice interface{}) []interface{} {
 	s := reflect.ValueOf(slice)
 	ret := make([]interface{}, s.Len())

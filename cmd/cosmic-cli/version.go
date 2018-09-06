@@ -22,7 +22,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-const VERSION = "0.1.0"
+const version = "0.1.0"
 
 func newVersionCmd() *cobra.Command {
 	cmd := &cobra.Command{
@@ -37,5 +37,5 @@ func newVersionCmd() *cobra.Command {
 }
 
 func runVersionCmd() {
-	fmt.Println("cosmic-cli v" + VERSION)
+	fmt.Println("cosmic-cli v" + version)
 }

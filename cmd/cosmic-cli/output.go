@@ -25,7 +25,7 @@ import (
 	"strings"
 
 	"github.com/olekukonko/tablewriter"
-	. "sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/helper"
+	h "sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/helper"
 )
 
 func filterMatch(obj interface{}, filter string) bool {
@@ -84,7 +84,7 @@ func filterOutput(result interface{}, filter string) interface{} {
 		return result
 	}
 
-	slice := InterfaceSlice(result)
+	slice := h.InterfaceSlice(result)
 
 	if len(slice) == 0 {
 		return result
@@ -114,7 +114,7 @@ func filterSplit(filter string) (field, value string) {
 }
 
 func printTable(cosmicType string, fields []string, result interface{}) {
-	slice := InterfaceSlice(result)
+	slice := h.InterfaceSlice(result)
 
 	if len(slice) == 0 {
 		fmt.Printf("Found 0 %s.\n", cosmicType)

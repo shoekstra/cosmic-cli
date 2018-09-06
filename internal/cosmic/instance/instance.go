@@ -25,9 +25,10 @@ import (
 	"sync"
 
 	"github.com/MissionCriticalCloud/go-cosmic/cosmic"
-	. "sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/helper"
+	h "sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/helper"
 )
 
+// VirtualMachine embeds *cosmic.VirtualMachine to allow additional fields.
 type VirtualMachine struct {
 	*cosmic.VirtualMachine
 	NetworkName string
@@ -45,6 +46,8 @@ func List(client *cosmic.CosmicClient) ([]*cosmic.VirtualMachine, error) {
 	return resp.VirtualMachines, nil
 }
 
+// ListAll returns a slice of *VirtualMachine objects using all configured *cosmic.CosmicClient
+// objects.
 func ListAll(clientMap map[string]*cosmic.CosmicClient, filter, sortBy string, reverseSort bool) []*VirtualMachine {
 	VirtualMachines := []*VirtualMachine{}
 	var wg sync.WaitGroup
@@ -75,7 +78,7 @@ func ListAll(clientMap map[string]*cosmic.CosmicClient, filter, sortBy string, r
 
 // Sort returns a sorted []*cosmic.VirtualMachine slice.
 func Sort(VirtualMachines []*VirtualMachine, sortBy string, reverseSort bool) []*VirtualMachine {
-	if Contains([]string{"ipaddress", "name", "zonename"}, sortBy) == false {
+	if h.Contains([]string{"ipaddress", "name", "zonename"}, sortBy) == false {
 		fmt.Println("Invalid sort option provided, provide either \"ipaddress\", \"name\" or \"zonename\".")
 		os.Exit(1)
 	}
