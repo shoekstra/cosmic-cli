@@ -2,6 +2,53 @@
 
 A CLI interface to manage Cosmic Cloud resources written in Golang.
 
+## Installation
+
+A CI job uploads a new binary each time a branch is created or updated, be warned that these are bleeding edge and may also include bugs.
+
+The following binaries are available from the master branch:
+
+* `cosmic-cli-darwin-amd64` ([master/unreleased](https://sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/-/jobs/artifacts/master/download?job=build+darwin-amd64))
+* `cosmic-cli-linux-amd64` ([master/unreleased](https://sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/-/jobs/artifacts/master/download?job=build+linux-amd64))
+* `cosmic-cli-windows-amd64.exe` ([master/unreleased](https://sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/-/jobs/artifacts/master/download?job=build+windows-amd64))
+
+Alternatively you can browse [published tags](https://sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/tags) to download a released version that will adhere to SemVer.
+
+## Usage
+
+### Configuring profiles
+
+`cosmic-cli` runs it's subcommands across multiple Cosmic zones, to use it you'll need to create a configuration file at `$HOME/.cosmiccloud/config.toml`.
+
+For example:
+
+```
+[profiles.sbp-nl1]
+api_url    = "https://nl1.mcc.schubergphilis.com/client/api"
+api_key    = "CIB9_t..."
+secret_key = "RnD3Kl..."
+
+[profiles.sbp-nl1-admin]
+api_url    = "https://admin-nl1.mcc.schubergphilis.com/client/api"
+api_key    = "CIB9_t..."
+secret_key = "RnD3Kl..."
+
+[profiles.sbp-nl2]
+api_url    = "https://nl2.mcc.schubergphilis.com/client/api"
+api_key    = "BXpvK0..."
+secret_key = "e1zI9w..."
+```
+
+### Using the filter
+
+The format when using the filter is `field=value`, where `field` can be any table header without spaces. The value string is parsed as a regex for more flexible filtering.
+
+For example: `-f name=vdi` will match any results where the name field contains "vdi". If you are searching for values that contain spaces, put the whole filter in quotes, e.g. `-f 'name=vdi 2'`.
+
+### Command help
+
+Help for a specific subcommand is available by running `cosmic-cli help <subcommand>` or `cosmic-cli <subcommand> -h`.
+
 ## License
 
 ```
