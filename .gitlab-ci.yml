@@ -1,0 +1,55 @@
+image: golang:1.10
+
+stages:
+  - test
+  - build
+
+before_script:
+  - mkdir -p $GOPATH/src/sbp.gitlab.schubergphilis.com/$CI_PROJECT_NAMESPACE $GOPATH/src/_/builds
+  - cp -r $CI_PROJECT_DIR $GOPATH/src/sbp.gitlab.schubergphilis.com/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME
+  - ln -s $GOPATH/src/sbp.gitlab.schubergphilis.com/$CI_PROJECT_NAMESPACE $GOPATH/src/_/builds/$CI_PROJECT_NAMESPACE
+
+lint:
+  stage: test
+  script:
+    - make test-dep
+    - make lint
+
+test:
+  stage: test
+  script:
+    - make test-dep
+    - make test
+
+build darwin-amd64:
+  stage: build
+  variables:
+    GOOS: darwin
+    GOARCH: amd64
+  script:
+    - go build -o cosmic-cli-$GOOS-$GOARCH sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/cmd/cosmic-cli
+  artifacts:
+    paths:
+    - cosmic-cli-*
+
+build linux-amd64:
+  stage: build
+  variables:
+    GOOS: linux
+    GOARCH: amd64
+  script:
+    - go build -o cosmic-cli-$GOOS-$GOARCH sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/cmd/cosmic-cli
+  artifacts:
+    paths:
+    - cosmic-cli-*
+
+build windows-amd64:
+  stage: build
+  variables:
+    GOOS: windows
+    GOARCH: amd64
+  script:
+    - go build -o cosmic-cli-$GOOS-$GOARCH.exe sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/cmd/cosmic-cli
+  artifacts:
+    paths:
+    - cosmic-cli-*
