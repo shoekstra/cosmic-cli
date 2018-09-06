@@ -156,7 +156,7 @@ func printTable(cosmicType string, fields []string, result interface{}) {
 			case "Sourcenatip":
 				row = append(row, fmt.Sprintf("%v", bval.FieldByName("SourceNatIP").Interface()))
 			case "Vpcname":
-				row = append(row, fmt.Sprintf("%v", val.FieldByName("VPCName").Interface()))
+				row = append(row, fmt.Sprintf("%v", bval.FieldByName("VPCName").Interface()))
 			default:
 				row = append(row, fmt.Sprintf("%v", val.FieldByName(fns).Interface()))
 			}
