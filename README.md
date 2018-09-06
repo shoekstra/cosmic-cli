@@ -18,7 +18,7 @@ Alternatively you can browse [published tags](https://sbp.gitlab.schubergphilis.
 
 ### Configuring profiles
 
-`cosmic-cli` runs it's subcommands across multiple Cosmic zones, to use it you'll need to create a configuration file at `$HOME/.cosmiccloud/config.toml`.
+`cosmic-cli` runs it's subcommands across multiple Cosmic zones, to use it you'll need to create a configuration file at `$HOME/.cosmic-cli/config.toml`.
 
 For example:
 
