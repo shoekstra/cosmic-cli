@@ -26,6 +26,7 @@ func newVPCCmd() *cobra.Command {
 		Short: "VPC subcommands",
 	}
 
+	// Add subcommands.
 	cmd.AddCommand(newVPCListCmd())
 
 	return cmd
