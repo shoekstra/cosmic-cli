@@ -90,7 +90,7 @@ func runVPCListCmd() error {
 
 			for _, v := range VPCs {
 				if v.Id == p.Vpcid {
-					v.SourceNatIP = p.Ipaddress
+					v.Sourcenatip = p.Ipaddress
 				}
 			}
 		}

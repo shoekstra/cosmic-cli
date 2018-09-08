@@ -101,7 +101,7 @@ func runInstanceListCmd() error {
 			var vpcid string
 			for _, n := range networks {
 				if n.Id == i.Nic[0].Networkid {
-					i.NetworkName = n.Name
+					i.Networkname = n.Name
 					vpcid = n.Vpcid
 					break
 				}
@@ -109,7 +109,7 @@ func runInstanceListCmd() error {
 
 			for _, v := range vpcs {
 				if v.Id == vpcid {
-					i.VPCName = v.Name
+					i.Vpcname = v.Name
 					break
 				}
 			}

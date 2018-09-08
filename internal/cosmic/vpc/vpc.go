@@ -31,7 +31,7 @@ import (
 // VPC embeds *cosmic.VPC to allow additional fields.
 type VPC struct {
 	*cosmic.VPC
-	SourceNatIP string
+	Sourcenatip string
 }
 
 // List returns a slice of *VPC objects using a *cosmic.CosmicClient object.

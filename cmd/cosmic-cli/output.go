@@ -128,20 +128,7 @@ func printTable(cosmicType string, fields []string, result interface{}) {
 
 	for _, s := range slice {
 		row := []string{}
-		// bval represents the base type if val is a nested type, this is only needed when we embed
-		// an existing cosmic type with one of our own to add additional fields (e.g. cosmic.VPC is
-		// nested within vpc.VPC)
-		var bval reflect.Value
-		var val reflect.Value
-		switch fmt.Sprintf("%s", reflect.TypeOf(s)) {
-		case "*instance.VirtualMachine", "*vpc.VPC":
-			bval = reflect.Indirect(reflect.ValueOf(s))
-			// We set any embedded type at position 0.
-			val = reflect.Indirect(reflect.ValueOf(s).Elem().Field(0))
-		default:
-			val = reflect.Indirect(reflect.ValueOf(s))
-		}
-
+		val := reflect.Indirect(reflect.ValueOf(s))
 		for _, f := range fields {
 			fn := strings.Title(strings.ToLower(f))
 			// We have some exceptions where the field name does not exist on the reflected object.
@@ -150,14 +137,12 @@ func printTable(cosmicType string, fields []string, result interface{}) {
 			// add the primary NIC IP to our table.
 			case "Ipaddress":
 				row = append(row, fmt.Sprintf("%v", val.FieldByName("Nic").Index(0).FieldByName("Ipaddress")))
-			case "Networkname":
-				row = append(row, fmt.Sprintf("%v", bval.FieldByName("NetworkName").Interface()))
-			case "Sourcenatip":
-				row = append(row, fmt.Sprintf("%v", bval.FieldByName("SourceNatIP").Interface()))
-			case "Vpcname":
-				row = append(row, fmt.Sprintf("%v", bval.FieldByName("VPCName").Interface()))
 			default:
-				row = append(row, fmt.Sprintf("%v", val.FieldByName(fn).Interface()))
+				v := val.FieldByName(fn)
+				if v.IsValid() == false {
+					break
+				}
+				row = append(row, fmt.Sprintf("%v", v))
 			}
 		}
 		table.Append(row)

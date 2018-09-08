@@ -31,8 +31,8 @@ import (
 // VirtualMachine embeds *cosmic.VirtualMachine to allow additional fields.
 type VirtualMachine struct {
 	*cosmic.VirtualMachine
-	NetworkName string
-	VPCName     string
+	Networkname string
+	Vpcname     string
 }
 
 // List returns a slice of *cosmic.VirtualMachine objects using a *cosmic.CosmicClient object.
