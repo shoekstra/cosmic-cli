@@ -70,7 +70,6 @@ func runVPCListCmd() error {
 
 	VPCs := vpc.ListAll(
 		client.NewAsyncClientMap(cfg),
-		cfg.Filter,
 		cfg.SortBy,
 		cfg.ReverseSort,
 	)
@@ -78,7 +77,6 @@ func runVPCListCmd() error {
 	if cfg.ShowSNAT {
 		publicIPs := publicip.ListAll(
 			client.NewAsyncClientMap(cfg),
-			cfg.Filter,
 			cfg.SortBy,
 			cfg.ReverseSort,
 		)

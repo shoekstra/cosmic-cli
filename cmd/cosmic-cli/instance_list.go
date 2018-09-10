@@ -77,7 +77,6 @@ func runInstanceListCmd() error {
 
 	instances := instance.ListAll(
 		client.NewAsyncClientMap(cfg),
-		cfg.Filter,
 		cfg.SortBy,
 		cfg.ReverseSort,
 	)
@@ -85,14 +84,12 @@ func runInstanceListCmd() error {
 	if cfg.ShowNetwork {
 		networks := network.ListAll(
 			client.NewAsyncClientMap(cfg),
-			cfg.Filter,
 			cfg.SortBy,
 			cfg.ReverseSort,
 		)
 
 		vpcs := vpc.ListAll(
 			client.NewAsyncClientMap(cfg),
-			cfg.Filter,
 			cfg.SortBy,
 			cfg.ReverseSort,
 		)

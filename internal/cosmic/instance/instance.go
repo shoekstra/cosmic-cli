@@ -48,7 +48,7 @@ func List(client *cosmic.CosmicClient) ([]*cosmic.VirtualMachine, error) {
 
 // ListAll returns a slice of *VirtualMachine objects using all configured *cosmic.CosmicClient
 // objects.
-func ListAll(clientMap map[string]*cosmic.CosmicClient, filter, sortBy string, reverseSort bool) []*VirtualMachine {
+func ListAll(clientMap map[string]*cosmic.CosmicClient, sortBy string, reverseSort bool) []*VirtualMachine {
 	VirtualMachines := []*VirtualMachine{}
 	var wg sync.WaitGroup
 	wg.Add(len(clientMap))
