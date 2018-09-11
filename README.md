@@ -41,7 +41,7 @@ secret_key = "e1zI9w..."
 
 ### Using the filter
 
-The format when using the filter is `field=value`, where `field` can be any table header without spaces. The value string is parsed as a regex for more flexible filtering.
+The format when using the filter is `field=value`, where `field` can be any table header. `value` is parsed as a regex for more flexible filtering.
 
 For example: `-f name=vdi` will match any results where the name field contains "vdi". If you are searching for values that contain spaces, put the whole filter in quotes, e.g. `-f 'name=vdi 2'`.
 

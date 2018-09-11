@@ -101,7 +101,7 @@ func runInstanceListCmd() error {
 			var vpcid string
 			for _, n := range networks {
 				if n.Id == i.Nic[0].Networkid {
-					i.NetworkName = n.Name
+					i.Networkname = n.Name
 					vpcid = n.Vpcid
 					break
 				}
@@ -109,7 +109,7 @@ func runInstanceListCmd() error {
 
 			for _, v := range vpcs {
 				if v.Id == vpcid {
-					i.VPCName = v.Name
+					i.Vpcname = v.Name
 					break
 				}
 			}
@@ -117,7 +117,7 @@ func runInstanceListCmd() error {
 	}
 
 	// Print table
-	fields := []string{"Name", "Instance Name", "State", "IP Address", "Zone Name"}
+	fields := []string{"Name", "InstanceName", "State", "IPAddress", "ZoneName"}
 	if cfg.ShowID {
 		fields = append(fields, "ID")
 	}
@@ -125,14 +125,14 @@ func runInstanceListCmd() error {
 		fields = append(fields, "Hostname")
 	}
 	if cfg.ShowServiceOffering {
-		fields = append(fields, "Service Offering Name")
+		fields = append(fields, "ServiceOfferingName")
 	}
 	if cfg.ShowTemplate {
-		fields = append(fields, "Template Name")
+		fields = append(fields, "TemplateName")
 	}
 	if cfg.ShowNetwork {
-		fields = append(fields, "Network Name")
-		fields = append(fields, "VPC Name")
+		fields = append(fields, "NetworkName")
+		fields = append(fields, "VPCName")
 	}
 	printResult(cfg.Output, cfg.Filter, "instance", fields, instances)
 

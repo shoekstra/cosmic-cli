@@ -17,7 +17,6 @@
 package helper
 
 import (
-	"fmt"
 	"reflect"
 	"strings"
 )
@@ -31,17 +30,6 @@ func Contains(slice []string, str string) bool {
 	}
 
 	return false
-}
-
-// ContainsNoSpaces return true if the slice contains an element matching the provided string, first
-// removing any spaces from string elements in the slice.
-func ContainsNoSpaces(slice []string, str string) bool {
-	var sliceNoSpaces []string
-	for _, a := range slice {
-		sliceNoSpaces = append(sliceNoSpaces, fmt.Sprintf("%s", strings.Replace(a, " ", "", -1)))
-	}
-
-	return Contains(sliceNoSpaces, str)
 }
 
 // InterfaceSlice returns a slice of interfaces.

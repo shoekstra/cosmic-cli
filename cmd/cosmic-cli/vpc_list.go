@@ -90,19 +90,19 @@ func runVPCListCmd() error {
 
 			for _, v := range VPCs {
 				if v.Id == p.Vpcid {
-					v.SourceNatIP = p.Ipaddress
+					v.Sourcenatip = p.Ipaddress
 				}
 			}
 		}
 	}
 
 	// Print table
-	fields := []string{"Name", "CIDR", "VPC Offering Name", "Zone Name"}
+	fields := []string{"Name", "CIDR", "VPCOfferingName", "ZoneName"}
 	if cfg.ShowID {
 		fields = append(fields, "ID")
 	}
 	if cfg.ShowSNAT {
-		fields = append(fields, "Source NAT IP")
+		fields = append(fields, "SourceNATIP")
 	}
 	printResult(cfg.Output, cfg.Filter, "VPC", fields, VPCs)
 

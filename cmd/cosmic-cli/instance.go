@@ -26,6 +26,7 @@ func newInstanceCmd() *cobra.Command {
 		Short: "Instance subcommands",
 	}
 
+	// Add subcommands.
 	cmd.AddCommand(newInstanceListCmd())
 
 	return cmd
