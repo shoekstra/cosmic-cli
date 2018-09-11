@@ -34,6 +34,48 @@ type VPC struct {
 	Sourcenatip string
 }
 
+// VPCs exists to provide helper methods for []*VPC.
+type VPCs []*VPC
+
+// Sort returns a sorted slice of []*VPC objects.
+func (vpcs VPCs) Sort(sortBy string, reverseSort bool) {
+	if h.Contains([]string{"cidr", "name", "vpcofferingname", "zonename"}, sortBy) == false {
+		fmt.Println("Invalid sort option provided, provide either \"cidr\", \"name\", \"vpcofferingname\" or \"zonename\".")
+		os.Exit(1)
+	}
+
+	switch {
+	case strings.EqualFold(sortBy, "Cidr"):
+		sort.SliceStable(vpcs, func(i, j int) bool {
+			if reverseSort {
+				return vpcs[i].Cidr > vpcs[j].Cidr
+			}
+			return vpcs[i].Cidr < vpcs[j].Cidr
+		})
+	case strings.EqualFold(sortBy, "Name"):
+		sort.SliceStable(vpcs, func(i, j int) bool {
+			if reverseSort {
+				return vpcs[i].Name > vpcs[j].Name
+			}
+			return vpcs[i].Name < vpcs[j].Name
+		})
+	case strings.EqualFold(sortBy, "Vpcofferingname"):
+		sort.SliceStable(vpcs, func(i, j int) bool {
+			if reverseSort {
+				return vpcs[i].Vpcofferingname > vpcs[j].Vpcofferingname
+			}
+			return vpcs[i].Vpcofferingname < vpcs[j].Vpcofferingname
+		})
+	case strings.EqualFold(sortBy, "Zonename"):
+		sort.SliceStable(vpcs, func(i, j int) bool {
+			if reverseSort {
+				return vpcs[i].Zonename > vpcs[j].Zonename
+			}
+			return vpcs[i].Zonename < vpcs[j].Zonename
+		})
+	}
+}
+
 // List returns a slice of *VPC objects using a *cosmic.CosmicClient object.
 func List(client *cosmic.CosmicClient) ([]*cosmic.VPC, error) {
 	params := client.VPC.NewListVPCsParams()
@@ -46,8 +88,8 @@ func List(client *cosmic.CosmicClient) ([]*cosmic.VPC, error) {
 }
 
 // ListAll returns a slice of *VPC objects using all configured *cosmic.CosmicClient objects.
-func ListAll(clientMap map[string]*cosmic.CosmicClient, filter, sortBy string, reverseSort bool) []*VPC {
-	var VPCs []*VPC
+func ListAll(clientMap map[string]*cosmic.CosmicClient) VPCs {
+	var vpcs []*VPC
 	var wg sync.WaitGroup
 	wg.Add(len(clientMap))
 
@@ -61,7 +103,7 @@ func ListAll(clientMap map[string]*cosmic.CosmicClient, filter, sortBy string, r
 			}
 
 			for _, vpc := range listVPCs {
-				VPCs = append(VPCs, &VPC{
+				vpcs = append(vpcs, &VPC{
 					VPC: vpc,
 				})
 			}
@@ -69,48 +111,5 @@ func ListAll(clientMap map[string]*cosmic.CosmicClient, filter, sortBy string, r
 	}
 	wg.Wait()
 
-	VPCs = Sort(VPCs, sortBy, reverseSort)
-
-	return VPCs
-}
-
-// Sort returns a sorted slice of []*VPC objects.
-func Sort(VPCs []*VPC, sortBy string, reverseSort bool) []*VPC {
-	if h.Contains([]string{"cidr", "name", "vpcofferingname", "zonename"}, sortBy) == false {
-		fmt.Println("Invalid sort option provided, provide either \"cidr\", \"name\", \"vpcofferingname\" or \"zonename\".")
-		os.Exit(1)
-	}
-
-	switch {
-	case strings.EqualFold(sortBy, "Cidr"):
-		sort.SliceStable(VPCs, func(i, j int) bool {
-			if reverseSort {
-				return VPCs[i].Cidr > VPCs[j].Cidr
-			}
-			return VPCs[i].Cidr < VPCs[j].Cidr
-		})
-	case strings.EqualFold(sortBy, "Name"):
-		sort.SliceStable(VPCs, func(i, j int) bool {
-			if reverseSort {
-				return VPCs[i].Name > VPCs[j].Name
-			}
-			return VPCs[i].Name < VPCs[j].Name
-		})
-	case strings.EqualFold(sortBy, "Vpcofferingname"):
-		sort.SliceStable(VPCs, func(i, j int) bool {
-			if reverseSort {
-				return VPCs[i].Vpcofferingname > VPCs[j].Vpcofferingname
-			}
-			return VPCs[i].Vpcofferingname < VPCs[j].Vpcofferingname
-		})
-	case strings.EqualFold(sortBy, "Zonename"):
-		sort.SliceStable(VPCs, func(i, j int) bool {
-			if reverseSort {
-				return VPCs[i].Zonename > VPCs[j].Zonename
-			}
-			return VPCs[i].Zonename < VPCs[j].Zonename
-		})
-	}
-
-	return VPCs
+	return vpcs
 }

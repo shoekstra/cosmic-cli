@@ -35,6 +35,41 @@ type VirtualMachine struct {
 	Vpcname     string
 }
 
+// VirtualMachines exists to provide helper methods for []*VirtualMachine,.
+type VirtualMachines []*VirtualMachine
+
+// Sort returns a sorted []*cosmic.VirtualMachine slice.
+func (vms VirtualMachines) Sort(sortBy string, reverseSort bool) {
+	if h.Contains([]string{"ipaddress", "name", "zonename"}, sortBy) == false {
+		fmt.Println("Invalid sort option provided, provide either \"ipaddress\", \"name\" or \"zonename\".")
+		os.Exit(1)
+	}
+
+	switch {
+	case strings.EqualFold(sortBy, "Ipaddress"):
+		sort.SliceStable(vms, func(i, j int) bool {
+			if reverseSort {
+				return vms[i].Nic[0].Ipaddress > vms[j].Nic[0].Ipaddress
+			}
+			return vms[i].Nic[0].Ipaddress < vms[j].Nic[0].Ipaddress
+		})
+	case strings.EqualFold(sortBy, "Name"):
+		sort.SliceStable(vms, func(i, j int) bool {
+			if reverseSort {
+				return vms[i].Name > vms[j].Name
+			}
+			return vms[i].Name < vms[j].Name
+		})
+	case strings.EqualFold(sortBy, "Zonename"):
+		sort.SliceStable(vms, func(i, j int) bool {
+			if reverseSort {
+				return vms[i].Zonename > vms[j].Zonename
+			}
+			return vms[i].Zonename < vms[j].Zonename
+		})
+	}
+}
+
 // List returns a slice of *cosmic.VirtualMachine objects using a *cosmic.CosmicClient object.
 func List(client *cosmic.CosmicClient) ([]*cosmic.VirtualMachine, error) {
 	params := client.VirtualMachine.NewListVirtualMachinesParams()
@@ -48,8 +83,8 @@ func List(client *cosmic.CosmicClient) ([]*cosmic.VirtualMachine, error) {
 
 // ListAll returns a slice of *VirtualMachine objects using all configured *cosmic.CosmicClient
 // objects.
-func ListAll(clientMap map[string]*cosmic.CosmicClient, filter, sortBy string, reverseSort bool) []*VirtualMachine {
-	VirtualMachines := []*VirtualMachine{}
+func ListAll(clientMap map[string]*cosmic.CosmicClient) VirtualMachines {
+	vms := []*VirtualMachine{}
 	var wg sync.WaitGroup
 	wg.Add(len(clientMap))
 
@@ -63,7 +98,7 @@ func ListAll(clientMap map[string]*cosmic.CosmicClient, filter, sortBy string, r
 			}
 
 			for _, vm := range listVirtualMachines {
-				VirtualMachines = append(VirtualMachines, &VirtualMachine{
+				vms = append(vms, &VirtualMachine{
 					VirtualMachine: vm,
 				})
 			}
@@ -71,41 +106,5 @@ func ListAll(clientMap map[string]*cosmic.CosmicClient, filter, sortBy string, r
 	}
 	wg.Wait()
 
-	VirtualMachines = Sort(VirtualMachines, sortBy, reverseSort)
-
-	return VirtualMachines
-}
-
-// Sort returns a sorted []*cosmic.VirtualMachine slice.
-func Sort(VirtualMachines []*VirtualMachine, sortBy string, reverseSort bool) []*VirtualMachine {
-	if h.Contains([]string{"ipaddress", "name", "zonename"}, sortBy) == false {
-		fmt.Println("Invalid sort option provided, provide either \"ipaddress\", \"name\" or \"zonename\".")
-		os.Exit(1)
-	}
-
-	switch {
-	case strings.EqualFold(sortBy, "Ipaddress"):
-		sort.SliceStable(VirtualMachines, func(i, j int) bool {
-			if reverseSort {
-				return VirtualMachines[i].Nic[0].Ipaddress > VirtualMachines[j].Nic[0].Ipaddress
-			}
-			return VirtualMachines[i].Nic[0].Ipaddress < VirtualMachines[j].Nic[0].Ipaddress
-		})
-	case strings.EqualFold(sortBy, "Name"):
-		sort.SliceStable(VirtualMachines, func(i, j int) bool {
-			if reverseSort {
-				return VirtualMachines[i].Name > VirtualMachines[j].Name
-			}
-			return VirtualMachines[i].Name < VirtualMachines[j].Name
-		})
-	case strings.EqualFold(sortBy, "Zonename"):
-		sort.SliceStable(VirtualMachines, func(i, j int) bool {
-			if reverseSort {
-				return VirtualMachines[i].Zonename > VirtualMachines[j].Zonename
-			}
-			return VirtualMachines[i].Zonename < VirtualMachines[j].Zonename
-		})
-	}
-
-	return VirtualMachines
+	return vms
 }
