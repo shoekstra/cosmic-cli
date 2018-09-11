@@ -75,24 +75,12 @@ func runInstanceListCmd() error {
 		return err
 	}
 
-	instances := instance.ListAll(
-		client.NewAsyncClientMap(cfg),
-		cfg.SortBy,
-		cfg.ReverseSort,
-	)
+	instances := instance.ListAll(client.NewAsyncClientMap(cfg))
+	instances.Sort(cfg.SortBy, cfg.ReverseSort)
 
 	if cfg.ShowNetwork {
-		networks := network.ListAll(
-			client.NewAsyncClientMap(cfg),
-			cfg.SortBy,
-			cfg.ReverseSort,
-		)
-
-		vpcs := vpc.ListAll(
-			client.NewAsyncClientMap(cfg),
-			cfg.SortBy,
-			cfg.ReverseSort,
-		)
+		networks := network.ListAll(client.NewAsyncClientMap(cfg))
+		vpcs := vpc.ListAll(client.NewAsyncClientMap(cfg))
 
 		for _, i := range instances {
 			var vpcid string

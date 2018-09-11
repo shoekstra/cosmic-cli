@@ -68,25 +68,17 @@ func runVPCListCmd() error {
 		return err
 	}
 
-	VPCs := vpc.ListAll(
-		client.NewAsyncClientMap(cfg),
-		cfg.SortBy,
-		cfg.ReverseSort,
-	)
+	vpcs := vpc.ListAll(client.NewAsyncClientMap(cfg))
+	vpcs.Sort(cfg.SortBy, cfg.ReverseSort)
 
 	if cfg.ShowSNAT {
-		publicIPs := publicip.ListAll(
-			client.NewAsyncClientMap(cfg),
-			cfg.SortBy,
-			cfg.ReverseSort,
-		)
-
+		publicIPs := publicip.ListAll(client.NewAsyncClientMap(cfg))
 		for _, p := range publicIPs {
 			if p.Issourcenat == false {
 				continue
 			}
 
-			for _, v := range VPCs {
+			for _, v := range vpcs {
 				if v.Id == p.Vpcid {
 					v.SourceNatIP = p.Ipaddress
 				}
@@ -102,7 +94,7 @@ func runVPCListCmd() error {
 	if cfg.ShowSNAT {
 		fields = append(fields, "Source NAT IP")
 	}
-	printResult(cfg.Output, cfg.Filter, "VPC", fields, VPCs)
+	printResult(cfg.Output, cfg.Filter, "VPC", fields, vpcs)
 
 	return nil
 }
