@@ -34,7 +34,7 @@ func filterMatch(obj interface{}, filter string) bool {
 	}
 	filterField, filterString := filterSplit(filter)
 
-	var value string
+	value := ""
 	val := reflect.Indirect(reflect.ValueOf(obj))
 	switch {
 	case strings.EqualFold(filterField, "ipaddress"):
@@ -64,11 +64,9 @@ func filterMatch(obj interface{}, filter string) bool {
 			}
 		}
 
-		// If nothing is set at this point we'll assume the field doesn't exist; if it has some
-		// funky key then probably better to add as an exception to the switch statement.
-		if value == "" {
-			return false
-		}
+		// At this point we'll assume the field doesn't exist and return 0 matches; if it has
+		// some funky key then probably better to add as an exception to the switch statement.
+		return false
 	}
 
 	match, _ := regexp.MatchString(strings.ToLower(filterString), strings.ToLower(value))

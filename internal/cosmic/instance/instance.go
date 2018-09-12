@@ -35,10 +35,10 @@ type VirtualMachine struct {
 	Vpcname     string
 }
 
-// VirtualMachines exists to provide helper methods for []*VirtualMachine,.
+// VirtualMachines exists to provide helper methods for []*VirtualMachine.
 type VirtualMachines []*VirtualMachine
 
-// Sort returns a sorted []*cosmic.VirtualMachine slice.
+// Sort will sort VirtualMachines by either the "ipaddress", "name" or "zonename" field.
 func (vms VirtualMachines) Sort(sortBy string, reverseSort bool) {
 	if h.Contains([]string{"ipaddress", "name", "zonename"}, sortBy) == false {
 		fmt.Println("Invalid sort option provided, provide either \"ipaddress\", \"name\" or \"zonename\".")
@@ -81,11 +81,10 @@ func List(client *cosmic.CosmicClient) ([]*cosmic.VirtualMachine, error) {
 	return resp.VirtualMachines, nil
 }
 
-// ListAll returns a slice of *VirtualMachine objects using all configured *cosmic.CosmicClient
-// objects.
+// ListAll returns a VirtualMachines object using all configured *cosmic.CosmicClient objects.
 func ListAll(clientMap map[string]*cosmic.CosmicClient) VirtualMachines {
 	vms := []*VirtualMachine{}
-	var wg sync.WaitGroup
+	wg := sync.WaitGroup{}
 	wg.Add(len(clientMap))
 
 	for client := range clientMap {
