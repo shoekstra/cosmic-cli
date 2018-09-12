@@ -21,8 +21,15 @@ import (
 	"sync"
 
 	"github.com/MissionCriticalCloud/go-cosmic/cosmic"
-	// . "sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/helper"
 )
+
+// Network embeds *cosmic.Network to allow additional fields.
+type Network struct {
+	*cosmic.Network
+}
+
+// Networks exists to provide helper methods for []*Network.
+type Networks []*Network
 
 // List returns a slice of *cosmic.Network objects using a *cosmic.CosmicClient object.
 func List(client *cosmic.CosmicClient) ([]*cosmic.Network, error) {
@@ -35,11 +42,10 @@ func List(client *cosmic.CosmicClient) ([]*cosmic.Network, error) {
 	return resp.Networks, nil
 }
 
-// ListAll returns a slice of *cosmic.Network objects using all configured *cosmic.CosmicClient
-// objects.
-func ListAll(clientMap map[string]*cosmic.CosmicClient) []*cosmic.Network {
-	networks := []*cosmic.Network{}
-	var wg sync.WaitGroup
+// ListAll returns a Networks object using all configured *cosmic.CosmicClient objects.
+func ListAll(clientMap map[string]*cosmic.CosmicClient) Networks {
+	networks := []*Network{}
+	wg := sync.WaitGroup{}
 	wg.Add(len(clientMap))
 
 	for client := range clientMap {
@@ -52,13 +58,13 @@ func ListAll(clientMap map[string]*cosmic.CosmicClient) []*cosmic.Network {
 			}
 
 			for _, n := range listNetworks {
-				networks = append(networks, n)
+				networks = append(networks, &Network{
+					Network: n,
+				})
 			}
 		}(client)
 	}
 	wg.Wait()
-
-	// networks = Sort(networks, sortBy, reverseSort)
 
 	return networks
 }

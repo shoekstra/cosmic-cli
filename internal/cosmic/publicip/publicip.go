@@ -23,7 +23,15 @@ import (
 	"github.com/MissionCriticalCloud/go-cosmic/cosmic"
 )
 
-// List returns a slice of *PublicIpAddresses objects using a *cosmic.CosmicClient object.
+// Address embeds *cosmic.PublicIpAddress to allow additional fields.
+type Address struct {
+	*cosmic.PublicIpAddress
+}
+
+// Addresses exists to provide helper methods for []*Address.
+type Addresses []*Address
+
+// List returns a slice of *cosmic.PublicIpAddress objects using a *cosmic.CosmicClient object.
 func List(client *cosmic.CosmicClient) ([]*cosmic.PublicIpAddress, error) {
 	params := client.PublicIPAddress.NewListPublicIpAddressesParams()
 	resp, err := client.PublicIPAddress.ListPublicIpAddresses(params)
@@ -34,11 +42,10 @@ func List(client *cosmic.CosmicClient) ([]*cosmic.PublicIpAddress, error) {
 	return resp.PublicIpAddresses, nil
 }
 
-// ListAll returns a slice of *cosmic.PublicIpAddress objects using all configured *cosmic.CosmicClient
-// objects.
-func ListAll(clientMap map[string]*cosmic.CosmicClient) []*cosmic.PublicIpAddress {
-	publicIPs := []*cosmic.PublicIpAddress{}
-	var wg sync.WaitGroup
+// ListAll returns an Addresses object using all configured *cosmic.CosmicClient objects.
+func ListAll(clientMap map[string]*cosmic.CosmicClient) Addresses {
+	publicIPs := []*Address{}
+	wg := sync.WaitGroup{}
 	wg.Add(len(clientMap))
 
 	for client := range clientMap {
@@ -50,8 +57,10 @@ func ListAll(clientMap map[string]*cosmic.CosmicClient) []*cosmic.PublicIpAddres
 				log.Fatalf("Error returned using profile \"%s\": %s", client, err)
 			}
 
-			for _, publicIP := range listpublicIPs {
-				publicIPs = append(publicIPs, publicIP)
+			for _, ip := range listpublicIPs {
+				publicIPs = append(publicIPs, &Address{
+					PublicIpAddress: ip,
+				})
 			}
 		}(client)
 	}

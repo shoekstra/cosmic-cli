@@ -31,8 +31,8 @@ func NewAsyncClientMap(cfg *config.Config) map[string]*cosmic.CosmicClient {
 	profiles := getProfile(cfg)
 	clientMap := make(map[string]*cosmic.CosmicClient)
 
-	var tlsConfig *tls.Config
-	var httpTimeout int64 = 60
+	tlsConfig := &tls.Config{}
+	httpTimeout := int64(60)
 
 	for _, profile := range profiles {
 		clientMap[profile] = cosmic.NewAsyncClient(

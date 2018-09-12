@@ -89,8 +89,8 @@ func List(client *cosmic.CosmicClient) ([]*cosmic.VPC, error) {
 
 // ListAll returns a slice of *VPC objects using all configured *cosmic.CosmicClient objects.
 func ListAll(clientMap map[string]*cosmic.CosmicClient) VPCs {
-	var vpcs []*VPC
-	var wg sync.WaitGroup
+	vpcs := []*VPC{}
+	wg := sync.WaitGroup{}
 	wg.Add(len(clientMap))
 
 	for client := range clientMap {

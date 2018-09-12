@@ -83,7 +83,7 @@ func runInstanceListCmd() error {
 		vpcs := vpc.ListAll(client.NewAsyncClientMap(cfg))
 
 		for _, i := range instances {
-			var vpcid string
+			vpcid := ""
 			for _, n := range networks {
 				if n.Id == i.Nic[0].Networkid {
 					i.Networkname = n.Name
