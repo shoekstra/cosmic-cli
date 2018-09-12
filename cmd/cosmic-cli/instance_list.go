@@ -63,7 +63,7 @@ func newInstanceListCmd() *cobra.Command {
 	cmd.Flags().BoolP("show-template", "", false, "show instance template name in result")
 	cmd.Flags().StringP("filter", "f", "", "filter results (supports regex)")
 	cmd.Flags().StringP("output", "o", "table", "specify output type")
-	cmd.Flags().StringP("profile", "p", "", "specify profile to limit results")
+	cmd.Flags().StringP("profile", "p", "", "specify profile(s) to use")
 	cmd.Flags().StringP("sort-by", "s", "name", "field to sort by")
 
 	return cmd
