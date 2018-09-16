@@ -17,6 +17,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"os"
 
@@ -24,14 +25,13 @@ import (
 	"github.com/spf13/viper"
 	"sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/config"
 	"sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/cosmic/client"
-	"sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/cosmic/publicip"
-	"sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/cosmic/vpc"
+	"sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/cosmic/vpc/route"
 )
 
-func newVPCListCmd() *cobra.Command {
+func newVPCRouteListCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "list",
-		Short: "List VPCs",
+		Short: "List VPC routes",
 		PreRun: func(cmd *cobra.Command, args []string) {
 			// Bind local flags in the PreRun stage to not overwrite bindings in other commands.
 			viper.BindPFlag("filter", cmd.Flags().Lookup("filter"))
@@ -39,11 +39,12 @@ func newVPCListCmd() *cobra.Command {
 			viper.BindPFlag("output", cmd.Flags().Lookup("output"))
 			viper.BindPFlag("reverse-sort", cmd.Flags().Lookup("reverse-sort"))
 			viper.BindPFlag("show-id", cmd.Flags().Lookup("show-id"))
-			viper.BindPFlag("show-snat", cmd.Flags().Lookup("show-snat"))
 			viper.BindPFlag("sort-by", cmd.Flags().Lookup("sort-by"))
+			viper.BindPFlag("vpc-id", cmd.Flags().Lookup("vpc-id"))
+			viper.BindPFlag("vpc-name", cmd.Flags().Lookup("vpc-name"))
 		},
 		Run: func(cmd *cobra.Command, args []string) {
-			if err := runVPCListCmd(); err != nil {
+			if err := runVPCRouteListCmd(); err != nil {
 				fmt.Println(err)
 				os.Exit(1)
 			}
@@ -53,48 +54,56 @@ func newVPCListCmd() *cobra.Command {
 	// Add local flags.
 	cmd.Flags().BoolP("reverse-sort", "", false, "reverse sort order")
 	cmd.Flags().BoolP("show-id", "", false, "show VPC id in result")
-	cmd.Flags().BoolP("show-snat", "", false, "show VPC Source NAT IP in result")
 	cmd.Flags().StringP("filter", "f", "", "filter results (supports regex)")
 	cmd.Flags().StringP("output", "o", "table", "specify output type")
 	cmd.Flags().StringP("profile", "p", "", "specify profile(s) to use")
-	cmd.Flags().StringP("sort-by", "s", "name", "field to sort by")
+	cmd.Flags().StringP("sort-by", "s", "cidr", "field to sort by")
+	cmd.Flags().StringP("vpc-id", "", "", "specify VPC id")
+	cmd.Flags().StringP("vpc-name", "", "", "specify VPC name")
 
 	return cmd
 }
 
-func runVPCListCmd() error {
+func runVPCRouteListCmd() error {
 	cfg, err := config.New()
 	if err != nil {
 		return err
 	}
 
-	vpcs := vpc.ListAll(client.NewAsyncClientMap(cfg))
-	vpcs.Sort(cfg.SortBy, cfg.ReverseSort)
-
-	if cfg.ShowSNAT {
-		publicIPs := publicip.ListAll(client.NewAsyncClientMap(cfg))
-		for _, p := range publicIPs {
-			if p.Issourcenat == false {
-				continue
-			}
-
-			for _, v := range vpcs {
-				if v.Id == p.Vpcid {
-					v.Sourcenatip = p.Ipaddress
-				}
-			}
-		}
+	// Validate the config.
+	if err := validateVPCRouteListCmd(cfg); err != nil {
+		return err
 	}
 
+	v, err := getVPC(cfg)
+	if err != nil {
+		return err
+	}
+
+	routes := route.ListAll(client.NewAsyncClientMap(cfg), v.Id)
+	routes.Sort(cfg.SortBy, cfg.ReverseSort)
+
 	// Print table
-	fields := []string{"Name", "CIDR", "VPCOfferingName", "ZoneName"}
+	fields := []string{"CIDR", "NextHop"}
 	if cfg.ShowID {
 		fields = append(fields, "ID")
 	}
-	if cfg.ShowSNAT {
-		fields = append(fields, "SourceNATIP")
+	printResult(cfg.Output, cfg.Filter, "static route", fields, routes)
+
+	return nil
+}
+
+func validateVPCRouteListCmd(cfg *config.Config) error {
+	cmd := newVPCRouteListCmd()
+
+	if cfg.VPCID != "" && cfg.VPCName != "" {
+		return errors.New("Cannot specify --vpc-id and --vpc-name together")
 	}
-	printResult(cfg.Output, cfg.Filter, "VPC", fields, vpcs)
+
+	if cfg.VPCID == "" && cfg.VPCName == "" {
+		cmd.Help()
+		os.Exit(0)
+	}
 
 	return nil
 }

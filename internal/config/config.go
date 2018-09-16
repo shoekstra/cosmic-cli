@@ -38,6 +38,8 @@ type Config struct {
 	ShowServiceOffering bool   `mapstructure:"show-service-offering"`
 	ShowTemplate        bool   `mapstructure:"show-template"`
 	SortBy              string `mapstructure:"sort-by"`
+	VPCID               string `mapstructure:"vpc-id"`
+	VPCName             string `mapstructure:"vpc-name"`
 	Profiles            map[string]struct {
 		APIURL    string `mapstructure:"api_url"`
 		APIKey    string `mapstructure:"api_key"`

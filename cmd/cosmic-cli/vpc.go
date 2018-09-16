@@ -18,6 +18,9 @@ package main
 
 import (
 	"github.com/spf13/cobra"
+	"sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/config"
+	"sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/cosmic/client"
+	"sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/cosmic/vpc"
 )
 
 func newVPCCmd() *cobra.Command {
@@ -29,5 +32,30 @@ func newVPCCmd() *cobra.Command {
 	// Add subcommands.
 	cmd.AddCommand(newVPCListCmd())
 
+	// Add subgroups.
+	cmd.AddCommand(newVPCRouteCmd())
+
 	return cmd
+}
+
+func getVPC(cfg *config.Config) (*vpc.VPC, error) {
+	var err error
+	vpcs := []*vpc.VPC{}
+	if cfg.VPCID != "" {
+		vpcs, err = vpc.GetAllByID(
+			client.NewAsyncClientMap(cfg),
+			cfg.VPCID,
+		)
+	}
+	if cfg.VPCName != "" {
+		vpcs, err = vpc.GetAllByName(
+			client.NewAsyncClientMap(cfg),
+			cfg.VPCName,
+		)
+	}
+	if err != nil {
+		return nil, err
+	}
+
+	return vpcs[0], nil
 }
