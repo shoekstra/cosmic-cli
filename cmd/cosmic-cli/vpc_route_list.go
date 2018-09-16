@@ -70,7 +70,6 @@ func runVPCRouteListCmd() error {
 		return err
 	}
 
-	// Validate the config.
 	if err := validateVPCRouteListCmd(cfg); err != nil {
 		return err
 	}
@@ -79,11 +78,13 @@ func runVPCRouteListCmd() error {
 	if err != nil {
 		return err
 	}
-
-	routes := route.ListAll(client.NewAsyncClientMap(cfg), v.Id)
+	routes, err := route.List(client.NewAsyncClientMap(cfg), v.Id)
+	if err != nil {
+		return err
+	}
 	routes.Sort(cfg.SortBy, cfg.ReverseSort)
 
-	// Print table
+	// Print output
 	fields := []string{"CIDR", "NextHop"}
 	if cfg.ShowID {
 		fields = append(fields, "ID")

@@ -78,14 +78,17 @@ func runVPCRouteDeleteCmd(args []string) error {
 	if err != nil {
 		return err
 	}
-	routes := route.ListAll(client.NewAsyncClientMap(cfg), v.Id)
+	routes, err := route.List(client.NewAsyncClientMap(cfg), v.Id)
+	if err != nil {
+		return err
+	}
 
 	// Delete routes from VPC.
 	split := strings.Split(args[0], "=")
 	deleteRoutes := []*route.StaticRoute{}
 	for _, v := range strings.Split(split[1], ",") {
 		for _, r := range routes {
-			var match bool
+			match := false
 			if split[0] == "cidr" {
 				match, _ = regexp.MatchString(v, r.Cidr)
 			}
@@ -107,7 +110,7 @@ func runVPCRouteDeleteCmd(args []string) error {
 			defer wg.Done()
 
 			fmt.Printf("Deleting route cidr:%s, nexthop:%s ... \n", r.Cidr, r.Nexthop)
-			if err := route.DeleteAll(client.NewAsyncClientMap(cfg), r.Id); err != nil {
+			if err := route.Delete(client.NewAsyncClientMap(cfg), r.Id); err != nil {
 				return err
 			}
 

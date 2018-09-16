@@ -18,7 +18,6 @@ package instance
 
 import (
 	"fmt"
-	"log"
 	"os"
 	"sort"
 	"strings"
@@ -27,6 +26,16 @@ import (
 	"github.com/MissionCriticalCloud/go-cosmic/cosmic"
 	h "sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/helper"
 )
+
+// profileError represents a profile config error.
+type profileError struct {
+	message string
+}
+
+// Error returns the profile error message.
+func (e profileError) Error() string {
+	return e.message
+}
 
 // VirtualMachine embeds *cosmic.VirtualMachine to allow additional fields.
 type VirtualMachine struct {
@@ -70,40 +79,46 @@ func (vms VirtualMachines) Sort(sortBy string, reverseSort bool) {
 	}
 }
 
-// List returns a slice of *cosmic.VirtualMachine objects using a *cosmic.CosmicClient object.
-func List(client *cosmic.CosmicClient) ([]*cosmic.VirtualMachine, error) {
-	params := client.VirtualMachine.NewListVirtualMachinesParams()
-	resp, err := client.VirtualMachine.ListVirtualMachines(params)
-	if err != nil {
-		return resp.VirtualMachines, err
-	}
-
-	return resp.VirtualMachines, nil
-}
-
-// ListAll returns a VirtualMachines object using all configured *cosmic.CosmicClient objects.
-func ListAll(clientMap map[string]*cosmic.CosmicClient) VirtualMachines {
+// List returns a VirtualMachines object using all configured *cosmic.CosmicClient objects.
+func List(clientMap map[string]*cosmic.CosmicClient) (VirtualMachines, error) {
 	vms := []*VirtualMachine{}
 	wg := sync.WaitGroup{}
 	wg.Add(len(clientMap))
+
+	errChannel := make(chan error, 1)
+	finished := make(chan bool, 1)
 
 	for client := range clientMap {
 		go func(client string) {
 			defer wg.Done()
 
-			listVirtualMachines, err := List(clientMap[client])
+			params := clientMap[client].VirtualMachine.NewListVirtualMachinesParams()
+			resp, err := clientMap[client].VirtualMachine.ListVirtualMachines(params)
 			if err != nil {
-				log.Fatalf("Error returned using profile \"%s\": %s", client, err)
+				errChannel <- profileError{fmt.Sprintf("Error returned using profile \"%s\": %s", client, err)}
+				return
 			}
 
-			for _, vm := range listVirtualMachines {
+			for _, vm := range resp.VirtualMachines {
 				vms = append(vms, &VirtualMachine{
 					VirtualMachine: vm,
 				})
 			}
 		}(client)
 	}
-	wg.Wait()
 
-	return vms
+	go func() {
+		wg.Wait()
+		close(finished)
+	}()
+
+	select {
+	case <-finished:
+	case err := <-errChannel:
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	return vms, nil
 }

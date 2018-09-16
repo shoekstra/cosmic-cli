@@ -68,11 +68,17 @@ func runVPCListCmd() error {
 		return err
 	}
 
-	vpcs := vpc.ListAll(client.NewAsyncClientMap(cfg))
+	vpcs, err := vpc.List(client.NewAsyncClientMap(cfg))
+	if err != nil {
+		return err
+	}
 	vpcs.Sort(cfg.SortBy, cfg.ReverseSort)
 
 	if cfg.ShowSNAT {
-		publicIPs := publicip.ListAll(client.NewAsyncClientMap(cfg))
+		publicIPs, err := publicip.List(client.NewAsyncClientMap(cfg))
+		if err != nil {
+			return err
+		}
 		for _, p := range publicIPs {
 			if p.Issourcenat == false {
 				continue
@@ -86,7 +92,7 @@ func runVPCListCmd() error {
 		}
 	}
 
-	// Print table
+	// Print output
 	fields := []string{"Name", "CIDR", "VPCOfferingName", "ZoneName"}
 	if cfg.ShowID {
 		fields = append(fields, "ID")

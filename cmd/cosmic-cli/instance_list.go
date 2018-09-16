@@ -75,13 +75,21 @@ func runInstanceListCmd() error {
 		return err
 	}
 
-	instances := instance.ListAll(client.NewAsyncClientMap(cfg))
+	instances, err := instance.List(client.NewAsyncClientMap(cfg))
+	if err != nil {
+		return err
+	}
 	instances.Sort(cfg.SortBy, cfg.ReverseSort)
 
 	if cfg.ShowNetwork {
-		networks := network.ListAll(client.NewAsyncClientMap(cfg))
-		vpcs := vpc.ListAll(client.NewAsyncClientMap(cfg))
-
+		networks, err := network.List(client.NewAsyncClientMap(cfg))
+		if err != nil {
+			return err
+		}
+		vpcs, err := vpc.List(client.NewAsyncClientMap(cfg))
+		if err != nil {
+			return err
+		}
 		for _, i := range instances {
 			vpcid := ""
 			for _, n := range networks {
@@ -101,7 +109,7 @@ func runInstanceListCmd() error {
 		}
 	}
 
-	// Print table
+	// Print output
 	fields := []string{"Name", "InstanceName", "State", "IPAddress", "ZoneName"}
 	if cfg.ShowID {
 		fields = append(fields, "ID")

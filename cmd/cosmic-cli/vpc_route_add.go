@@ -78,7 +78,10 @@ func runVPCRouteAddCmd(args []string) error {
 	if err != nil {
 		return err
 	}
-	routes := route.ListAll(client.NewAsyncClientMap(cfg), v.Id)
+	routes, err := route.List(client.NewAsyncClientMap(cfg), v.Id)
+	if err != nil {
+		return err
+	}
 
 	// Add routes to VPC.
 	nextHop := args[2]
@@ -95,7 +98,7 @@ Loop:
 		newCidrs = append(newCidrs, cidr)
 	}
 
-	var wg sync.WaitGroup
+	wg := sync.WaitGroup{}
 	wg.Add(len(newCidrs))
 
 	for _, cidr := range newCidrs {
@@ -103,7 +106,7 @@ Loop:
 			defer wg.Done()
 
 			fmt.Printf("Creating route cidr:%s, nexthop:%s ... \n", cidr, nextHop)
-			if err := route.CreateAll(client.NewAsyncClientMap(cfg), v.Id, nextHop, cidr); err != nil {
+			if err := route.Create(client.NewAsyncClientMap(cfg), v.Id, nextHop, cidr); err != nil {
 				return err
 			}
 
