@@ -18,7 +18,6 @@ package route
 
 import (
 	"fmt"
-	"log"
 	"os"
 	"sort"
 	"strings"
@@ -27,6 +26,16 @@ import (
 	"github.com/MissionCriticalCloud/go-cosmic/cosmic"
 	h "sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/helper"
 )
+
+// profileError represents a profile config error.
+type profileError struct {
+	message string
+}
+
+// Error returns the profile error message.
+func (e profileError) Error() string {
+	return e.message
+}
 
 // StaticRoute embeds *cosmic.StaticRoute to allow additional fields.
 type StaticRoute struct {
@@ -61,116 +70,128 @@ func (srs StaticRoutes) Sort(sortBy string, reverseSort bool) {
 	}
 }
 
-// Create adds a new VPC static route if the VPC exists.
-func Create(client *cosmic.CosmicClient, vpcID, cidr, nextHop string) error {
-	params := client.VPC.NewCreateStaticRouteParams(cidr, nextHop, vpcID)
-	if _, err := client.VPC.CreateStaticRoute(params); err != nil {
-		if strings.Contains(err.Error(), fmt.Sprintf("entity does not exist")) {
-			return nil
-		}
-		return err
-	}
-
-	return nil
-}
-
-// CreateAll loops through all configured *cosmic.CosmicClient objects and adds a new VPC static route
+// Create loops through all configured *cosmic.CosmicClient objects and adds a new VPC static route
 // if the provided VPC ID is found.
-func CreateAll(clientMap map[string]*cosmic.CosmicClient, vpcID, nextHop string, cidr string) error {
+func Create(clientMap map[string]*cosmic.CosmicClient, vpcID, nextHop string, cidr string) error {
 	wg := sync.WaitGroup{}
 	wg.Add(len(clientMap))
+
+	errChannel := make(chan error, 1)
+	finished := make(chan bool, 1)
 
 	for client := range clientMap {
 		go func(client string) {
 			defer wg.Done()
 
-			err := Create(clientMap[client], vpcID, cidr, nextHop)
-			if err != nil {
-				log.Fatalf("Error returned using profile \"%s\": %s", client, err)
+			params := clientMap[client].VPC.NewCreateStaticRouteParams(cidr, nextHop, vpcID)
+			if _, err := clientMap[client].VPC.CreateStaticRoute(params); err != nil {
+				if strings.Contains(err.Error(), fmt.Sprintf("entity does not exist")) {
+					return
+				}
+				errChannel <- profileError{fmt.Sprintf("Error returned using profile \"%s\": %s", client, err)}
 			}
 		}(client)
 	}
-	wg.Wait()
 
-	return nil
-}
+	go func() {
+		wg.Wait()
+		close(finished)
+	}()
 
-// Delete removes an existing VPC static route if the VPC exists.
-func Delete(client *cosmic.CosmicClient, id string) error {
-	params := client.VPC.NewDeleteStaticRouteParams(id)
-	if _, err := client.VPC.DeleteStaticRoute(params); err != nil {
-		if strings.Contains(err.Error(), fmt.Sprintf("entity does not exist")) {
-			return nil
+	select {
+	case <-finished:
+	case err := <-errChannel:
+		if err != nil {
+			return err
 		}
-		return err
 	}
 
 	return nil
 }
 
-// DeleteAll loops through all configured *cosmic.CosmicClient objects and removes an existing VPC
+// Delete loops through all configured *cosmic.CosmicClient objects and removes an existing VPC
 // static route if the provided VPC ID is found.
-func DeleteAll(clientMap map[string]*cosmic.CosmicClient, id string) error {
+func Delete(clientMap map[string]*cosmic.CosmicClient, id string) error {
 	wg := sync.WaitGroup{}
 	wg.Add(len(clientMap))
+
+	errChannel := make(chan error, 1)
+	finished := make(chan bool, 1)
 
 	for client := range clientMap {
 		go func(client string) {
 			defer wg.Done()
 
-			err := Delete(clientMap[client], id)
-			if err != nil {
-				log.Fatalf("Error returned using profile \"%s\": %s", client, err)
+			params := clientMap[client].VPC.NewDeleteStaticRouteParams(id)
+			if _, err := clientMap[client].VPC.DeleteStaticRoute(params); err != nil {
+				if strings.Contains(err.Error(), fmt.Sprintf("entity does not exist")) {
+					return
+				}
+				errChannel <- profileError{fmt.Sprintf("Error returned using profile \"%s\": %s", client, err)}
 			}
 		}(client)
 	}
-	wg.Wait()
+
+	go func() {
+		wg.Wait()
+		close(finished)
+	}()
+
+	select {
+	case <-finished:
+	case err := <-errChannel:
+		if err != nil {
+			return err
+		}
+	}
 
 	return nil
 }
 
-// List returns a slice of *cosmic.StaticRoute objects using a *cosmic.CosmicClient object.
-func List(client *cosmic.CosmicClient, vpcID string) ([]*cosmic.StaticRoute, error) {
-	params := client.VPC.NewListStaticRoutesParams()
-	params.SetVpcid(vpcID)
-	resp, err := client.VPC.ListStaticRoutes(params)
-	if err != nil {
-		if strings.Contains(err.Error(), fmt.Sprintf("entity does not exist")) {
-			return nil, nil
-		}
-		return nil, err
-	}
-
-	if err != nil {
-		return resp.StaticRoutes, err
-	}
-
-	return resp.StaticRoutes, nil
-}
-
-// ListAll returns a StaticRoutes object using all configured *cosmic.CosmicClient objects.
-func ListAll(clientMap map[string]*cosmic.CosmicClient, vpcID string) StaticRoutes {
+// List returns a StaticRoutes object using all configured *cosmic.CosmicClient objects.
+func List(clientMap map[string]*cosmic.CosmicClient, vpcID string) (StaticRoutes, error) {
 	srs := []*StaticRoute{}
 	wg := sync.WaitGroup{}
 	wg.Add(len(clientMap))
 
+	errChannel := make(chan error, 1)
+	finished := make(chan bool, 1)
+
 	for client := range clientMap {
 		go func(client string) {
 			defer wg.Done()
 
-			listStaticRoutes, err := List(clientMap[client], vpcID)
+			params := clientMap[client].VPC.NewListStaticRoutesParams()
+			params.SetVpcid(vpcID)
+			resp, err := clientMap[client].VPC.ListStaticRoutes(params)
 			if err != nil {
-				log.Fatalf("Error returned using profile \"%s\": %s", client, err)
+				if strings.Contains(err.Error(), fmt.Sprintf("entity does not exist")) {
+					return
+				}
+				errChannel <- profileError{fmt.Sprintf("Error returned using profile \"%s\": %s", client, err)}
+				return
 			}
 
-			for _, sr := range listStaticRoutes {
+			for _, sr := range resp.StaticRoutes {
 				srs = append(srs, &StaticRoute{
 					StaticRoute: sr,
 				})
 			}
 		}(client)
 	}
-	wg.Wait()
 
-	return srs
+	go func() {
+		wg.Wait()
+		close(finished)
+	}()
+
+	select {
+	case <-finished:
+	case err := <-errChannel:
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	return srs, nil
 }

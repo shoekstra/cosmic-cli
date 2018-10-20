@@ -7,7 +7,7 @@ PKG_LIST := $(shell go list ${PKG}/... | grep -v /vendor/)
 all: lint build-snapshot
 
 test-dep: ## Get testing dependencies
-	@go get -u github.com/golang/lint/golint
+	@go get -u golang.org/x/lint/golint
 
 lint: ## Lint the files
 	@golint -set_exit_status ${PKG_LIST}

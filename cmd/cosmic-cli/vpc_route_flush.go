@@ -71,10 +71,13 @@ func runVPCRouteFlushCmd(args []string) error {
 	if err != nil {
 		return err
 	}
-	routes := route.ListAll(client.NewAsyncClientMap(cfg), v.Id)
+	routes, err := route.List(client.NewAsyncClientMap(cfg), v.Id)
+	if err != nil {
+		return err
+	}
 
 	// Delete routes from VPC.
-	var wg sync.WaitGroup
+	wg := sync.WaitGroup{}
 	wg.Add(len(routes))
 
 	for _, r := range routes {
@@ -82,7 +85,7 @@ func runVPCRouteFlushCmd(args []string) error {
 			defer wg.Done()
 
 			fmt.Printf("Deleting route cidr:%s, nexthop:%s ... \n", r.Cidr, r.Nexthop)
-			if err := route.DeleteAll(client.NewAsyncClientMap(cfg), r.Id); err != nil {
+			if err := route.Delete(client.NewAsyncClientMap(cfg), r.Id); err != nil {
 				return err
 			}
 

@@ -18,7 +18,6 @@ package vpc
 
 import (
 	"fmt"
-	"log"
 	"os"
 	"sort"
 	"strings"
@@ -27,6 +26,16 @@ import (
 	"github.com/MissionCriticalCloud/go-cosmic/cosmic"
 	h "sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/helper"
 )
+
+// profileError represents a profile config error.
+type profileError struct {
+	message string
+}
+
+// Error returns the profile error message.
+func (e profileError) Error() string {
+	return e.message
+}
 
 // VPC embeds *cosmic.VPC to allow additional fields.
 type VPC struct {
@@ -37,7 +46,7 @@ type VPC struct {
 // VPCs exists to provide helper methods for []*VPC.
 type VPCs []*VPC
 
-// Sort returns a sorted slice of []*VPC objects.
+// Sort will sort VPCs by either the "cidr", "name", "vpcofferingname" or "zonename" field.
 func (vpcs VPCs) Sort(sortBy string, reverseSort bool) {
 	if h.Contains([]string{"cidr", "name", "vpcofferingname", "zonename"}, sortBy) == false {
 		fmt.Println("Invalid sort option provided, provide either \"cidr\", \"name\", \"vpcofferingname\" or \"zonename\".")
@@ -76,17 +85,6 @@ func (vpcs VPCs) Sort(sortBy string, reverseSort bool) {
 	}
 }
 
-// List returns a slice of *VPC objects using a *cosmic.CosmicClient object.
-func List(client *cosmic.CosmicClient) ([]*cosmic.VPC, error) {
-	params := client.VPC.NewListVPCsParams()
-	resp, err := client.VPC.ListVPCs(params)
-	if err != nil {
-		return resp.VPCs, err
-	}
-
-	return resp.VPCs, nil
-}
-
 // GetByID returns a *cosmic.VPC object using a *cosmic.CosmicClient object.
 func GetByID(client *cosmic.CosmicClient, id string) (*cosmic.VPC, int, error) {
 	resp, count, err := client.VPC.GetVPCByID(id)
@@ -115,37 +113,54 @@ func GetByName(client *cosmic.CosmicClient, name string) (*cosmic.VPC, int, erro
 	return resp, count, nil
 }
 
-// ListAll returns a slice of *VPC objects using all configured *cosmic.CosmicClient objects.
-func ListAll(clientMap map[string]*cosmic.CosmicClient) VPCs {
+// List returns a slice of *VPC objects using all configured *cosmic.CosmicClient objects.
+func List(clientMap map[string]*cosmic.CosmicClient) (VPCs, error) {
 	vpcs := []*VPC{}
 	wg := sync.WaitGroup{}
 	wg.Add(len(clientMap))
+
+	errChannel := make(chan error, 1)
+	finished := make(chan bool, 1)
 
 	for client := range clientMap {
 		go func(client string) {
 			defer wg.Done()
 
-			listVPCs, err := List(clientMap[client])
+			params := clientMap[client].VPC.NewListVPCsParams()
+			resp, err := clientMap[client].VPC.ListVPCs(params)
 			if err != nil {
-				log.Fatalf("Error returned using profile \"%s\": %s", client, err)
+				errChannel <- profileError{fmt.Sprintf("Error returned using profile \"%s\": %s", client, err)}
+				return
 			}
 
-			for _, vpc := range listVPCs {
+			for _, vpc := range resp.VPCs {
 				vpcs = append(vpcs, &VPC{
 					VPC: vpc,
 				})
 			}
 		}(client)
 	}
-	wg.Wait()
 
-	return vpcs
+	go func() {
+		wg.Wait()
+		close(finished)
+	}()
+
+	select {
+	case <-finished:
+	case err := <-errChannel:
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	return vpcs, nil
 }
 
 // GetAllByID returns a slice of *VPC objects using all configured *cosmic.CosmicClient objects.
 func GetAllByID(clientMap map[string]*cosmic.CosmicClient, id string) ([]*VPC, error) {
-	var VPCs []*VPC
-	var wg sync.WaitGroup
+	vpcs := []*VPC{}
+	wg := sync.WaitGroup{}
 	wg.Add(len(clientMap))
 
 	for client := range clientMap {
@@ -157,7 +172,7 @@ func GetAllByID(clientMap map[string]*cosmic.CosmicClient, id string) ([]*VPC, e
 				// return nil, err
 			}
 			if count == 1 {
-				VPCs = append(VPCs, &VPC{
+				vpcs = append(vpcs, &VPC{
 					VPC: vpc,
 				})
 			}
@@ -165,21 +180,21 @@ func GetAllByID(clientMap map[string]*cosmic.CosmicClient, id string) ([]*VPC, e
 	}
 	wg.Wait()
 
-	if len(VPCs) == 0 {
+	if len(vpcs) == 0 {
 		return nil, fmt.Errorf("No match found for VPC with id %s", id)
 	}
 
-	if len(VPCs) > 1 {
-		return VPCs, fmt.Errorf("More than one match found for VPC with id %s, use the --vpc-id option to specify the VPC", id)
+	if len(vpcs) > 1 {
+		return vpcs, fmt.Errorf("More than one match found for VPC with id %s, use the --vpc-id option to specify the VPC", id)
 	}
 
-	return VPCs, nil
+	return vpcs, nil
 }
 
 // GetAllByName returns a slice of *VPC objects using all configured *cosmic.CosmicClient objects.
 func GetAllByName(clientMap map[string]*cosmic.CosmicClient, name string) ([]*VPC, error) {
-	var VPCs []*VPC
-	var wg sync.WaitGroup
+	vpcs := []*VPC{}
+	wg := sync.WaitGroup{}
 	wg.Add(len(clientMap))
 
 	for client := range clientMap {
@@ -191,7 +206,7 @@ func GetAllByName(clientMap map[string]*cosmic.CosmicClient, name string) ([]*VP
 				// return nil, err
 			}
 			if count == 1 {
-				VPCs = append(VPCs, &VPC{
+				vpcs = append(vpcs, &VPC{
 					VPC: vpc,
 				})
 			}
@@ -199,13 +214,13 @@ func GetAllByName(clientMap map[string]*cosmic.CosmicClient, name string) ([]*VP
 	}
 	wg.Wait()
 
-	if len(VPCs) == 0 {
+	if len(vpcs) == 0 {
 		return nil, fmt.Errorf("No match found for VPC with name %s", name)
 	}
 
-	if len(VPCs) > 1 {
-		return VPCs, fmt.Errorf("More than one match found for VPC with name %s, use the --vpc-id option to specify the VPC", name)
+	if len(vpcs) > 1 {
+		return vpcs, fmt.Errorf("More than one match found for VPC with name %s, use the --vpc-id option to specify the VPC", name)
 	}
 
-	return VPCs, nil
+	return vpcs, nil
 }

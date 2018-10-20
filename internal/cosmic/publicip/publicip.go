@@ -17,11 +17,21 @@
 package publicip
 
 import (
-	"log"
+	"fmt"
 	"sync"
 
 	"github.com/MissionCriticalCloud/go-cosmic/cosmic"
 )
+
+// profileError represents a profile config error.
+type profileError struct {
+	message string
+}
+
+// Error returns the profile error message.
+func (e profileError) Error() string {
+	return e.message
+}
 
 // Address embeds *cosmic.PublicIpAddress to allow additional fields.
 type Address struct {
@@ -31,40 +41,46 @@ type Address struct {
 // Addresses exists to provide helper methods for []*Address.
 type Addresses []*Address
 
-// List returns a slice of *cosmic.PublicIpAddress objects using a *cosmic.CosmicClient object.
-func List(client *cosmic.CosmicClient) ([]*cosmic.PublicIpAddress, error) {
-	params := client.PublicIPAddress.NewListPublicIpAddressesParams()
-	resp, err := client.PublicIPAddress.ListPublicIpAddresses(params)
-	if err != nil {
-		return resp.PublicIpAddresses, err
-	}
-
-	return resp.PublicIpAddresses, nil
-}
-
-// ListAll returns an Addresses object using all configured *cosmic.CosmicClient objects.
-func ListAll(clientMap map[string]*cosmic.CosmicClient) Addresses {
-	publicIPs := []*Address{}
+// List returns an Addresses object using all configured *cosmic.CosmicClient objects.
+func List(clientMap map[string]*cosmic.CosmicClient) (Addresses, error) {
+	publicips := []*Address{}
 	wg := sync.WaitGroup{}
 	wg.Add(len(clientMap))
+
+	errChannel := make(chan error, 1)
+	finished := make(chan bool, 1)
 
 	for client := range clientMap {
 		go func(client string) {
 			defer wg.Done()
 
-			listpublicIPs, err := List(clientMap[client])
+			params := clientMap[client].PublicIPAddress.NewListPublicIpAddressesParams()
+			resp, err := clientMap[client].PublicIPAddress.ListPublicIpAddresses(params)
 			if err != nil {
-				log.Fatalf("Error returned using profile \"%s\": %s", client, err)
+				errChannel <- profileError{fmt.Sprintf("Error returned using profile \"%s\": %s", client, err)}
+				return
 			}
 
-			for _, ip := range listpublicIPs {
-				publicIPs = append(publicIPs, &Address{
+			for _, ip := range resp.PublicIpAddresses {
+				publicips = append(publicips, &Address{
 					PublicIpAddress: ip,
 				})
 			}
 		}(client)
 	}
-	wg.Wait()
 
-	return publicIPs
+	go func() {
+		wg.Wait()
+		close(finished)
+	}()
+
+	select {
+	case <-finished:
+	case err := <-errChannel:
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	return publicips, nil
 }
