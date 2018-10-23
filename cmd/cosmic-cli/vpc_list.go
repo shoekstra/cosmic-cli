@@ -39,6 +39,8 @@ func newVPCListCmd() *cobra.Command {
 			viper.BindPFlag("output", cmd.Flags().Lookup("output"))
 			viper.BindPFlag("reverse-sort", cmd.Flags().Lookup("reverse-sort"))
 			viper.BindPFlag("show-id", cmd.Flags().Lookup("show-id"))
+			viper.BindPFlag("show-redundant-status", cmd.Flags().Lookup("show-redundant-status"))
+			viper.BindPFlag("show-restart-required", cmd.Flags().Lookup("show-restart-required"))
 			viper.BindPFlag("show-snat", cmd.Flags().Lookup("show-snat"))
 			viper.BindPFlag("sort-by", cmd.Flags().Lookup("sort-by"))
 		},
@@ -53,6 +55,8 @@ func newVPCListCmd() *cobra.Command {
 	// Add local flags.
 	cmd.Flags().BoolP("reverse-sort", "", false, "reverse sort order")
 	cmd.Flags().BoolP("show-id", "", false, "show VPC id in result")
+	cmd.Flags().BoolP("show-redundant-status", "", false, "show VPC redundant router status in result")
+	cmd.Flags().BoolP("show-restart-required", "", false, "show VPC restart required status in result")
 	cmd.Flags().BoolP("show-snat", "", false, "show VPC Source NAT IP in result")
 	cmd.Flags().StringP("filter", "f", "", "filter results (supports regex)")
 	cmd.Flags().StringP("output", "o", "table", "specify output type")
@@ -99,6 +103,12 @@ func runVPCListCmd() error {
 	}
 	if cfg.ShowSNAT {
 		fields = append(fields, "SourceNATIP")
+	}
+	if cfg.ShowRedundantStatus {
+		fields = append(fields, "RedundantVPCRouter")
+	}
+	if cfg.ShowRestartRequired {
+		fields = append(fields, "RestartRequired")
 	}
 	printResult(cfg.Output, cfg.Filter, "VPC", fields, vpcs)
 
