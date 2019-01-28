@@ -215,6 +215,7 @@ type CopyTemplateResponse struct {
 	Accountid             string            `json:"accountid,omitempty"`
 	Bootable              bool              `json:"bootable,omitempty"`
 	Checksum              string            `json:"checksum,omitempty"`
+	Cpuflags              string            `json:"cpuflags,omitempty"`
 	Created               string            `json:"created,omitempty"`
 	CrossZones            bool              `json:"crossZones,omitempty"`
 	Details               map[string]string `json:"details,omitempty"`
@@ -231,7 +232,11 @@ type CopyTemplateResponse struct {
 	Isfeatured            bool              `json:"isfeatured,omitempty"`
 	Ispublic              bool              `json:"ispublic,omitempty"`
 	Isready               bool              `json:"isready,omitempty"`
+	Maclearning           string            `json:"maclearning,omitempty"`
+	Maintenancepolicy     string            `json:"maintenancepolicy,omitempty"`
+	Manufacturerstring    string            `json:"manufacturerstring,omitempty"`
 	Name                  string            `json:"name,omitempty"`
+	Optimisefor           string            `json:"optimisefor,omitempty"`
 	Ostypeid              string            `json:"ostypeid,omitempty"`
 	Ostypename            string            `json:"ostypename,omitempty"`
 	Passwordenabled       bool              `json:"passwordenabled,omitempty"`
@@ -274,6 +279,9 @@ func (p *CreateTemplateParams) toURLValues() url.Values {
 		vv := strconv.Itoa(v.(int))
 		u.Set("bits", vv)
 	}
+	if v, found := p.p["cpuflags"]; found {
+		u.Set("cpuflags", v.(string))
+	}
 	if v, found := p.p["details"]; found {
 		i := 0
 		for k, vv := range v.(map[string]string) {
@@ -300,8 +308,20 @@ func (p *CreateTemplateParams) toURLValues() url.Values {
 		vv := strconv.FormatBool(v.(bool))
 		u.Set("ispublic", vv)
 	}
+	if v, found := p.p["maclearning"]; found {
+		u.Set("maclearning", v.(string))
+	}
+	if v, found := p.p["maintenancepolicy"]; found {
+		u.Set("maintenancepolicy", v.(string))
+	}
+	if v, found := p.p["manufacturerstring"]; found {
+		u.Set("manufacturerstring", v.(string))
+	}
 	if v, found := p.p["name"]; found {
 		u.Set("name", v.(string))
+	}
+	if v, found := p.p["optimisefor"]; found {
+		u.Set("optimisefor", v.(string))
 	}
 	if v, found := p.p["ostypeid"]; found {
 		u.Set("ostypeid", v.(string))
@@ -312,10 +332,6 @@ func (p *CreateTemplateParams) toURLValues() url.Values {
 	}
 	if v, found := p.p["projectid"]; found {
 		u.Set("projectid", v.(string))
-	}
-	if v, found := p.p["requireshvm"]; found {
-		vv := strconv.FormatBool(v.(bool))
-		u.Set("requireshvm", vv)
 	}
 	if v, found := p.p["snapshotid"]; found {
 		u.Set("snapshotid", v.(string))
@@ -340,6 +356,13 @@ func (p *CreateTemplateParams) SetBits(v int) {
 		p.p = make(map[string]interface{})
 	}
 	p.p["bits"] = v
+}
+
+func (p *CreateTemplateParams) SetCpuflags(v string) {
+	if p.p == nil {
+		p.p = make(map[string]interface{})
+	}
+	p.p["cpuflags"] = v
 }
 
 func (p *CreateTemplateParams) SetDetails(v map[string]string) {
@@ -384,11 +407,39 @@ func (p *CreateTemplateParams) SetIspublic(v bool) {
 	p.p["ispublic"] = v
 }
 
+func (p *CreateTemplateParams) SetMaclearning(v string) {
+	if p.p == nil {
+		p.p = make(map[string]interface{})
+	}
+	p.p["maclearning"] = v
+}
+
+func (p *CreateTemplateParams) SetMaintenancepolicy(v string) {
+	if p.p == nil {
+		p.p = make(map[string]interface{})
+	}
+	p.p["maintenancepolicy"] = v
+}
+
+func (p *CreateTemplateParams) SetManufacturerstring(v string) {
+	if p.p == nil {
+		p.p = make(map[string]interface{})
+	}
+	p.p["manufacturerstring"] = v
+}
+
 func (p *CreateTemplateParams) SetName(v string) {
 	if p.p == nil {
 		p.p = make(map[string]interface{})
 	}
 	p.p["name"] = v
+}
+
+func (p *CreateTemplateParams) SetOptimisefor(v string) {
+	if p.p == nil {
+		p.p = make(map[string]interface{})
+	}
+	p.p["optimisefor"] = v
 }
 
 func (p *CreateTemplateParams) SetOstypeid(v string) {
@@ -410,13 +461,6 @@ func (p *CreateTemplateParams) SetProjectid(v string) {
 		p.p = make(map[string]interface{})
 	}
 	p.p["projectid"] = v
-}
-
-func (p *CreateTemplateParams) SetRequireshvm(v bool) {
-	if p.p == nil {
-		p.p = make(map[string]interface{})
-	}
-	p.p["requireshvm"] = v
 }
 
 func (p *CreateTemplateParams) SetSnapshotid(v string) {
@@ -456,12 +500,11 @@ func (p *CreateTemplateParams) SetVolumeid(v string) {
 
 // You should always use this function to get a new CreateTemplateParams instance,
 // as then you are sure you have configured all required params
-func (s *TemplateService) NewCreateTemplateParams(displaytext string, name string, ostypeid string) *CreateTemplateParams {
+func (s *TemplateService) NewCreateTemplateParams(displaytext string, name string) *CreateTemplateParams {
 	p := &CreateTemplateParams{}
 	p.p = make(map[string]interface{})
 	p.p["displaytext"] = displaytext
 	p.p["name"] = name
-	p.p["ostypeid"] = ostypeid
 	return p
 }
 
@@ -505,6 +548,7 @@ type CreateTemplateResponse struct {
 	Accountid             string            `json:"accountid,omitempty"`
 	Bootable              bool              `json:"bootable,omitempty"`
 	Checksum              string            `json:"checksum,omitempty"`
+	Cpuflags              string            `json:"cpuflags,omitempty"`
 	Created               string            `json:"created,omitempty"`
 	CrossZones            bool              `json:"crossZones,omitempty"`
 	Details               map[string]string `json:"details,omitempty"`
@@ -521,7 +565,11 @@ type CreateTemplateResponse struct {
 	Isfeatured            bool              `json:"isfeatured,omitempty"`
 	Ispublic              bool              `json:"ispublic,omitempty"`
 	Isready               bool              `json:"isready,omitempty"`
+	Maclearning           string            `json:"maclearning,omitempty"`
+	Maintenancepolicy     string            `json:"maintenancepolicy,omitempty"`
+	Manufacturerstring    string            `json:"manufacturerstring,omitempty"`
 	Name                  string            `json:"name,omitempty"`
+	Optimisefor           string            `json:"optimisefor,omitempty"`
 	Ostypeid              string            `json:"ostypeid,omitempty"`
 	Ostypename            string            `json:"ostypename,omitempty"`
 	Passwordenabled       bool              `json:"passwordenabled,omitempty"`
@@ -812,6 +860,7 @@ type PrepareTemplateResponse struct {
 	Accountid             string            `json:"accountid,omitempty"`
 	Bootable              bool              `json:"bootable,omitempty"`
 	Checksum              string            `json:"checksum,omitempty"`
+	Cpuflags              string            `json:"cpuflags,omitempty"`
 	Created               string            `json:"created,omitempty"`
 	CrossZones            bool              `json:"crossZones,omitempty"`
 	Details               map[string]string `json:"details,omitempty"`
@@ -828,7 +877,11 @@ type PrepareTemplateResponse struct {
 	Isfeatured            bool              `json:"isfeatured,omitempty"`
 	Ispublic              bool              `json:"ispublic,omitempty"`
 	Isready               bool              `json:"isready,omitempty"`
+	Maclearning           string            `json:"maclearning,omitempty"`
+	Maintenancepolicy     string            `json:"maintenancepolicy,omitempty"`
+	Manufacturerstring    string            `json:"manufacturerstring,omitempty"`
 	Name                  string            `json:"name,omitempty"`
+	Optimisefor           string            `json:"optimisefor,omitempty"`
 	Ostypeid              string            `json:"ostypeid,omitempty"`
 	Ostypename            string            `json:"ostypename,omitempty"`
 	Passwordenabled       bool              `json:"passwordenabled,omitempty"`
@@ -917,8 +970,17 @@ func (p *RegisterTemplateParams) toURLValues() url.Values {
 		vv := strconv.FormatBool(v.(bool))
 		u.Set("isrouting", vv)
 	}
+	if v, found := p.p["maintenancepolicy"]; found {
+		u.Set("maintenancepolicy", v.(string))
+	}
+	if v, found := p.p["manufacturerstring"]; found {
+		u.Set("manufacturerstring", v.(string))
+	}
 	if v, found := p.p["name"]; found {
 		u.Set("name", v.(string))
+	}
+	if v, found := p.p["optimisefor"]; found {
+		u.Set("optimisefor", v.(string))
 	}
 	if v, found := p.p["ostypeid"]; found {
 		u.Set("ostypeid", v.(string))
@@ -929,10 +991,6 @@ func (p *RegisterTemplateParams) toURLValues() url.Values {
 	}
 	if v, found := p.p["projectid"]; found {
 		u.Set("projectid", v.(string))
-	}
-	if v, found := p.p["requireshvm"]; found {
-		vv := strconv.FormatBool(v.(bool))
-		u.Set("requireshvm", vv)
 	}
 	if v, found := p.p["sshkeyenabled"]; found {
 		vv := strconv.FormatBool(v.(bool))
@@ -1041,11 +1099,32 @@ func (p *RegisterTemplateParams) SetIsrouting(v bool) {
 	p.p["isrouting"] = v
 }
 
+func (p *RegisterTemplateParams) SetMaintenancepolicy(v string) {
+	if p.p == nil {
+		p.p = make(map[string]interface{})
+	}
+	p.p["maintenancepolicy"] = v
+}
+
+func (p *RegisterTemplateParams) SetManufacturerstring(v string) {
+	if p.p == nil {
+		p.p = make(map[string]interface{})
+	}
+	p.p["manufacturerstring"] = v
+}
+
 func (p *RegisterTemplateParams) SetName(v string) {
 	if p.p == nil {
 		p.p = make(map[string]interface{})
 	}
 	p.p["name"] = v
+}
+
+func (p *RegisterTemplateParams) SetOptimisefor(v string) {
+	if p.p == nil {
+		p.p = make(map[string]interface{})
+	}
+	p.p["optimisefor"] = v
 }
 
 func (p *RegisterTemplateParams) SetOstypeid(v string) {
@@ -1067,13 +1146,6 @@ func (p *RegisterTemplateParams) SetProjectid(v string) {
 		p.p = make(map[string]interface{})
 	}
 	p.p["projectid"] = v
-}
-
-func (p *RegisterTemplateParams) SetRequireshvm(v bool) {
-	if p.p == nil {
-		p.p = make(map[string]interface{})
-	}
-	p.p["requireshvm"] = v
 }
 
 func (p *RegisterTemplateParams) SetSshkeyenabled(v bool) {
@@ -1143,6 +1215,7 @@ type RegisterTemplate struct {
 	Accountid             string            `json:"accountid,omitempty"`
 	Bootable              bool              `json:"bootable,omitempty"`
 	Checksum              string            `json:"checksum,omitempty"`
+	Cpuflags              string            `json:"cpuflags,omitempty"`
 	Created               string            `json:"created,omitempty"`
 	CrossZones            bool              `json:"crossZones,omitempty"`
 	Details               map[string]string `json:"details,omitempty"`
@@ -1159,7 +1232,11 @@ type RegisterTemplate struct {
 	Isfeatured            bool              `json:"isfeatured,omitempty"`
 	Ispublic              bool              `json:"ispublic,omitempty"`
 	Isready               bool              `json:"isready,omitempty"`
+	Maclearning           string            `json:"maclearning,omitempty"`
+	Maintenancepolicy     string            `json:"maintenancepolicy,omitempty"`
+	Manufacturerstring    string            `json:"manufacturerstring,omitempty"`
 	Name                  string            `json:"name,omitempty"`
+	Optimisefor           string            `json:"optimisefor,omitempty"`
 	Ostypeid              string            `json:"ostypeid,omitempty"`
 	Ostypename            string            `json:"ostypename,omitempty"`
 	Passwordenabled       bool              `json:"passwordenabled,omitempty"`
@@ -1202,6 +1279,9 @@ func (p *UpdateTemplateParams) toURLValues() url.Values {
 		vv := strconv.FormatBool(v.(bool))
 		u.Set("bootable", vv)
 	}
+	if v, found := p.p["cpuflags"]; found {
+		u.Set("cpuflags", v.(string))
+	}
 	if v, found := p.p["details"]; found {
 		i := 0
 		for k, vv := range v.(map[string]string) {
@@ -1227,8 +1307,20 @@ func (p *UpdateTemplateParams) toURLValues() url.Values {
 		vv := strconv.FormatBool(v.(bool))
 		u.Set("isrouting", vv)
 	}
+	if v, found := p.p["maclearning"]; found {
+		u.Set("maclearning", v.(string))
+	}
+	if v, found := p.p["maintenancepolicy"]; found {
+		u.Set("maintenancepolicy", v.(string))
+	}
+	if v, found := p.p["manufacturerstring"]; found {
+		u.Set("manufacturerstring", v.(string))
+	}
 	if v, found := p.p["name"]; found {
 		u.Set("name", v.(string))
+	}
+	if v, found := p.p["optimisefor"]; found {
+		u.Set("optimisefor", v.(string))
 	}
 	if v, found := p.p["ostypeid"]; found {
 		u.Set("ostypeid", v.(string))
@@ -1236,10 +1328,6 @@ func (p *UpdateTemplateParams) toURLValues() url.Values {
 	if v, found := p.p["passwordenabled"]; found {
 		vv := strconv.FormatBool(v.(bool))
 		u.Set("passwordenabled", vv)
-	}
-	if v, found := p.p["requireshvm"]; found {
-		vv := strconv.FormatBool(v.(bool))
-		u.Set("requireshvm", vv)
 	}
 	if v, found := p.p["sortkey"]; found {
 		vv := strconv.Itoa(v.(int))
@@ -1256,6 +1344,13 @@ func (p *UpdateTemplateParams) SetBootable(v bool) {
 		p.p = make(map[string]interface{})
 	}
 	p.p["bootable"] = v
+}
+
+func (p *UpdateTemplateParams) SetCpuflags(v string) {
+	if p.p == nil {
+		p.p = make(map[string]interface{})
+	}
+	p.p["cpuflags"] = v
 }
 
 func (p *UpdateTemplateParams) SetDetails(v map[string]string) {
@@ -1300,11 +1395,39 @@ func (p *UpdateTemplateParams) SetIsrouting(v bool) {
 	p.p["isrouting"] = v
 }
 
+func (p *UpdateTemplateParams) SetMaclearning(v string) {
+	if p.p == nil {
+		p.p = make(map[string]interface{})
+	}
+	p.p["maclearning"] = v
+}
+
+func (p *UpdateTemplateParams) SetMaintenancepolicy(v string) {
+	if p.p == nil {
+		p.p = make(map[string]interface{})
+	}
+	p.p["maintenancepolicy"] = v
+}
+
+func (p *UpdateTemplateParams) SetManufacturerstring(v string) {
+	if p.p == nil {
+		p.p = make(map[string]interface{})
+	}
+	p.p["manufacturerstring"] = v
+}
+
 func (p *UpdateTemplateParams) SetName(v string) {
 	if p.p == nil {
 		p.p = make(map[string]interface{})
 	}
 	p.p["name"] = v
+}
+
+func (p *UpdateTemplateParams) SetOptimisefor(v string) {
+	if p.p == nil {
+		p.p = make(map[string]interface{})
+	}
+	p.p["optimisefor"] = v
 }
 
 func (p *UpdateTemplateParams) SetOstypeid(v string) {
@@ -1319,13 +1442,6 @@ func (p *UpdateTemplateParams) SetPasswordenabled(v bool) {
 		p.p = make(map[string]interface{})
 	}
 	p.p["passwordenabled"] = v
-}
-
-func (p *UpdateTemplateParams) SetRequireshvm(v bool) {
-	if p.p == nil {
-		p.p = make(map[string]interface{})
-	}
-	p.p["requireshvm"] = v
 }
 
 func (p *UpdateTemplateParams) SetSortkey(v int) {
@@ -1370,6 +1486,7 @@ type UpdateTemplateResponse struct {
 	Accountid             string            `json:"accountid,omitempty"`
 	Bootable              bool              `json:"bootable,omitempty"`
 	Checksum              string            `json:"checksum,omitempty"`
+	Cpuflags              string            `json:"cpuflags,omitempty"`
 	Created               string            `json:"created,omitempty"`
 	CrossZones            bool              `json:"crossZones,omitempty"`
 	Details               map[string]string `json:"details,omitempty"`
@@ -1386,7 +1503,11 @@ type UpdateTemplateResponse struct {
 	Isfeatured            bool              `json:"isfeatured,omitempty"`
 	Ispublic              bool              `json:"ispublic,omitempty"`
 	Isready               bool              `json:"isready,omitempty"`
+	Maclearning           string            `json:"maclearning,omitempty"`
+	Maintenancepolicy     string            `json:"maintenancepolicy,omitempty"`
+	Manufacturerstring    string            `json:"manufacturerstring,omitempty"`
 	Name                  string            `json:"name,omitempty"`
+	Optimisefor           string            `json:"optimisefor,omitempty"`
 	Ostypeid              string            `json:"ostypeid,omitempty"`
 	Ostypename            string            `json:"ostypename,omitempty"`
 	Passwordenabled       bool              `json:"passwordenabled,omitempty"`
@@ -1927,6 +2048,7 @@ type Template struct {
 	Accountid             string            `json:"accountid,omitempty"`
 	Bootable              bool              `json:"bootable,omitempty"`
 	Checksum              string            `json:"checksum,omitempty"`
+	Cpuflags              string            `json:"cpuflags,omitempty"`
 	Created               string            `json:"created,omitempty"`
 	CrossZones            bool              `json:"crossZones,omitempty"`
 	Details               map[string]string `json:"details,omitempty"`
@@ -1943,7 +2065,11 @@ type Template struct {
 	Isfeatured            bool              `json:"isfeatured,omitempty"`
 	Ispublic              bool              `json:"ispublic,omitempty"`
 	Isready               bool              `json:"isready,omitempty"`
+	Maclearning           string            `json:"maclearning,omitempty"`
+	Maintenancepolicy     string            `json:"maintenancepolicy,omitempty"`
+	Manufacturerstring    string            `json:"manufacturerstring,omitempty"`
 	Name                  string            `json:"name,omitempty"`
+	Optimisefor           string            `json:"optimisefor,omitempty"`
 	Ostypeid              string            `json:"ostypeid,omitempty"`
 	Ostypename            string            `json:"ostypename,omitempty"`
 	Passwordenabled       bool              `json:"passwordenabled,omitempty"`
@@ -2044,10 +2170,6 @@ func (p *GetUploadParamsForTemplateParams) toURLValues() url.Values {
 	}
 	if v, found := p.p["projectid"]; found {
 		u.Set("projectid", v.(string))
-	}
-	if v, found := p.p["requireshvm"]; found {
-		vv := strconv.FormatBool(v.(bool))
-		u.Set("requireshvm", vv)
 	}
 	if v, found := p.p["sshkeyenabled"]; found {
 		vv := strconv.FormatBool(v.(bool))
@@ -2179,13 +2301,6 @@ func (p *GetUploadParamsForTemplateParams) SetProjectid(v string) {
 		p.p = make(map[string]interface{})
 	}
 	p.p["projectid"] = v
-}
-
-func (p *GetUploadParamsForTemplateParams) SetRequireshvm(v bool) {
-	if p.p == nil {
-		p.p = make(map[string]interface{})
-	}
-	p.p["requireshvm"] = v
 }
 
 func (p *GetUploadParamsForTemplateParams) SetSshkeyenabled(v bool) {

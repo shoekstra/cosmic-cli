@@ -273,10 +273,6 @@ func (p *CreateZoneParams) toURLValues() url.Values {
 	if v, found := p.p["networktype"]; found {
 		u.Set("networktype", v.(string))
 	}
-	if v, found := p.p["securitygroupenabled"]; found {
-		vv := strconv.FormatBool(v.(bool))
-		u.Set("securitygroupenabled", vv)
-	}
 	return u
 }
 
@@ -371,13 +367,6 @@ func (p *CreateZoneParams) SetNetworktype(v string) {
 	p.p["networktype"] = v
 }
 
-func (p *CreateZoneParams) SetSecuritygroupenabled(v bool) {
-	if p.p == nil {
-		p.p = make(map[string]interface{})
-	}
-	p.p["securitygroupenabled"] = v
-}
-
 // You should always use this function to get a new CreateZoneParams instance,
 // as then you are sure you have configured all required params
 func (s *ZoneService) NewCreateZoneParams(dns1 string, internaldns1 string, name string, networktype string) *CreateZoneParams {
@@ -418,26 +407,25 @@ type CreateZoneResponse struct {
 		Zoneid              string `json:"zoneid,omitempty"`
 		Zonename            string `json:"zonename,omitempty"`
 	} `json:"capacity,omitempty"`
-	Description           string            `json:"description,omitempty"`
-	Dhcpprovider          string            `json:"dhcpprovider,omitempty"`
-	Displaytext           string            `json:"displaytext,omitempty"`
-	Dns1                  string            `json:"dns1,omitempty"`
-	Dns2                  string            `json:"dns2,omitempty"`
-	Domain                string            `json:"domain,omitempty"`
-	Domainid              string            `json:"domainid,omitempty"`
-	Domainname            string            `json:"domainname,omitempty"`
-	Guestcidraddress      string            `json:"guestcidraddress,omitempty"`
-	Id                    string            `json:"id,omitempty"`
-	Internaldns1          string            `json:"internaldns1,omitempty"`
-	Internaldns2          string            `json:"internaldns2,omitempty"`
-	Ip6dns1               string            `json:"ip6dns1,omitempty"`
-	Ip6dns2               string            `json:"ip6dns2,omitempty"`
-	Localstorageenabled   bool              `json:"localstorageenabled,omitempty"`
-	Name                  string            `json:"name,omitempty"`
-	Networktype           string            `json:"networktype,omitempty"`
-	Resourcedetails       map[string]string `json:"resourcedetails,omitempty"`
-	Securitygroupsenabled bool              `json:"securitygroupsenabled,omitempty"`
-	Tags                  []struct {
+	Description         string            `json:"description,omitempty"`
+	Dhcpprovider        string            `json:"dhcpprovider,omitempty"`
+	Displaytext         string            `json:"displaytext,omitempty"`
+	Dns1                string            `json:"dns1,omitempty"`
+	Dns2                string            `json:"dns2,omitempty"`
+	Domain              string            `json:"domain,omitempty"`
+	Domainid            string            `json:"domainid,omitempty"`
+	Domainname          string            `json:"domainname,omitempty"`
+	Guestcidraddress    string            `json:"guestcidraddress,omitempty"`
+	Id                  string            `json:"id,omitempty"`
+	Internaldns1        string            `json:"internaldns1,omitempty"`
+	Internaldns2        string            `json:"internaldns2,omitempty"`
+	Ip6dns1             string            `json:"ip6dns1,omitempty"`
+	Ip6dns2             string            `json:"ip6dns2,omitempty"`
+	Localstorageenabled bool              `json:"localstorageenabled,omitempty"`
+	Name                string            `json:"name,omitempty"`
+	Networktype         string            `json:"networktype,omitempty"`
+	Resourcedetails     map[string]string `json:"resourcedetails,omitempty"`
+	Tags                []struct {
 		Account      string `json:"account,omitempty"`
 		Customer     string `json:"customer,omitempty"`
 		Domain       string `json:"domain,omitempty"`
@@ -658,10 +646,6 @@ func (p *UpdateZoneParams) toURLValues() url.Values {
 		vv := strconv.FormatBool(v.(bool))
 		u.Set("ispublic", vv)
 	}
-	if v, found := p.p["localstorageenabled"]; found {
-		vv := strconv.FormatBool(v.(bool))
-		u.Set("localstorageenabled", vv)
-	}
 	if v, found := p.p["name"]; found {
 		u.Set("name", v.(string))
 	}
@@ -766,13 +750,6 @@ func (p *UpdateZoneParams) SetIspublic(v bool) {
 	p.p["ispublic"] = v
 }
 
-func (p *UpdateZoneParams) SetLocalstorageenabled(v bool) {
-	if p.p == nil {
-		p.p = make(map[string]interface{})
-	}
-	p.p["localstorageenabled"] = v
-}
-
 func (p *UpdateZoneParams) SetName(v string) {
 	if p.p == nil {
 		p.p = make(map[string]interface{})
@@ -817,26 +794,25 @@ type UpdateZoneResponse struct {
 		Zoneid              string `json:"zoneid,omitempty"`
 		Zonename            string `json:"zonename,omitempty"`
 	} `json:"capacity,omitempty"`
-	Description           string            `json:"description,omitempty"`
-	Dhcpprovider          string            `json:"dhcpprovider,omitempty"`
-	Displaytext           string            `json:"displaytext,omitempty"`
-	Dns1                  string            `json:"dns1,omitempty"`
-	Dns2                  string            `json:"dns2,omitempty"`
-	Domain                string            `json:"domain,omitempty"`
-	Domainid              string            `json:"domainid,omitempty"`
-	Domainname            string            `json:"domainname,omitempty"`
-	Guestcidraddress      string            `json:"guestcidraddress,omitempty"`
-	Id                    string            `json:"id,omitempty"`
-	Internaldns1          string            `json:"internaldns1,omitempty"`
-	Internaldns2          string            `json:"internaldns2,omitempty"`
-	Ip6dns1               string            `json:"ip6dns1,omitempty"`
-	Ip6dns2               string            `json:"ip6dns2,omitempty"`
-	Localstorageenabled   bool              `json:"localstorageenabled,omitempty"`
-	Name                  string            `json:"name,omitempty"`
-	Networktype           string            `json:"networktype,omitempty"`
-	Resourcedetails       map[string]string `json:"resourcedetails,omitempty"`
-	Securitygroupsenabled bool              `json:"securitygroupsenabled,omitempty"`
-	Tags                  []struct {
+	Description         string            `json:"description,omitempty"`
+	Dhcpprovider        string            `json:"dhcpprovider,omitempty"`
+	Displaytext         string            `json:"displaytext,omitempty"`
+	Dns1                string            `json:"dns1,omitempty"`
+	Dns2                string            `json:"dns2,omitempty"`
+	Domain              string            `json:"domain,omitempty"`
+	Domainid            string            `json:"domainid,omitempty"`
+	Domainname          string            `json:"domainname,omitempty"`
+	Guestcidraddress    string            `json:"guestcidraddress,omitempty"`
+	Id                  string            `json:"id,omitempty"`
+	Internaldns1        string            `json:"internaldns1,omitempty"`
+	Internaldns2        string            `json:"internaldns2,omitempty"`
+	Ip6dns1             string            `json:"ip6dns1,omitempty"`
+	Ip6dns2             string            `json:"ip6dns2,omitempty"`
+	Localstorageenabled bool              `json:"localstorageenabled,omitempty"`
+	Name                string            `json:"name,omitempty"`
+	Networktype         string            `json:"networktype,omitempty"`
+	Resourcedetails     map[string]string `json:"resourcedetails,omitempty"`
+	Tags                []struct {
 		Account      string `json:"account,omitempty"`
 		Customer     string `json:"customer,omitempty"`
 		Domain       string `json:"domain,omitempty"`
@@ -1109,26 +1085,25 @@ type Zone struct {
 		Zoneid              string `json:"zoneid,omitempty"`
 		Zonename            string `json:"zonename,omitempty"`
 	} `json:"capacity,omitempty"`
-	Description           string            `json:"description,omitempty"`
-	Dhcpprovider          string            `json:"dhcpprovider,omitempty"`
-	Displaytext           string            `json:"displaytext,omitempty"`
-	Dns1                  string            `json:"dns1,omitempty"`
-	Dns2                  string            `json:"dns2,omitempty"`
-	Domain                string            `json:"domain,omitempty"`
-	Domainid              string            `json:"domainid,omitempty"`
-	Domainname            string            `json:"domainname,omitempty"`
-	Guestcidraddress      string            `json:"guestcidraddress,omitempty"`
-	Id                    string            `json:"id,omitempty"`
-	Internaldns1          string            `json:"internaldns1,omitempty"`
-	Internaldns2          string            `json:"internaldns2,omitempty"`
-	Ip6dns1               string            `json:"ip6dns1,omitempty"`
-	Ip6dns2               string            `json:"ip6dns2,omitempty"`
-	Localstorageenabled   bool              `json:"localstorageenabled,omitempty"`
-	Name                  string            `json:"name,omitempty"`
-	Networktype           string            `json:"networktype,omitempty"`
-	Resourcedetails       map[string]string `json:"resourcedetails,omitempty"`
-	Securitygroupsenabled bool              `json:"securitygroupsenabled,omitempty"`
-	Tags                  []struct {
+	Description         string            `json:"description,omitempty"`
+	Dhcpprovider        string            `json:"dhcpprovider,omitempty"`
+	Displaytext         string            `json:"displaytext,omitempty"`
+	Dns1                string            `json:"dns1,omitempty"`
+	Dns2                string            `json:"dns2,omitempty"`
+	Domain              string            `json:"domain,omitempty"`
+	Domainid            string            `json:"domainid,omitempty"`
+	Domainname          string            `json:"domainname,omitempty"`
+	Guestcidraddress    string            `json:"guestcidraddress,omitempty"`
+	Id                  string            `json:"id,omitempty"`
+	Internaldns1        string            `json:"internaldns1,omitempty"`
+	Internaldns2        string            `json:"internaldns2,omitempty"`
+	Ip6dns1             string            `json:"ip6dns1,omitempty"`
+	Ip6dns2             string            `json:"ip6dns2,omitempty"`
+	Localstorageenabled bool              `json:"localstorageenabled,omitempty"`
+	Name                string            `json:"name,omitempty"`
+	Networktype         string            `json:"networktype,omitempty"`
+	Resourcedetails     map[string]string `json:"resourcedetails,omitempty"`
+	Tags                []struct {
 		Account      string `json:"account,omitempty"`
 		Customer     string `json:"customer,omitempty"`
 		Domain       string `json:"domain,omitempty"`

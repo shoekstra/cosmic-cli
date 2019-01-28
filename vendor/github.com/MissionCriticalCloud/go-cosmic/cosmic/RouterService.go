@@ -110,6 +110,8 @@ type DestroyRouterResponse struct {
 	Ip6dns1             string `json:"ip6dns1,omitempty"`
 	Ip6dns2             string `json:"ip6dns2,omitempty"`
 	Isredundantrouter   bool   `json:"isredundantrouter,omitempty"`
+	Laststartdate       string `json:"laststartdate,omitempty"`
+	Laststartversion    string `json:"laststartversion,omitempty"`
 	Linklocalip         string `json:"linklocalip,omitempty"`
 	Linklocalmacaddress string `json:"linklocalmacaddress,omitempty"`
 	Linklocalnetmask    string `json:"linklocalnetmask,omitempty"`
@@ -148,6 +150,7 @@ type DestroyRouterResponse struct {
 	Redundantstate      string `json:"redundantstate,omitempty"`
 	Requiresupgrade     bool   `json:"requiresupgrade,omitempty"`
 	Role                string `json:"role,omitempty"`
+	Routerunicastid     int64  `json:"routerunicastid,omitempty"`
 	Scriptsversion      string `json:"scriptsversion,omitempty"`
 	Serviceofferingid   string `json:"serviceofferingid,omitempty"`
 	Serviceofferingname string `json:"serviceofferingname,omitempty"`
@@ -246,6 +249,8 @@ type RebootRouterResponse struct {
 	Ip6dns1             string `json:"ip6dns1,omitempty"`
 	Ip6dns2             string `json:"ip6dns2,omitempty"`
 	Isredundantrouter   bool   `json:"isredundantrouter,omitempty"`
+	Laststartdate       string `json:"laststartdate,omitempty"`
+	Laststartversion    string `json:"laststartversion,omitempty"`
 	Linklocalip         string `json:"linklocalip,omitempty"`
 	Linklocalmacaddress string `json:"linklocalmacaddress,omitempty"`
 	Linklocalnetmask    string `json:"linklocalnetmask,omitempty"`
@@ -284,6 +289,7 @@ type RebootRouterResponse struct {
 	Redundantstate      string `json:"redundantstate,omitempty"`
 	Requiresupgrade     bool   `json:"requiresupgrade,omitempty"`
 	Role                string `json:"role,omitempty"`
+	Routerunicastid     int64  `json:"routerunicastid,omitempty"`
 	Scriptsversion      string `json:"scriptsversion,omitempty"`
 	Serviceofferingid   string `json:"serviceofferingid,omitempty"`
 	Serviceofferingname string `json:"serviceofferingname,omitempty"`
@@ -382,6 +388,8 @@ type StartRouterResponse struct {
 	Ip6dns1             string `json:"ip6dns1,omitempty"`
 	Ip6dns2             string `json:"ip6dns2,omitempty"`
 	Isredundantrouter   bool   `json:"isredundantrouter,omitempty"`
+	Laststartdate       string `json:"laststartdate,omitempty"`
+	Laststartversion    string `json:"laststartversion,omitempty"`
 	Linklocalip         string `json:"linklocalip,omitempty"`
 	Linklocalmacaddress string `json:"linklocalmacaddress,omitempty"`
 	Linklocalnetmask    string `json:"linklocalnetmask,omitempty"`
@@ -420,6 +428,7 @@ type StartRouterResponse struct {
 	Redundantstate      string `json:"redundantstate,omitempty"`
 	Requiresupgrade     bool   `json:"requiresupgrade,omitempty"`
 	Role                string `json:"role,omitempty"`
+	Routerunicastid     int64  `json:"routerunicastid,omitempty"`
 	Scriptsversion      string `json:"scriptsversion,omitempty"`
 	Serviceofferingid   string `json:"serviceofferingid,omitempty"`
 	Serviceofferingname string `json:"serviceofferingname,omitempty"`
@@ -529,6 +538,8 @@ type StopRouterResponse struct {
 	Ip6dns1             string `json:"ip6dns1,omitempty"`
 	Ip6dns2             string `json:"ip6dns2,omitempty"`
 	Isredundantrouter   bool   `json:"isredundantrouter,omitempty"`
+	Laststartdate       string `json:"laststartdate,omitempty"`
+	Laststartversion    string `json:"laststartversion,omitempty"`
 	Linklocalip         string `json:"linklocalip,omitempty"`
 	Linklocalmacaddress string `json:"linklocalmacaddress,omitempty"`
 	Linklocalnetmask    string `json:"linklocalnetmask,omitempty"`
@@ -567,6 +578,7 @@ type StopRouterResponse struct {
 	Redundantstate      string `json:"redundantstate,omitempty"`
 	Requiresupgrade     bool   `json:"requiresupgrade,omitempty"`
 	Role                string `json:"role,omitempty"`
+	Routerunicastid     int64  `json:"routerunicastid,omitempty"`
 	Scriptsversion      string `json:"scriptsversion,omitempty"`
 	Serviceofferingid   string `json:"serviceofferingid,omitempty"`
 	Serviceofferingname string `json:"serviceofferingname,omitempty"`
@@ -929,6 +941,8 @@ type Router struct {
 	Ip6dns1             string `json:"ip6dns1,omitempty"`
 	Ip6dns2             string `json:"ip6dns2,omitempty"`
 	Isredundantrouter   bool   `json:"isredundantrouter,omitempty"`
+	Laststartdate       string `json:"laststartdate,omitempty"`
+	Laststartversion    string `json:"laststartversion,omitempty"`
 	Linklocalip         string `json:"linklocalip,omitempty"`
 	Linklocalmacaddress string `json:"linklocalmacaddress,omitempty"`
 	Linklocalnetmask    string `json:"linklocalnetmask,omitempty"`
@@ -967,6 +981,7 @@ type Router struct {
 	Redundantstate      string `json:"redundantstate,omitempty"`
 	Requiresupgrade     bool   `json:"requiresupgrade,omitempty"`
 	Role                string `json:"role,omitempty"`
+	Routerunicastid     int64  `json:"routerunicastid,omitempty"`
 	Scriptsversion      string `json:"scriptsversion,omitempty"`
 	Serviceofferingid   string `json:"serviceofferingid,omitempty"`
 	Serviceofferingname string `json:"serviceofferingname,omitempty"`
@@ -1055,6 +1070,8 @@ type ChangeServiceForRouterResponse struct {
 	Ip6dns1             string `json:"ip6dns1,omitempty"`
 	Ip6dns2             string `json:"ip6dns2,omitempty"`
 	Isredundantrouter   bool   `json:"isredundantrouter,omitempty"`
+	Laststartdate       string `json:"laststartdate,omitempty"`
+	Laststartversion    string `json:"laststartversion,omitempty"`
 	Linklocalip         string `json:"linklocalip,omitempty"`
 	Linklocalmacaddress string `json:"linklocalmacaddress,omitempty"`
 	Linklocalnetmask    string `json:"linklocalnetmask,omitempty"`
@@ -1093,6 +1110,7 @@ type ChangeServiceForRouterResponse struct {
 	Redundantstate      string `json:"redundantstate,omitempty"`
 	Requiresupgrade     bool   `json:"requiresupgrade,omitempty"`
 	Role                string `json:"role,omitempty"`
+	Routerunicastid     int64  `json:"routerunicastid,omitempty"`
 	Scriptsversion      string `json:"scriptsversion,omitempty"`
 	Serviceofferingid   string `json:"serviceofferingid,omitempty"`
 	Serviceofferingname string `json:"serviceofferingname,omitempty"`

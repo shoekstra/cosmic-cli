@@ -75,7 +75,6 @@ type Capability struct {
 	Kvmsnapshotenabled          bool   `json:"kvmsnapshotenabled,omitempty"`
 	Projectinviterequired       bool   `json:"projectinviterequired,omitempty"`
 	Regionsecondaryenabled      bool   `json:"regionsecondaryenabled,omitempty"`
-	Securitygroupsenabled       bool   `json:"securitygroupsenabled,omitempty"`
 	SupportELB                  string `json:"supportELB,omitempty"`
 	Userpublictemplateenabled   bool   `json:"userpublictemplateenabled,omitempty"`
 	Xenserverdeploymentsenabled bool   `json:"xenserverdeploymentsenabled,omitempty"`

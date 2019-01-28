@@ -27,7 +27,7 @@
 
 [[constraint]]
   name = "github.com/MissionCriticalCloud/go-cosmic"
-  version = "0.1.2"
+  version = "=6.2.6"
 
 [[constraint]]
   branch = "master"

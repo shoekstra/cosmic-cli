@@ -153,6 +153,7 @@ type AssociateIpAddressResponse struct {
 	JobID                 string `json:"jobid,omitempty"`
 	Account               string `json:"account,omitempty"`
 	Aclid                 string `json:"aclid,omitempty"`
+	Aclname               string `json:"aclname,omitempty"`
 	Allocated             string `json:"allocated,omitempty"`
 	Associatednetworkid   string `json:"associatednetworkid,omitempty"`
 	Associatednetworkname string `json:"associatednetworkname,omitempty"`
@@ -350,6 +351,7 @@ type UpdateIpAddressResponse struct {
 	JobID                 string `json:"jobid,omitempty"`
 	Account               string `json:"account,omitempty"`
 	Aclid                 string `json:"aclid,omitempty"`
+	Aclname               string `json:"aclname,omitempty"`
 	Allocated             string `json:"allocated,omitempty"`
 	Associatednetworkid   string `json:"associatednetworkid,omitempty"`
 	Associatednetworkname string `json:"associatednetworkname,omitempty"`
@@ -724,6 +726,7 @@ type ListPublicIpAddressesResponse struct {
 type PublicIpAddress struct {
 	Account               string `json:"account,omitempty"`
 	Aclid                 string `json:"aclid,omitempty"`
+	Aclname               string `json:"aclname,omitempty"`
 	Allocated             string `json:"allocated,omitempty"`
 	Associatednetworkid   string `json:"associatednetworkid,omitempty"`
 	Associatednetworkname string `json:"associatednetworkname,omitempty"`
