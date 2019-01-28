@@ -67,9 +67,17 @@ func (p *CreateDiskOfferingParams) toURLValues() url.Values {
 		vv := strconv.Itoa(v.(int))
 		u.Set("hypervisorsnapshotreserve", vv)
 	}
+	if v, found := p.p["iopsratepergb"]; found {
+		vv := strconv.FormatBool(v.(bool))
+		u.Set("iopsratepergb", vv)
+	}
 	if v, found := p.p["iopsreadrate"]; found {
 		vv := strconv.FormatInt(v.(int64), 10)
 		u.Set("iopsreadrate", vv)
+	}
+	if v, found := p.p["iopstotalrate"]; found {
+		vv := strconv.FormatInt(v.(int64), 10)
+		u.Set("iopstotalrate", vv)
 	}
 	if v, found := p.p["iopswriterate"]; found {
 		vv := strconv.FormatInt(v.(int64), 10)
@@ -161,11 +169,25 @@ func (p *CreateDiskOfferingParams) SetHypervisorsnapshotreserve(v int) {
 	p.p["hypervisorsnapshotreserve"] = v
 }
 
+func (p *CreateDiskOfferingParams) SetIopsratepergb(v bool) {
+	if p.p == nil {
+		p.p = make(map[string]interface{})
+	}
+	p.p["iopsratepergb"] = v
+}
+
 func (p *CreateDiskOfferingParams) SetIopsreadrate(v int64) {
 	if p.p == nil {
 		p.p = make(map[string]interface{})
 	}
 	p.p["iopsreadrate"] = v
+}
+
+func (p *CreateDiskOfferingParams) SetIopstotalrate(v int64) {
+	if p.p == nil {
+		p.p = make(map[string]interface{})
+	}
+	p.p["iopstotalrate"] = v
 }
 
 func (p *CreateDiskOfferingParams) SetIopswriterate(v int64) {
@@ -246,7 +268,9 @@ type CreateDiskOfferingResponse struct {
 	Created                   string `json:"created,omitempty"`
 	DiskBytesReadRate         int64  `json:"diskBytesReadRate,omitempty"`
 	DiskBytesWriteRate        int64  `json:"diskBytesWriteRate,omitempty"`
+	DiskIopsRatePerGb         bool   `json:"diskIopsRatePerGb,omitempty"`
 	DiskIopsReadRate          int64  `json:"diskIopsReadRate,omitempty"`
+	DiskIopsTotalRate         int64  `json:"diskIopsTotalRate,omitempty"`
 	DiskIopsWriteRate         int64  `json:"diskIopsWriteRate,omitempty"`
 	Disksize                  int64  `json:"disksize,omitempty"`
 	Displayoffering           bool   `json:"displayoffering,omitempty"`
@@ -407,7 +431,9 @@ type UpdateDiskOfferingResponse struct {
 	Created                   string `json:"created,omitempty"`
 	DiskBytesReadRate         int64  `json:"diskBytesReadRate,omitempty"`
 	DiskBytesWriteRate        int64  `json:"diskBytesWriteRate,omitempty"`
+	DiskIopsRatePerGb         bool   `json:"diskIopsRatePerGb,omitempty"`
 	DiskIopsReadRate          int64  `json:"diskIopsReadRate,omitempty"`
+	DiskIopsTotalRate         int64  `json:"diskIopsTotalRate,omitempty"`
 	DiskIopsWriteRate         int64  `json:"diskIopsWriteRate,omitempty"`
 	Disksize                  int64  `json:"disksize,omitempty"`
 	Displayoffering           bool   `json:"displayoffering,omitempty"`
@@ -650,7 +676,9 @@ type DiskOffering struct {
 	Created                   string `json:"created,omitempty"`
 	DiskBytesReadRate         int64  `json:"diskBytesReadRate,omitempty"`
 	DiskBytesWriteRate        int64  `json:"diskBytesWriteRate,omitempty"`
+	DiskIopsRatePerGb         bool   `json:"diskIopsRatePerGb,omitempty"`
 	DiskIopsReadRate          int64  `json:"diskIopsReadRate,omitempty"`
+	DiskIopsTotalRate         int64  `json:"diskIopsTotalRate,omitempty"`
 	DiskIopsWriteRate         int64  `json:"diskIopsWriteRate,omitempty"`
 	Disksize                  int64  `json:"disksize,omitempty"`
 	Displayoffering           bool   `json:"displayoffering,omitempty"`

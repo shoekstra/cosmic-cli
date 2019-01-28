@@ -102,7 +102,6 @@ type CosmicClient struct {
 	Resourcetags     *ResourcetagsService
 	Router           *RouterService
 	SSH              *SSHService
-	SecurityGroup    *SecurityGroupService
 	ServiceOffering  *ServiceOfferingService
 	Snapshot         *SnapshotService
 	StoragePool      *StoragePoolService
@@ -171,7 +170,6 @@ func newClient(apiurl string, apikey string, secret string, async bool, tlsConfi
 	cs.Resourcetags = NewResourcetagsService(cs)
 	cs.Router = NewRouterService(cs)
 	cs.SSH = NewSSHService(cs)
-	cs.SecurityGroup = NewSecurityGroupService(cs)
 	cs.ServiceOffering = NewServiceOfferingService(cs)
 	cs.Snapshot = NewSnapshotService(cs)
 	cs.StoragePool = NewStoragePoolService(cs)
@@ -685,14 +683,6 @@ type SSHService struct {
 
 func NewSSHService(cs *CosmicClient) *SSHService {
 	return &SSHService{cs: cs}
-}
-
-type SecurityGroupService struct {
-	cs *CosmicClient
-}
-
-func NewSecurityGroupService(cs *CosmicClient) *SecurityGroupService {
-	return &SecurityGroupService{cs: cs}
 }
 
 type ServiceOfferingService struct {

@@ -168,7 +168,6 @@ type HypervisorCapability struct {
 	Maxdatavolumeslimit  int    `json:"maxdatavolumeslimit,omitempty"`
 	Maxguestslimit       int64  `json:"maxguestslimit,omitempty"`
 	Maxhostspercluster   int    `json:"maxhostspercluster,omitempty"`
-	Securitygroupenabled bool   `json:"securitygroupenabled,omitempty"`
 	Storagemotionenabled bool   `json:"storagemotionenabled,omitempty"`
 }
 
@@ -188,10 +187,6 @@ func (p *UpdateHypervisorCapabilitiesParams) toURLValues() url.Values {
 		vv := strconv.FormatInt(v.(int64), 10)
 		u.Set("maxguestslimit", vv)
 	}
-	if v, found := p.p["securitygroupenabled"]; found {
-		vv := strconv.FormatBool(v.(bool))
-		u.Set("securitygroupenabled", vv)
-	}
 	return u
 }
 
@@ -207,13 +202,6 @@ func (p *UpdateHypervisorCapabilitiesParams) SetMaxguestslimit(v int64) {
 		p.p = make(map[string]interface{})
 	}
 	p.p["maxguestslimit"] = v
-}
-
-func (p *UpdateHypervisorCapabilitiesParams) SetSecuritygroupenabled(v bool) {
-	if p.p == nil {
-		p.p = make(map[string]interface{})
-	}
-	p.p["securitygroupenabled"] = v
 }
 
 // You should always use this function to get a new UpdateHypervisorCapabilitiesParams instance,
@@ -245,7 +233,6 @@ type UpdateHypervisorCapabilitiesResponse struct {
 	Maxdatavolumeslimit  int    `json:"maxdatavolumeslimit,omitempty"`
 	Maxguestslimit       int64  `json:"maxguestslimit,omitempty"`
 	Maxhostspercluster   int    `json:"maxhostspercluster,omitempty"`
-	Securitygroupenabled bool   `json:"securitygroupenabled,omitempty"`
 	Storagemotionenabled bool   `json:"storagemotionenabled,omitempty"`
 }
 

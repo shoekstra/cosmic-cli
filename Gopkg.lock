@@ -4,8 +4,8 @@
 [[projects]]
   name = "github.com/MissionCriticalCloud/go-cosmic"
   packages = ["cosmic"]
-  revision = "01274ec7730a90c7ff10bb432797ea37546acce7"
-  version = "v0.1.2"
+  revision = "969a5a5d2ccffaa8232705f96b3b6042c1cbc7a6"
+  version = "v6.2.6"
 
 [[projects]]
   branch = "master"
@@ -145,6 +145,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "c803a8aa3519c9f2fd50df0afd14524db5820b788b5807ea1494712fa9ec6285"
+  inputs-digest = "c485ccdd700a19029a520d5955a0a71dd49bd29f3537680d9921798bcfeadeb3"
   solver-name = "gps-cdcl"
   solver-version = 1

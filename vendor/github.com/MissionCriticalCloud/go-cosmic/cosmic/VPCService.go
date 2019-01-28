@@ -938,6 +938,13 @@ func (p *CreateVPCParams) toURLValues() url.Values {
 	if v, found := p.p["account"]; found {
 		u.Set("account", v.(string))
 	}
+	if v, found := p.p["advertinterval"]; found {
+		vv := strconv.FormatInt(v.(int64), 10)
+		u.Set("advertinterval", vv)
+	}
+	if v, found := p.p["advertmethod"]; found {
+		u.Set("advertmethod", v.(string))
+	}
 	if v, found := p.p["cidr"]; found {
 		u.Set("cidr", v.(string))
 	}
@@ -984,6 +991,20 @@ func (p *CreateVPCParams) SetAccount(v string) {
 		p.p = make(map[string]interface{})
 	}
 	p.p["account"] = v
+}
+
+func (p *CreateVPCParams) SetAdvertinterval(v int64) {
+	if p.p == nil {
+		p.p = make(map[string]interface{})
+	}
+	p.p["advertinterval"] = v
+}
+
+func (p *CreateVPCParams) SetAdvertmethod(v string) {
+	if p.p == nil {
+		p.p = make(map[string]interface{})
+	}
+	p.p["advertmethod"] = v
 }
 
 func (p *CreateVPCParams) SetCidr(v string) {
@@ -1118,24 +1139,29 @@ func (s *VPCService) CreateVPC(p *CreateVPCParams) (*CreateVPCResponse, error) {
 }
 
 type CreateVPCResponse struct {
-	JobID       string `json:"jobid,omitempty"`
-	Account     string `json:"account,omitempty"`
-	Cidr        string `json:"cidr,omitempty"`
-	Created     string `json:"created,omitempty"`
-	Displaytext string `json:"displaytext,omitempty"`
-	Domain      string `json:"domain,omitempty"`
-	Domainid    string `json:"domainid,omitempty"`
-	Fordisplay  bool   `json:"fordisplay,omitempty"`
-	Id          string `json:"id,omitempty"`
-	Name        string `json:"name,omitempty"`
-	Network     []struct {
+	JobID          string `json:"jobid,omitempty"`
+	Account        string `json:"account,omitempty"`
+	Advertinterval int64  `json:"advertinterval,omitempty"`
+	Advertmethod   string `json:"advertmethod,omitempty"`
+	Cidr           string `json:"cidr,omitempty"`
+	Created        string `json:"created,omitempty"`
+	Displaytext    string `json:"displaytext,omitempty"`
+	Domain         string `json:"domain,omitempty"`
+	Domainid       string `json:"domainid,omitempty"`
+	Fordisplay     bool   `json:"fordisplay,omitempty"`
+	Id             string `json:"id,omitempty"`
+	Name           string `json:"name,omitempty"`
+	Network        []struct {
 		Account                     string `json:"account,omitempty"`
 		Aclid                       string `json:"aclid,omitempty"`
+		Aclname                     string `json:"aclname,omitempty"`
 		Acltype                     string `json:"acltype,omitempty"`
 		Broadcastdomaintype         string `json:"broadcastdomaintype,omitempty"`
 		Broadcasturi                string `json:"broadcasturi,omitempty"`
 		Canusefordeploy             bool   `json:"canusefordeploy,omitempty"`
 		Cidr                        string `json:"cidr,omitempty"`
+		Dhcpbootfilename            string `json:"dhcpbootfilename,omitempty"`
+		Dhcptftpserver              string `json:"dhcptftpserver,omitempty"`
 		Displaynetwork              bool   `json:"displaynetwork,omitempty"`
 		Displaytext                 string `json:"displaytext,omitempty"`
 		Dns1                        string `json:"dns1,omitempty"`
@@ -1394,24 +1420,29 @@ func (s *VPCService) RestartVPC(p *RestartVPCParams) (*RestartVPCResponse, error
 }
 
 type RestartVPCResponse struct {
-	JobID       string `json:"jobid,omitempty"`
-	Account     string `json:"account,omitempty"`
-	Cidr        string `json:"cidr,omitempty"`
-	Created     string `json:"created,omitempty"`
-	Displaytext string `json:"displaytext,omitempty"`
-	Domain      string `json:"domain,omitempty"`
-	Domainid    string `json:"domainid,omitempty"`
-	Fordisplay  bool   `json:"fordisplay,omitempty"`
-	Id          string `json:"id,omitempty"`
-	Name        string `json:"name,omitempty"`
-	Network     []struct {
+	JobID          string `json:"jobid,omitempty"`
+	Account        string `json:"account,omitempty"`
+	Advertinterval int64  `json:"advertinterval,omitempty"`
+	Advertmethod   string `json:"advertmethod,omitempty"`
+	Cidr           string `json:"cidr,omitempty"`
+	Created        string `json:"created,omitempty"`
+	Displaytext    string `json:"displaytext,omitempty"`
+	Domain         string `json:"domain,omitempty"`
+	Domainid       string `json:"domainid,omitempty"`
+	Fordisplay     bool   `json:"fordisplay,omitempty"`
+	Id             string `json:"id,omitempty"`
+	Name           string `json:"name,omitempty"`
+	Network        []struct {
 		Account                     string `json:"account,omitempty"`
 		Aclid                       string `json:"aclid,omitempty"`
+		Aclname                     string `json:"aclname,omitempty"`
 		Acltype                     string `json:"acltype,omitempty"`
 		Broadcastdomaintype         string `json:"broadcastdomaintype,omitempty"`
 		Broadcasturi                string `json:"broadcasturi,omitempty"`
 		Canusefordeploy             bool   `json:"canusefordeploy,omitempty"`
 		Cidr                        string `json:"cidr,omitempty"`
+		Dhcpbootfilename            string `json:"dhcpbootfilename,omitempty"`
+		Dhcptftpserver              string `json:"dhcptftpserver,omitempty"`
 		Displaynetwork              bool   `json:"displaynetwork,omitempty"`
 		Displaytext                 string `json:"displaytext,omitempty"`
 		Dns1                        string `json:"dns1,omitempty"`
@@ -1536,6 +1567,13 @@ func (p *UpdateVPCParams) toURLValues() url.Values {
 	if p.p == nil {
 		return u
 	}
+	if v, found := p.p["advertinterval"]; found {
+		vv := strconv.FormatInt(v.(int64), 10)
+		u.Set("advertinterval", vv)
+	}
+	if v, found := p.p["advertmethod"]; found {
+		u.Set("advertmethod", v.(string))
+	}
 	if v, found := p.p["customid"]; found {
 		u.Set("customid", v.(string))
 	}
@@ -1562,6 +1600,20 @@ func (p *UpdateVPCParams) toURLValues() url.Values {
 		u.Set("vpcofferingid", v.(string))
 	}
 	return u
+}
+
+func (p *UpdateVPCParams) SetAdvertinterval(v int64) {
+	if p.p == nil {
+		p.p = make(map[string]interface{})
+	}
+	p.p["advertinterval"] = v
+}
+
+func (p *UpdateVPCParams) SetAdvertmethod(v string) {
+	if p.p == nil {
+		p.p = make(map[string]interface{})
+	}
+	p.p["advertmethod"] = v
 }
 
 func (p *UpdateVPCParams) SetCustomid(v string) {
@@ -1664,24 +1716,29 @@ func (s *VPCService) UpdateVPC(p *UpdateVPCParams) (*UpdateVPCResponse, error) {
 }
 
 type UpdateVPCResponse struct {
-	JobID       string `json:"jobid,omitempty"`
-	Account     string `json:"account,omitempty"`
-	Cidr        string `json:"cidr,omitempty"`
-	Created     string `json:"created,omitempty"`
-	Displaytext string `json:"displaytext,omitempty"`
-	Domain      string `json:"domain,omitempty"`
-	Domainid    string `json:"domainid,omitempty"`
-	Fordisplay  bool   `json:"fordisplay,omitempty"`
-	Id          string `json:"id,omitempty"`
-	Name        string `json:"name,omitempty"`
-	Network     []struct {
+	JobID          string `json:"jobid,omitempty"`
+	Account        string `json:"account,omitempty"`
+	Advertinterval int64  `json:"advertinterval,omitempty"`
+	Advertmethod   string `json:"advertmethod,omitempty"`
+	Cidr           string `json:"cidr,omitempty"`
+	Created        string `json:"created,omitempty"`
+	Displaytext    string `json:"displaytext,omitempty"`
+	Domain         string `json:"domain,omitempty"`
+	Domainid       string `json:"domainid,omitempty"`
+	Fordisplay     bool   `json:"fordisplay,omitempty"`
+	Id             string `json:"id,omitempty"`
+	Name           string `json:"name,omitempty"`
+	Network        []struct {
 		Account                     string `json:"account,omitempty"`
 		Aclid                       string `json:"aclid,omitempty"`
+		Aclname                     string `json:"aclname,omitempty"`
 		Acltype                     string `json:"acltype,omitempty"`
 		Broadcastdomaintype         string `json:"broadcastdomaintype,omitempty"`
 		Broadcasturi                string `json:"broadcasturi,omitempty"`
 		Canusefordeploy             bool   `json:"canusefordeploy,omitempty"`
 		Cidr                        string `json:"cidr,omitempty"`
+		Dhcpbootfilename            string `json:"dhcpbootfilename,omitempty"`
+		Dhcptftpserver              string `json:"dhcptftpserver,omitempty"`
 		Displaynetwork              bool   `json:"displaynetwork,omitempty"`
 		Displaytext                 string `json:"displaytext,omitempty"`
 		Dns1                        string `json:"dns1,omitempty"`
@@ -2755,23 +2812,28 @@ type ListVPCsResponse struct {
 }
 
 type VPC struct {
-	Account     string `json:"account,omitempty"`
-	Cidr        string `json:"cidr,omitempty"`
-	Created     string `json:"created,omitempty"`
-	Displaytext string `json:"displaytext,omitempty"`
-	Domain      string `json:"domain,omitempty"`
-	Domainid    string `json:"domainid,omitempty"`
-	Fordisplay  bool   `json:"fordisplay,omitempty"`
-	Id          string `json:"id,omitempty"`
-	Name        string `json:"name,omitempty"`
-	Network     []struct {
+	Account        string `json:"account,omitempty"`
+	Advertinterval int64  `json:"advertinterval,omitempty"`
+	Advertmethod   string `json:"advertmethod,omitempty"`
+	Cidr           string `json:"cidr,omitempty"`
+	Created        string `json:"created,omitempty"`
+	Displaytext    string `json:"displaytext,omitempty"`
+	Domain         string `json:"domain,omitempty"`
+	Domainid       string `json:"domainid,omitempty"`
+	Fordisplay     bool   `json:"fordisplay,omitempty"`
+	Id             string `json:"id,omitempty"`
+	Name           string `json:"name,omitempty"`
+	Network        []struct {
 		Account                     string `json:"account,omitempty"`
 		Aclid                       string `json:"aclid,omitempty"`
+		Aclname                     string `json:"aclname,omitempty"`
 		Acltype                     string `json:"acltype,omitempty"`
 		Broadcastdomaintype         string `json:"broadcastdomaintype,omitempty"`
 		Broadcasturi                string `json:"broadcasturi,omitempty"`
 		Canusefordeploy             bool   `json:"canusefordeploy,omitempty"`
 		Cidr                        string `json:"cidr,omitempty"`
+		Dhcpbootfilename            string `json:"dhcpbootfilename,omitempty"`
+		Dhcptftpserver              string `json:"dhcptftpserver,omitempty"`
 		Displaynetwork              bool   `json:"displaynetwork,omitempty"`
 		Displaytext                 string `json:"displaytext,omitempty"`
 		Dns1                        string `json:"dns1,omitempty"`

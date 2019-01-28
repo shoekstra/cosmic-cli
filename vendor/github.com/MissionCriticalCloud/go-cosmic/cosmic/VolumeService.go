@@ -256,14 +256,18 @@ type AttachVolumeResponse struct {
 	Deviceid                   int64  `json:"deviceid,omitempty"`
 	DiskBytesReadRate          int64  `json:"diskBytesReadRate,omitempty"`
 	DiskBytesWriteRate         int64  `json:"diskBytesWriteRate,omitempty"`
+	DiskIopsRatePerGb          bool   `json:"diskIopsRatePerGb,omitempty"`
 	DiskIopsReadRate           int64  `json:"diskIopsReadRate,omitempty"`
+	DiskIopsTotalRate          int64  `json:"diskIopsTotalRate,omitempty"`
 	DiskIopsWriteRate          int64  `json:"diskIopsWriteRate,omitempty"`
+	Diskcontroller             string `json:"diskcontroller,omitempty"`
 	Diskofferingdisplaytext    string `json:"diskofferingdisplaytext,omitempty"`
 	Diskofferingid             string `json:"diskofferingid,omitempty"`
 	Diskofferingname           string `json:"diskofferingname,omitempty"`
 	Displayvolume              bool   `json:"displayvolume,omitempty"`
 	Domain                     string `json:"domain,omitempty"`
 	Domainid                   string `json:"domainid,omitempty"`
+	Format                     string `json:"format,omitempty"`
 	Hypervisor                 string `json:"hypervisor,omitempty"`
 	Id                         string `json:"id,omitempty"`
 	Isextractable              bool   `json:"isextractable,omitempty"`
@@ -277,7 +281,6 @@ type AttachVolumeResponse struct {
 	Project                    string `json:"project,omitempty"`
 	Projectid                  string `json:"projectid,omitempty"`
 	Provisioningtype           string `json:"provisioningtype,omitempty"`
-	Quiescevm                  bool   `json:"quiescevm,omitempty"`
 	Serviceofferingdisplaytext string `json:"serviceofferingdisplaytext,omitempty"`
 	Serviceofferingid          string `json:"serviceofferingid,omitempty"`
 	Serviceofferingname        string `json:"serviceofferingname,omitempty"`
@@ -327,6 +330,9 @@ func (p *CreateVolumeParams) toURLValues() url.Values {
 	if v, found := p.p["customid"]; found {
 		u.Set("customid", v.(string))
 	}
+	if v, found := p.p["diskcontroller"]; found {
+		u.Set("diskcontroller", v.(string))
+	}
 	if v, found := p.p["diskofferingid"]; found {
 		u.Set("diskofferingid", v.(string))
 	}
@@ -336,6 +342,9 @@ func (p *CreateVolumeParams) toURLValues() url.Values {
 	}
 	if v, found := p.p["domainid"]; found {
 		u.Set("domainid", v.(string))
+	}
+	if v, found := p.p["format"]; found {
+		u.Set("format", v.(string))
 	}
 	if v, found := p.p["maxiops"]; found {
 		vv := strconv.FormatInt(v.(int64), 10)
@@ -381,6 +390,13 @@ func (p *CreateVolumeParams) SetCustomid(v string) {
 	p.p["customid"] = v
 }
 
+func (p *CreateVolumeParams) SetDiskcontroller(v string) {
+	if p.p == nil {
+		p.p = make(map[string]interface{})
+	}
+	p.p["diskcontroller"] = v
+}
+
 func (p *CreateVolumeParams) SetDiskofferingid(v string) {
 	if p.p == nil {
 		p.p = make(map[string]interface{})
@@ -400,6 +416,13 @@ func (p *CreateVolumeParams) SetDomainid(v string) {
 		p.p = make(map[string]interface{})
 	}
 	p.p["domainid"] = v
+}
+
+func (p *CreateVolumeParams) SetFormat(v string) {
+	if p.p == nil {
+		p.p = make(map[string]interface{})
+	}
+	p.p["format"] = v
 }
 
 func (p *CreateVolumeParams) SetMaxiops(v int64) {
@@ -510,14 +533,18 @@ type CreateVolumeResponse struct {
 	Deviceid                   int64  `json:"deviceid,omitempty"`
 	DiskBytesReadRate          int64  `json:"diskBytesReadRate,omitempty"`
 	DiskBytesWriteRate         int64  `json:"diskBytesWriteRate,omitempty"`
+	DiskIopsRatePerGb          bool   `json:"diskIopsRatePerGb,omitempty"`
 	DiskIopsReadRate           int64  `json:"diskIopsReadRate,omitempty"`
+	DiskIopsTotalRate          int64  `json:"diskIopsTotalRate,omitempty"`
 	DiskIopsWriteRate          int64  `json:"diskIopsWriteRate,omitempty"`
+	Diskcontroller             string `json:"diskcontroller,omitempty"`
 	Diskofferingdisplaytext    string `json:"diskofferingdisplaytext,omitempty"`
 	Diskofferingid             string `json:"diskofferingid,omitempty"`
 	Diskofferingname           string `json:"diskofferingname,omitempty"`
 	Displayvolume              bool   `json:"displayvolume,omitempty"`
 	Domain                     string `json:"domain,omitempty"`
 	Domainid                   string `json:"domainid,omitempty"`
+	Format                     string `json:"format,omitempty"`
 	Hypervisor                 string `json:"hypervisor,omitempty"`
 	Id                         string `json:"id,omitempty"`
 	Isextractable              bool   `json:"isextractable,omitempty"`
@@ -531,7 +558,6 @@ type CreateVolumeResponse struct {
 	Project                    string `json:"project,omitempty"`
 	Projectid                  string `json:"projectid,omitempty"`
 	Provisioningtype           string `json:"provisioningtype,omitempty"`
-	Quiescevm                  bool   `json:"quiescevm,omitempty"`
 	Serviceofferingdisplaytext string `json:"serviceofferingdisplaytext,omitempty"`
 	Serviceofferingid          string `json:"serviceofferingid,omitempty"`
 	Serviceofferingname        string `json:"serviceofferingname,omitempty"`
@@ -711,14 +737,18 @@ type DetachVolumeResponse struct {
 	Deviceid                   int64  `json:"deviceid,omitempty"`
 	DiskBytesReadRate          int64  `json:"diskBytesReadRate,omitempty"`
 	DiskBytesWriteRate         int64  `json:"diskBytesWriteRate,omitempty"`
+	DiskIopsRatePerGb          bool   `json:"diskIopsRatePerGb,omitempty"`
 	DiskIopsReadRate           int64  `json:"diskIopsReadRate,omitempty"`
+	DiskIopsTotalRate          int64  `json:"diskIopsTotalRate,omitempty"`
 	DiskIopsWriteRate          int64  `json:"diskIopsWriteRate,omitempty"`
+	Diskcontroller             string `json:"diskcontroller,omitempty"`
 	Diskofferingdisplaytext    string `json:"diskofferingdisplaytext,omitempty"`
 	Diskofferingid             string `json:"diskofferingid,omitempty"`
 	Diskofferingname           string `json:"diskofferingname,omitempty"`
 	Displayvolume              bool   `json:"displayvolume,omitempty"`
 	Domain                     string `json:"domain,omitempty"`
 	Domainid                   string `json:"domainid,omitempty"`
+	Format                     string `json:"format,omitempty"`
 	Hypervisor                 string `json:"hypervisor,omitempty"`
 	Id                         string `json:"id,omitempty"`
 	Isextractable              bool   `json:"isextractable,omitempty"`
@@ -732,7 +762,6 @@ type DetachVolumeResponse struct {
 	Project                    string `json:"project,omitempty"`
 	Projectid                  string `json:"projectid,omitempty"`
 	Provisioningtype           string `json:"provisioningtype,omitempty"`
-	Quiescevm                  bool   `json:"quiescevm,omitempty"`
 	Serviceofferingdisplaytext string `json:"serviceofferingdisplaytext,omitempty"`
 	Serviceofferingid          string `json:"serviceofferingid,omitempty"`
 	Serviceofferingname        string `json:"serviceofferingname,omitempty"`
@@ -979,14 +1008,18 @@ type MigrateVolumeResponse struct {
 	Deviceid                   int64  `json:"deviceid,omitempty"`
 	DiskBytesReadRate          int64  `json:"diskBytesReadRate,omitempty"`
 	DiskBytesWriteRate         int64  `json:"diskBytesWriteRate,omitempty"`
+	DiskIopsRatePerGb          bool   `json:"diskIopsRatePerGb,omitempty"`
 	DiskIopsReadRate           int64  `json:"diskIopsReadRate,omitempty"`
+	DiskIopsTotalRate          int64  `json:"diskIopsTotalRate,omitempty"`
 	DiskIopsWriteRate          int64  `json:"diskIopsWriteRate,omitempty"`
+	Diskcontroller             string `json:"diskcontroller,omitempty"`
 	Diskofferingdisplaytext    string `json:"diskofferingdisplaytext,omitempty"`
 	Diskofferingid             string `json:"diskofferingid,omitempty"`
 	Diskofferingname           string `json:"diskofferingname,omitempty"`
 	Displayvolume              bool   `json:"displayvolume,omitempty"`
 	Domain                     string `json:"domain,omitempty"`
 	Domainid                   string `json:"domainid,omitempty"`
+	Format                     string `json:"format,omitempty"`
 	Hypervisor                 string `json:"hypervisor,omitempty"`
 	Id                         string `json:"id,omitempty"`
 	Isextractable              bool   `json:"isextractable,omitempty"`
@@ -1000,7 +1033,6 @@ type MigrateVolumeResponse struct {
 	Project                    string `json:"project,omitempty"`
 	Projectid                  string `json:"projectid,omitempty"`
 	Provisioningtype           string `json:"provisioningtype,omitempty"`
-	Quiescevm                  bool   `json:"quiescevm,omitempty"`
 	Serviceofferingdisplaytext string `json:"serviceofferingdisplaytext,omitempty"`
 	Serviceofferingid          string `json:"serviceofferingid,omitempty"`
 	Serviceofferingname        string `json:"serviceofferingname,omitempty"`
@@ -1164,14 +1196,18 @@ type ResizeVolumeResponse struct {
 	Deviceid                   int64  `json:"deviceid,omitempty"`
 	DiskBytesReadRate          int64  `json:"diskBytesReadRate,omitempty"`
 	DiskBytesWriteRate         int64  `json:"diskBytesWriteRate,omitempty"`
+	DiskIopsRatePerGb          bool   `json:"diskIopsRatePerGb,omitempty"`
 	DiskIopsReadRate           int64  `json:"diskIopsReadRate,omitempty"`
+	DiskIopsTotalRate          int64  `json:"diskIopsTotalRate,omitempty"`
 	DiskIopsWriteRate          int64  `json:"diskIopsWriteRate,omitempty"`
+	Diskcontroller             string `json:"diskcontroller,omitempty"`
 	Diskofferingdisplaytext    string `json:"diskofferingdisplaytext,omitempty"`
 	Diskofferingid             string `json:"diskofferingid,omitempty"`
 	Diskofferingname           string `json:"diskofferingname,omitempty"`
 	Displayvolume              bool   `json:"displayvolume,omitempty"`
 	Domain                     string `json:"domain,omitempty"`
 	Domainid                   string `json:"domainid,omitempty"`
+	Format                     string `json:"format,omitempty"`
 	Hypervisor                 string `json:"hypervisor,omitempty"`
 	Id                         string `json:"id,omitempty"`
 	Isextractable              bool   `json:"isextractable,omitempty"`
@@ -1185,7 +1221,6 @@ type ResizeVolumeResponse struct {
 	Project                    string `json:"project,omitempty"`
 	Projectid                  string `json:"projectid,omitempty"`
 	Provisioningtype           string `json:"provisioningtype,omitempty"`
-	Quiescevm                  bool   `json:"quiescevm,omitempty"`
 	Serviceofferingdisplaytext string `json:"serviceofferingdisplaytext,omitempty"`
 	Serviceofferingid          string `json:"serviceofferingid,omitempty"`
 	Serviceofferingname        string `json:"serviceofferingname,omitempty"`
@@ -1235,6 +1270,9 @@ func (p *UpdateVolumeParams) toURLValues() url.Values {
 	if v, found := p.p["customid"]; found {
 		u.Set("customid", v.(string))
 	}
+	if v, found := p.p["diskcontroller"]; found {
+		u.Set("diskcontroller", v.(string))
+	}
 	if v, found := p.p["displayvolume"]; found {
 		vv := strconv.FormatBool(v.(bool))
 		u.Set("displayvolume", vv)
@@ -1266,6 +1304,13 @@ func (p *UpdateVolumeParams) SetCustomid(v string) {
 		p.p = make(map[string]interface{})
 	}
 	p.p["customid"] = v
+}
+
+func (p *UpdateVolumeParams) SetDiskcontroller(v string) {
+	if p.p == nil {
+		p.p = make(map[string]interface{})
+	}
+	p.p["diskcontroller"] = v
 }
 
 func (p *UpdateVolumeParams) SetDisplayvolume(v bool) {
@@ -1355,14 +1400,18 @@ type UpdateVolumeResponse struct {
 	Deviceid                   int64  `json:"deviceid,omitempty"`
 	DiskBytesReadRate          int64  `json:"diskBytesReadRate,omitempty"`
 	DiskBytesWriteRate         int64  `json:"diskBytesWriteRate,omitempty"`
+	DiskIopsRatePerGb          bool   `json:"diskIopsRatePerGb,omitempty"`
 	DiskIopsReadRate           int64  `json:"diskIopsReadRate,omitempty"`
+	DiskIopsTotalRate          int64  `json:"diskIopsTotalRate,omitempty"`
 	DiskIopsWriteRate          int64  `json:"diskIopsWriteRate,omitempty"`
+	Diskcontroller             string `json:"diskcontroller,omitempty"`
 	Diskofferingdisplaytext    string `json:"diskofferingdisplaytext,omitempty"`
 	Diskofferingid             string `json:"diskofferingid,omitempty"`
 	Diskofferingname           string `json:"diskofferingname,omitempty"`
 	Displayvolume              bool   `json:"displayvolume,omitempty"`
 	Domain                     string `json:"domain,omitempty"`
 	Domainid                   string `json:"domainid,omitempty"`
+	Format                     string `json:"format,omitempty"`
 	Hypervisor                 string `json:"hypervisor,omitempty"`
 	Id                         string `json:"id,omitempty"`
 	Isextractable              bool   `json:"isextractable,omitempty"`
@@ -1376,7 +1425,6 @@ type UpdateVolumeResponse struct {
 	Project                    string `json:"project,omitempty"`
 	Projectid                  string `json:"projectid,omitempty"`
 	Provisioningtype           string `json:"provisioningtype,omitempty"`
-	Quiescevm                  bool   `json:"quiescevm,omitempty"`
 	Serviceofferingdisplaytext string `json:"serviceofferingdisplaytext,omitempty"`
 	Serviceofferingid          string `json:"serviceofferingid,omitempty"`
 	Serviceofferingname        string `json:"serviceofferingname,omitempty"`
@@ -1579,14 +1627,18 @@ type UploadVolumeResponse struct {
 	Deviceid                   int64  `json:"deviceid,omitempty"`
 	DiskBytesReadRate          int64  `json:"diskBytesReadRate,omitempty"`
 	DiskBytesWriteRate         int64  `json:"diskBytesWriteRate,omitempty"`
+	DiskIopsRatePerGb          bool   `json:"diskIopsRatePerGb,omitempty"`
 	DiskIopsReadRate           int64  `json:"diskIopsReadRate,omitempty"`
+	DiskIopsTotalRate          int64  `json:"diskIopsTotalRate,omitempty"`
 	DiskIopsWriteRate          int64  `json:"diskIopsWriteRate,omitempty"`
+	Diskcontroller             string `json:"diskcontroller,omitempty"`
 	Diskofferingdisplaytext    string `json:"diskofferingdisplaytext,omitempty"`
 	Diskofferingid             string `json:"diskofferingid,omitempty"`
 	Diskofferingname           string `json:"diskofferingname,omitempty"`
 	Displayvolume              bool   `json:"displayvolume,omitempty"`
 	Domain                     string `json:"domain,omitempty"`
 	Domainid                   string `json:"domainid,omitempty"`
+	Format                     string `json:"format,omitempty"`
 	Hypervisor                 string `json:"hypervisor,omitempty"`
 	Id                         string `json:"id,omitempty"`
 	Isextractable              bool   `json:"isextractable,omitempty"`
@@ -1600,7 +1652,6 @@ type UploadVolumeResponse struct {
 	Project                    string `json:"project,omitempty"`
 	Projectid                  string `json:"projectid,omitempty"`
 	Provisioningtype           string `json:"provisioningtype,omitempty"`
-	Quiescevm                  bool   `json:"quiescevm,omitempty"`
 	Serviceofferingdisplaytext string `json:"serviceofferingdisplaytext,omitempty"`
 	Serviceofferingid          string `json:"serviceofferingid,omitempty"`
 	Serviceofferingname        string `json:"serviceofferingname,omitempty"`
@@ -1979,14 +2030,18 @@ type Volume struct {
 	Deviceid                   int64  `json:"deviceid,omitempty"`
 	DiskBytesReadRate          int64  `json:"diskBytesReadRate,omitempty"`
 	DiskBytesWriteRate         int64  `json:"diskBytesWriteRate,omitempty"`
+	DiskIopsRatePerGb          bool   `json:"diskIopsRatePerGb,omitempty"`
 	DiskIopsReadRate           int64  `json:"diskIopsReadRate,omitempty"`
+	DiskIopsTotalRate          int64  `json:"diskIopsTotalRate,omitempty"`
 	DiskIopsWriteRate          int64  `json:"diskIopsWriteRate,omitempty"`
+	Diskcontroller             string `json:"diskcontroller,omitempty"`
 	Diskofferingdisplaytext    string `json:"diskofferingdisplaytext,omitempty"`
 	Diskofferingid             string `json:"diskofferingid,omitempty"`
 	Diskofferingname           string `json:"diskofferingname,omitempty"`
 	Displayvolume              bool   `json:"displayvolume,omitempty"`
 	Domain                     string `json:"domain,omitempty"`
 	Domainid                   string `json:"domainid,omitempty"`
+	Format                     string `json:"format,omitempty"`
 	Hypervisor                 string `json:"hypervisor,omitempty"`
 	Id                         string `json:"id,omitempty"`
 	Isextractable              bool   `json:"isextractable,omitempty"`
@@ -2000,7 +2055,6 @@ type Volume struct {
 	Project                    string `json:"project,omitempty"`
 	Projectid                  string `json:"projectid,omitempty"`
 	Provisioningtype           string `json:"provisioningtype,omitempty"`
-	Quiescevm                  bool   `json:"quiescevm,omitempty"`
 	Serviceofferingdisplaytext string `json:"serviceofferingdisplaytext,omitempty"`
 	Serviceofferingid          string `json:"serviceofferingid,omitempty"`
 	Serviceofferingname        string `json:"serviceofferingname,omitempty"`

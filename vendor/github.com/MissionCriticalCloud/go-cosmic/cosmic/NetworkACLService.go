@@ -792,12 +792,18 @@ func (p *UpdateNetworkACLListParams) toURLValues() url.Values {
 	if v, found := p.p["customid"]; found {
 		u.Set("customid", v.(string))
 	}
+	if v, found := p.p["description"]; found {
+		u.Set("description", v.(string))
+	}
 	if v, found := p.p["fordisplay"]; found {
 		vv := strconv.FormatBool(v.(bool))
 		u.Set("fordisplay", vv)
 	}
 	if v, found := p.p["id"]; found {
 		u.Set("id", v.(string))
+	}
+	if v, found := p.p["name"]; found {
+		u.Set("name", v.(string))
 	}
 	return u
 }
@@ -807,6 +813,13 @@ func (p *UpdateNetworkACLListParams) SetCustomid(v string) {
 		p.p = make(map[string]interface{})
 	}
 	p.p["customid"] = v
+}
+
+func (p *UpdateNetworkACLListParams) SetDescription(v string) {
+	if p.p == nil {
+		p.p = make(map[string]interface{})
+	}
+	p.p["description"] = v
 }
 
 func (p *UpdateNetworkACLListParams) SetFordisplay(v bool) {
@@ -821,6 +834,13 @@ func (p *UpdateNetworkACLListParams) SetId(v string) {
 		p.p = make(map[string]interface{})
 	}
 	p.p["id"] = v
+}
+
+func (p *UpdateNetworkACLListParams) SetName(v string) {
+	if p.p == nil {
+		p.p = make(map[string]interface{})
+	}
+	p.p["name"] = v
 }
 
 // You should always use this function to get a new UpdateNetworkACLListParams instance,
