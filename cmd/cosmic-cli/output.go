@@ -32,6 +32,7 @@ func filterMatch(obj interface{}, filter string) bool {
 	if filter == "" {
 		return true
 	}
+
 	filterField, filterString := filterSplit(filter)
 
 	value := ""
@@ -154,8 +155,10 @@ func printTable(cosmicType string, fields []string, result interface{}) {
 	fmt.Printf("Found %d %s.\n", len(slice), cosmicType)
 }
 
-func printResult(outputType, filter, cosmicType string, fields []string, result interface{}) {
-	result = filterOutput(result, filter)
+func printResult(outputType, cosmicType string, filter, fields []string, result interface{}) {
+	for _, f := range filter {
+		result = filterOutput(result, f)
+	}
 	switch {
 	case strings.EqualFold(outputType, "table"):
 		printTable(cosmicType, fields, result)

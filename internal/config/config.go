@@ -27,21 +27,21 @@ import (
 
 // Config contains cosmic-cli options.
 type Config struct {
-	Filter              string `mapstructure:"filter"`
-	Output              string `mapstructure:"output"`
-	Profile             string `mapstructure:"profile"`
-	ReverseSort         bool   `mapstructure:"reverse-sort"`
-	ShowHost            bool   `mapstructure:"show-host"`
-	ShowID              bool   `mapstructure:"show-id"`
-	ShowNetwork         bool   `mapstructure:"show-network"`
-	ShowRedundantStatus bool   `mapstructure:"show-redundant-status"`
-	ShowRestartRequired bool   `mapstructure:"show-restart-required"`
-	ShowSNAT            bool   `mapstructure:"show-snat"`
-	ShowServiceOffering bool   `mapstructure:"show-service-offering"`
-	ShowTemplate        bool   `mapstructure:"show-template"`
-	SortBy              string `mapstructure:"sort-by"`
-	VPCID               string `mapstructure:"vpc-id"`
-	VPCName             string `mapstructure:"vpc-name"`
+	Filter              []string `mapstructure:"filter"`
+	Output              string   `mapstructure:"output"`
+	Profile             string   `mapstructure:"profile"`
+	ReverseSort         bool     `mapstructure:"reverse-sort"`
+	ShowHost            bool     `mapstructure:"show-host"`
+	ShowID              bool     `mapstructure:"show-id"`
+	ShowNetwork         bool     `mapstructure:"show-network"`
+	ShowRedundantStatus bool     `mapstructure:"show-redundant-status"`
+	ShowRestartRequired bool     `mapstructure:"show-restart-required"`
+	ShowSNAT            bool     `mapstructure:"show-snat"`
+	ShowServiceOffering bool     `mapstructure:"show-service-offering"`
+	ShowTemplate        bool     `mapstructure:"show-template"`
+	SortBy              string   `mapstructure:"sort-by"`
+	VPCID               string   `mapstructure:"vpc-id"`
+	VPCName             string   `mapstructure:"vpc-name"`
 	Profiles            map[string]struct {
 		APIURL    string `mapstructure:"api_url"`
 		APIKey    string `mapstructure:"api_key"`
