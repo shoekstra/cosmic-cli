@@ -54,7 +54,7 @@ func newVPCRouteListCmd() *cobra.Command {
 	// Add local flags.
 	cmd.Flags().BoolP("reverse-sort", "", false, "reverse sort order")
 	cmd.Flags().BoolP("show-id", "", false, "show VPC id in result")
-	cmd.Flags().StringP("filter", "f", "", "filter results (supports regex)")
+	cmd.Flags().StringSliceP("filter", "f", nil, "filter results (supports regex)")
 	cmd.Flags().StringP("output", "o", "table", "specify output type")
 	cmd.Flags().StringP("profile", "p", "", "specify profile(s) to use")
 	cmd.Flags().StringP("sort-by", "s", "cidr", "field to sort by")
