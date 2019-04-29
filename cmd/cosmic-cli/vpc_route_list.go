@@ -89,7 +89,7 @@ func runVPCRouteListCmd() error {
 	if cfg.ShowID {
 		fields = append(fields, "ID")
 	}
-	printResult(cfg.Output, cfg.Filter, "static route", fields, routes)
+	printResult(cfg.Output, "static route", cfg.Filter, fields, routes)
 
 	return nil
 }

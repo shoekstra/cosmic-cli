@@ -58,7 +58,7 @@ func newVPCListCmd() *cobra.Command {
 	cmd.Flags().BoolP("show-redundant-status", "", false, "show VPC redundant router status in result")
 	cmd.Flags().BoolP("show-restart-required", "", false, "show VPC restart required status in result")
 	cmd.Flags().BoolP("show-snat", "", false, "show VPC Source NAT IP in result")
-	cmd.Flags().StringP("filter", "f", "", "filter results (supports regex)")
+	cmd.Flags().StringSliceP("filter", "f", nil, "filter results (supports regex)")
 	cmd.Flags().StringP("output", "o", "table", "specify output type")
 	cmd.Flags().StringP("profile", "p", "", "specify profile(s) to use")
 	cmd.Flags().StringP("sort-by", "s", "name", "field to sort by")
@@ -110,7 +110,7 @@ func runVPCListCmd() error {
 	if cfg.ShowRestartRequired {
 		fields = append(fields, "RestartRequired")
 	}
-	printResult(cfg.Output, cfg.Filter, "VPC", fields, vpcs)
+	printResult(cfg.Output, "VPC", cfg.Filter, fields, vpcs)
 
 	return nil
 }

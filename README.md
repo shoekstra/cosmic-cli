@@ -45,6 +45,18 @@ The format when using the filter is `field=value`, where `field` can be any tabl
 
 For example: `-f name=vdi` will match any results where the name field contains "vdi". If you are searching for values that contain spaces, put the whole filter in quotes, e.g. `-f 'name=vdi 2'`.
 
+You can use multiple filters by calling `-f` multiple times, e.g.
+
+```
+-f name=vdi -f vpcofferingname=default
+```
+
+Or you can pass a list, e.g.
+
+```
+-f name=vdi,vpcofferingname=default
+```
+
 ### Command help
 
 Help for a specific subcommand is available by running `cosmic-cli help <subcommand>` or `cosmic-cli <subcommand> -h`.
