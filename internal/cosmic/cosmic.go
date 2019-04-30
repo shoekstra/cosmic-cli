@@ -14,10 +14,9 @@
 // limitations under the License.
 //
 
-package client
+package cosmic
 
 import (
-	"crypto/tls"
 	"sort"
 	"strings"
 
@@ -26,21 +25,28 @@ import (
 	"sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/config"
 )
 
-// NewAsyncClientMap returns a [string]*cosmic.CosmicClient map.
-func NewAsyncClientMap(cfg *config.Config) map[string]*cosmic.CosmicClient {
+// profileError represents a profile config error.
+type profileError struct {
+	message string
+}
+
+// Error returns the profile error message.
+func (e profileError) Error() string {
+	return e.message
+}
+
+// NewAsyncClients returns a [string]*cosmic.CosmicClient map.
+func NewAsyncClients(cfg *config.Config) map[string]*cosmic.CosmicClient {
 	profiles := getProfile(cfg)
 	clientMap := make(map[string]*cosmic.CosmicClient)
-
-	tlsConfig := &tls.Config{}
-	httpTimeout := int64(60)
 
 	for _, profile := range profiles {
 		clientMap[profile] = cosmic.NewAsyncClient(
 			cfg.Profiles[profile].APIURL,
 			cfg.Profiles[profile].APIKey,
 			cfg.Profiles[profile].SecretKey,
-			tlsConfig,
-			httpTimeout,
+			nil,
+			int64(120),
 		)
 	}
 

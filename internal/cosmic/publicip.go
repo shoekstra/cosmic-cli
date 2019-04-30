@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-package publicip
+package cosmic
 
 import (
 	"fmt"
@@ -22,16 +22,6 @@ import (
 
 	"github.com/MissionCriticalCloud/go-cosmic/cosmic"
 )
-
-// profileError represents a profile config error.
-type profileError struct {
-	message string
-}
-
-// Error returns the profile error message.
-func (e profileError) Error() string {
-	return e.message
-}
 
 // Address embeds *cosmic.PublicIpAddress to allow additional fields.
 type Address struct {
@@ -41,8 +31,8 @@ type Address struct {
 // Addresses exists to provide helper methods for []*Address.
 type Addresses []*Address
 
-// List returns an Addresses object using all configured *cosmic.CosmicClient objects.
-func List(clientMap map[string]*cosmic.CosmicClient) (Addresses, error) {
+// PublicIPList returns an Addresses object using all configured *cosmic.CosmicClient objects.
+func PublicIPList(clientMap map[string]*cosmic.CosmicClient) (Addresses, error) {
 	publicips := []*Address{}
 	wg := sync.WaitGroup{}
 	wg.Add(len(clientMap))

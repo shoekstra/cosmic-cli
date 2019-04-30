@@ -27,8 +27,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/config"
-	"sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/cosmic/client"
-	"sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/cosmic/vpc/route"
+	"sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/cosmic"
 )
 
 func newVPCRouteAddCmd() *cobra.Command {
@@ -78,7 +77,7 @@ func runVPCRouteAddCmd(args []string) error {
 	if err != nil {
 		return err
 	}
-	routes, err := route.List(client.NewAsyncClientMap(cfg), v.Id)
+	routes, err := cosmic.VPCRouteList(cosmic.NewAsyncClients(cfg), v.Id)
 	if err != nil {
 		return err
 	}
@@ -106,7 +105,7 @@ Loop:
 			defer wg.Done()
 
 			fmt.Printf("Creating route cidr:%s, nexthop:%s ... \n", cidr, nextHop)
-			if err := route.Create(client.NewAsyncClientMap(cfg), v.Id, nextHop, cidr); err != nil {
+			if err := cosmic.VPCRouteCreate(cosmic.NewAsyncClients(cfg), v.Id, nextHop, cidr); err != nil {
 				return err
 			}
 

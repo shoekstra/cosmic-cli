@@ -23,10 +23,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/config"
-	"sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/cosmic/client"
-	"sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/cosmic/instance"
-	"sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/cosmic/network"
-	"sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/cosmic/vpc"
+	"sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/cosmic"
 )
 
 func newInstanceListCmd() *cobra.Command {
@@ -75,18 +72,18 @@ func runInstanceListCmd() error {
 		return err
 	}
 
-	instances, err := instance.List(client.NewAsyncClientMap(cfg))
+	instances, err := cosmic.VMList(cosmic.NewAsyncClients(cfg))
 	if err != nil {
 		return err
 	}
 	instances.Sort(cfg.SortBy, cfg.ReverseSort)
 
 	if cfg.ShowNetwork {
-		networks, err := network.List(client.NewAsyncClientMap(cfg))
+		networks, err := cosmic.NetworkList(cosmic.NewAsyncClients(cfg))
 		if err != nil {
 			return err
 		}
-		vpcs, err := vpc.List(client.NewAsyncClientMap(cfg))
+		vpcs, err := cosmic.VPCList(cosmic.NewAsyncClients(cfg))
 		if err != nil {
 			return err
 		}

@@ -27,8 +27,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/config"
-	"sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/cosmic/client"
-	"sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/cosmic/vpc/route"
+	"sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/cosmic"
 )
 
 func newVPCRouteDeleteCmd() *cobra.Command {
@@ -78,14 +77,14 @@ func runVPCRouteDeleteCmd(args []string) error {
 	if err != nil {
 		return err
 	}
-	routes, err := route.List(client.NewAsyncClientMap(cfg), v.Id)
+	routes, err := cosmic.VPCRouteList(cosmic.NewAsyncClients(cfg), v.Id)
 	if err != nil {
 		return err
 	}
 
 	// Delete routes from VPC.
 	split := strings.Split(args[0], "=")
-	deleteRoutes := []*route.StaticRoute{}
+	deleteRoutes := []*cosmic.StaticRoute{}
 	for _, v := range strings.Split(split[1], ",") {
 		for _, r := range routes {
 			match := false
@@ -106,11 +105,11 @@ func runVPCRouteDeleteCmd(args []string) error {
 	wg.Add(len(deleteRoutes))
 
 	for _, r := range deleteRoutes {
-		go func(r *route.StaticRoute) error {
+		go func(r *cosmic.StaticRoute) error {
 			defer wg.Done()
 
 			fmt.Printf("Deleting route cidr:%s, nexthop:%s ... \n", r.Cidr, r.Nexthop)
-			if err := route.Delete(client.NewAsyncClientMap(cfg), r.Id); err != nil {
+			if err := cosmic.VPCRouteDelete(cosmic.NewAsyncClients(cfg), r.Id); err != nil {
 				return err
 			}
 

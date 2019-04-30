@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-package vpc
+package cosmic
 
 import (
 	"fmt"
@@ -26,16 +26,6 @@ import (
 	"github.com/MissionCriticalCloud/go-cosmic/cosmic"
 	h "sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/helper"
 )
-
-// profileError represents a profile config error.
-type profileError struct {
-	message string
-}
-
-// Error returns the profile error message.
-func (e profileError) Error() string {
-	return e.message
-}
 
 // VPC embeds *cosmic.VPC to allow additional fields.
 type VPC struct {
@@ -85,8 +75,8 @@ func (vpcs VPCs) Sort(sortBy string, reverseSort bool) {
 	}
 }
 
-// GetByID returns a *cosmic.VPC object using a *cosmic.CosmicClient object.
-func GetByID(client *cosmic.CosmicClient, id string) (*cosmic.VPC, int, error) {
+// VPCGetByID returns a *cosmic.VPC object using a *cosmic.CosmicClient object.
+func VPCGetByID(client *cosmic.CosmicClient, id string) (*cosmic.VPC, int, error) {
 	resp, count, err := client.VPC.GetVPCByID(id)
 
 	if err != nil {
@@ -99,8 +89,8 @@ func GetByID(client *cosmic.CosmicClient, id string) (*cosmic.VPC, int, error) {
 	return resp, count, nil
 }
 
-// GetByName returns a *cosmic.VPC object using a *cosmic.CosmicClient object.
-func GetByName(client *cosmic.CosmicClient, name string) (*cosmic.VPC, int, error) {
+// VPCGetByName returns a *cosmic.VPC object using a *cosmic.CosmicClient object.
+func VPCGetByName(client *cosmic.CosmicClient, name string) (*cosmic.VPC, int, error) {
 	resp, count, err := client.VPC.GetVPCByName(name)
 
 	if err != nil {
@@ -113,8 +103,8 @@ func GetByName(client *cosmic.CosmicClient, name string) (*cosmic.VPC, int, erro
 	return resp, count, nil
 }
 
-// List returns a slice of *VPC objects using all configured *cosmic.CosmicClient objects.
-func List(clientMap map[string]*cosmic.CosmicClient) (VPCs, error) {
+// VPCList returns a slice of *VPC objects using all configured *cosmic.CosmicClient objects.
+func VPCList(clientMap map[string]*cosmic.CosmicClient) (VPCs, error) {
 	vpcs := []*VPC{}
 	wg := sync.WaitGroup{}
 	wg.Add(len(clientMap))
@@ -157,8 +147,8 @@ func List(clientMap map[string]*cosmic.CosmicClient) (VPCs, error) {
 	return vpcs, nil
 }
 
-// GetAllByID returns a slice of *VPC objects using all configured *cosmic.CosmicClient objects.
-func GetAllByID(clientMap map[string]*cosmic.CosmicClient, id string) ([]*VPC, error) {
+// VPCGetAllByID returns a slice of *VPC objects using all configured *cosmic.CosmicClient objects.
+func VPCGetAllByID(clientMap map[string]*cosmic.CosmicClient, id string) ([]*VPC, error) {
 	vpcs := []*VPC{}
 	wg := sync.WaitGroup{}
 	wg.Add(len(clientMap))
@@ -167,7 +157,7 @@ func GetAllByID(clientMap map[string]*cosmic.CosmicClient, id string) ([]*VPC, e
 		go func(client string) {
 			defer wg.Done()
 
-			vpc, count, err := GetByID(clientMap[client], id)
+			vpc, count, err := VPCGetByID(clientMap[client], id)
 			if err != nil {
 				// return nil, err
 			}
@@ -191,8 +181,8 @@ func GetAllByID(clientMap map[string]*cosmic.CosmicClient, id string) ([]*VPC, e
 	return vpcs, nil
 }
 
-// GetAllByName returns a slice of *VPC objects using all configured *cosmic.CosmicClient objects.
-func GetAllByName(clientMap map[string]*cosmic.CosmicClient, name string) ([]*VPC, error) {
+// VPCGetAllByName returns a slice of *VPC objects using all configured *cosmic.CosmicClient objects.
+func VPCGetAllByName(clientMap map[string]*cosmic.CosmicClient, name string) ([]*VPC, error) {
 	vpcs := []*VPC{}
 	wg := sync.WaitGroup{}
 	wg.Add(len(clientMap))
@@ -201,7 +191,7 @@ func GetAllByName(clientMap map[string]*cosmic.CosmicClient, name string) ([]*VP
 		go func(client string) {
 			defer wg.Done()
 
-			vpc, count, err := GetByName(clientMap[client], name)
+			vpc, count, err := VPCGetByName(clientMap[client], name)
 			if err != nil {
 				// return nil, err
 			}

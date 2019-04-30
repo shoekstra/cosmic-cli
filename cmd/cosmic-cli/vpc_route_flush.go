@@ -25,8 +25,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/config"
-	"sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/cosmic/client"
-	"sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/cosmic/vpc/route"
+	"sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/cosmic"
 )
 
 func newVPCRouteFlushCmd() *cobra.Command {
@@ -71,7 +70,7 @@ func runVPCRouteFlushCmd(args []string) error {
 	if err != nil {
 		return err
 	}
-	routes, err := route.List(client.NewAsyncClientMap(cfg), v.Id)
+	routes, err := cosmic.VPCRouteList(cosmic.NewAsyncClients(cfg), v.Id)
 	if err != nil {
 		return err
 	}
@@ -81,11 +80,11 @@ func runVPCRouteFlushCmd(args []string) error {
 	wg.Add(len(routes))
 
 	for _, r := range routes {
-		go func(r *route.StaticRoute) error {
+		go func(r *cosmic.StaticRoute) error {
 			defer wg.Done()
 
 			fmt.Printf("Deleting route cidr:%s, nexthop:%s ... \n", r.Cidr, r.Nexthop)
-			if err := route.Delete(client.NewAsyncClientMap(cfg), r.Id); err != nil {
+			if err := cosmic.VPCRouteDelete(cosmic.NewAsyncClients(cfg), r.Id); err != nil {
 				return err
 			}
 
