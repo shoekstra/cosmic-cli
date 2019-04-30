@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-package instance
+package cosmic
 
 import (
 	"fmt"
@@ -26,16 +26,6 @@ import (
 	"github.com/MissionCriticalCloud/go-cosmic/cosmic"
 	h "sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/helper"
 )
-
-// profileError represents a profile config error.
-type profileError struct {
-	message string
-}
-
-// Error returns the profile error message.
-func (e profileError) Error() string {
-	return e.message
-}
 
 // VirtualMachine embeds *cosmic.VirtualMachine to allow additional fields.
 type VirtualMachine struct {
@@ -79,8 +69,8 @@ func (vms VirtualMachines) Sort(sortBy string, reverseSort bool) {
 	}
 }
 
-// List returns a VirtualMachines object using all configured *cosmic.CosmicClient objects.
-func List(clientMap map[string]*cosmic.CosmicClient) (VirtualMachines, error) {
+// VMList returns a VirtualMachines object using all configured *cosmic.CosmicClient objects.
+func VMList(clientMap map[string]*cosmic.CosmicClient) (VirtualMachines, error) {
 	vms := []*VirtualMachine{}
 	wg := sync.WaitGroup{}
 	wg.Add(len(clientMap))

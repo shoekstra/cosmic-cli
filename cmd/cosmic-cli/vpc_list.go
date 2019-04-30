@@ -23,9 +23,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/config"
-	"sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/cosmic/client"
-	"sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/cosmic/publicip"
-	"sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/cosmic/vpc"
+	"sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/cosmic"
 )
 
 func newVPCListCmd() *cobra.Command {
@@ -72,14 +70,14 @@ func runVPCListCmd() error {
 		return err
 	}
 
-	vpcs, err := vpc.List(client.NewAsyncClientMap(cfg))
+	vpcs, err := cosmic.VPCList(cosmic.NewAsyncClients(cfg))
 	if err != nil {
 		return err
 	}
 	vpcs.Sort(cfg.SortBy, cfg.ReverseSort)
 
 	if cfg.ShowSNAT {
-		publicIPs, err := publicip.List(client.NewAsyncClientMap(cfg))
+		publicIPs, err := cosmic.PublicIPList(cosmic.NewAsyncClients(cfg))
 		if err != nil {
 			return err
 		}

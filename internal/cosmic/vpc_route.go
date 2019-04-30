@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-package route
+package cosmic
 
 import (
 	"fmt"
@@ -26,16 +26,6 @@ import (
 	"github.com/MissionCriticalCloud/go-cosmic/cosmic"
 	h "sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/helper"
 )
-
-// profileError represents a profile config error.
-type profileError struct {
-	message string
-}
-
-// Error returns the profile error message.
-func (e profileError) Error() string {
-	return e.message
-}
 
 // StaticRoute embeds *cosmic.StaticRoute to allow additional fields.
 type StaticRoute struct {
@@ -70,9 +60,9 @@ func (srs StaticRoutes) Sort(sortBy string, reverseSort bool) {
 	}
 }
 
-// Create loops through all configured *cosmic.CosmicClient objects and adds a new VPC static route
-// if the provided VPC ID is found.
-func Create(clientMap map[string]*cosmic.CosmicClient, vpcID, nextHop string, cidr string) error {
+// VPCRouteCreate loops through all configured *cosmic.CosmicClient objects and adds a new
+// VPC static route if the provided VPC ID is found.
+func VPCRouteCreate(clientMap map[string]*cosmic.CosmicClient, vpcID, nextHop string, cidr string) error {
 	wg := sync.WaitGroup{}
 	wg.Add(len(clientMap))
 
@@ -109,9 +99,9 @@ func Create(clientMap map[string]*cosmic.CosmicClient, vpcID, nextHop string, ci
 	return nil
 }
 
-// Delete loops through all configured *cosmic.CosmicClient objects and removes an existing VPC
-// static route if the provided VPC ID is found.
-func Delete(clientMap map[string]*cosmic.CosmicClient, id string) error {
+// VPCRouteDelete loops through all configured *cosmic.CosmicClient objects and removes an
+// existing VPC static route if the provided VPC ID is found.
+func VPCRouteDelete(clientMap map[string]*cosmic.CosmicClient, id string) error {
 	wg := sync.WaitGroup{}
 	wg.Add(len(clientMap))
 
@@ -148,8 +138,8 @@ func Delete(clientMap map[string]*cosmic.CosmicClient, id string) error {
 	return nil
 }
 
-// List returns a StaticRoutes object using all configured *cosmic.CosmicClient objects.
-func List(clientMap map[string]*cosmic.CosmicClient, vpcID string) (StaticRoutes, error) {
+// VPCRouteList returns a StaticRoutes object using all configured *cosmic.CosmicClient objects.
+func VPCRouteList(clientMap map[string]*cosmic.CosmicClient, vpcID string) (StaticRoutes, error) {
 	srs := []*StaticRoute{}
 	wg := sync.WaitGroup{}
 	wg.Add(len(clientMap))

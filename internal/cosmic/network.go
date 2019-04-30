@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-package network
+package cosmic
 
 import (
 	"fmt"
@@ -22,16 +22,6 @@ import (
 
 	"github.com/MissionCriticalCloud/go-cosmic/cosmic"
 )
-
-// profileError represents a profile config error.
-type profileError struct {
-	message string
-}
-
-// Error returns the profile error message.
-func (e profileError) Error() string {
-	return e.message
-}
 
 // Network embeds *cosmic.Network to allow additional fields.
 type Network struct {
@@ -41,8 +31,8 @@ type Network struct {
 // Networks exists to provide helper methods for []*Network.
 type Networks []*Network
 
-// List returns a Networks object using all configured *cosmic.CosmicClient objects.
-func List(clientMap map[string]*cosmic.CosmicClient) (Networks, error) {
+// NetworkList returns a Networks object using all configured *cosmic.CosmicClient objects.
+func NetworkList(clientMap map[string]*cosmic.CosmicClient) (Networks, error) {
 	networks := []*Network{}
 	wg := sync.WaitGroup{}
 	wg.Add(len(clientMap))
