@@ -33,6 +33,7 @@ type Config struct {
 	ReverseSort         bool     `mapstructure:"reverse-sort"`
 	ShowHost            bool     `mapstructure:"show-host"`
 	ShowID              bool     `mapstructure:"show-id"`
+	ShowMACAddress      bool     `mapstructure:"show-mac-address"`
 	ShowNetwork         bool     `mapstructure:"show-network"`
 	ShowRedundantStatus bool     `mapstructure:"show-redundant-status"`
 	ShowRestartRequired bool     `mapstructure:"show-restart-required"`
