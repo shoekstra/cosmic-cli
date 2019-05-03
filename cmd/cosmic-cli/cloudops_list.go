@@ -17,33 +17,18 @@
 package main
 
 import (
-	"fmt"
-	"os"
-
 	"github.com/spf13/cobra"
 )
 
-func main() {
+func newCloudOpsListCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "cosmic-cli",
-		Short: "A CLI interface to manage Cosmic Cloud resources",
-		Long: `cosmic-cli is a CLI interface to manage Cosmic Cloud resources.
-
-It aims to simplify administration of Cosmic Cloud resources by providing single commands for
-actions that may require multiple API calls, whilst running commands against multiple API endpoints
-in parallel.`,
+		Use:   "list",
+		Short: "Cloud Ops list subcommands",
 	}
 
 	// Add subcommands.
-	cmd.AddCommand(newVersionCmd())
+	cmd.AddCommand(newCloudOpsListIPCmd())
+	cmd.AddCommand(newCloudOpsListMACCmd())
 
-	// Add subgroups.
-	cmd.AddCommand(newCloudOpsCmd())
-	cmd.AddCommand(newInstanceCmd())
-	cmd.AddCommand(newVPCCmd())
-
-	if err := cmd.Execute(); err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
+	return cmd
 }

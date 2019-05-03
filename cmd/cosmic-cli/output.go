@@ -40,10 +40,11 @@ func filterMatch(obj interface{}, filter string) bool {
 	switch {
 	case strings.EqualFold(filterField, "ipaddress"):
 		v := val.FieldByName("Nic")
-		if v.IsValid() == false {
-			return false
+		if v.IsValid() == true {
+			value = fmt.Sprintf("%v", v.Index(0).FieldByName("Ipaddress"))
+			break
 		}
-		value = fmt.Sprintf("%v", v.Index(0).FieldByName("Ipaddress"))
+		fallthrough
 	default:
 		// First try to read the field directly; if it exists set the value and break.
 		fn := strings.Title(strings.ToLower(filterField))
@@ -135,7 +136,11 @@ func printTable(cosmicType string, fields []string, result interface{}) {
 			// *cosmic.VirtualMachine does not contain a "ipaddress" field so we need to manually
 			// add the primary NIC IP to our table.
 			case "Ipaddress":
-				row = append(row, fmt.Sprintf("%v", val.FieldByName("Nic").Index(0).FieldByName("Ipaddress")))
+				if cosmicType == "instance" {
+					row = append(row, fmt.Sprintf("%v", val.FieldByName("Nic").Index(0).FieldByName("Ipaddress")))
+					break
+				}
+				fallthrough
 			default:
 				v := val.FieldByName(fn)
 				if v.IsValid() == false {
