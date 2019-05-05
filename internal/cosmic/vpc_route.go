@@ -60,9 +60,9 @@ func (srs StaticRoutes) Sort(sortBy string, reverseSort bool) {
 	}
 }
 
-// VPCRouteCreate loops through all configured *cosmic.CosmicClient objects and adds a new
+// CreateVPCRoute loops through all configured *cosmic.CosmicClient objects and adds a new
 // VPC static route if the provided VPC ID is found.
-func VPCRouteCreate(clientMap map[string]*cosmic.CosmicClient, vpcID, nextHop string, cidr string) error {
+func CreateVPCRoute(clientMap map[string]*cosmic.CosmicClient, vpcID, nextHop string, cidr string) error {
 	wg := sync.WaitGroup{}
 	wg.Add(len(clientMap))
 
@@ -99,9 +99,9 @@ func VPCRouteCreate(clientMap map[string]*cosmic.CosmicClient, vpcID, nextHop st
 	return nil
 }
 
-// VPCRouteDelete loops through all configured *cosmic.CosmicClient objects and removes an
+// DeleteVPCRoute loops through all configured *cosmic.CosmicClient objects and removes an
 // existing VPC static route if the provided VPC ID is found.
-func VPCRouteDelete(clientMap map[string]*cosmic.CosmicClient, id string) error {
+func DeleteVPCRoute(clientMap map[string]*cosmic.CosmicClient, id string) error {
 	wg := sync.WaitGroup{}
 	wg.Add(len(clientMap))
 
@@ -138,8 +138,8 @@ func VPCRouteDelete(clientMap map[string]*cosmic.CosmicClient, id string) error 
 	return nil
 }
 
-// VPCRouteList returns a StaticRoutes object using all configured *cosmic.CosmicClient objects.
-func VPCRouteList(clientMap map[string]*cosmic.CosmicClient, vpcID string) (StaticRoutes, error) {
+// ListVPCRoutes returns a StaticRoutes object using all configured *cosmic.CosmicClient objects.
+func ListVPCRoutes(clientMap map[string]*cosmic.CosmicClient, vpcID string) (StaticRoutes, error) {
 	srs := []*StaticRoute{}
 	wg := sync.WaitGroup{}
 	wg.Add(len(clientMap))

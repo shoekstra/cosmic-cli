@@ -31,8 +31,8 @@ type Network struct {
 // Networks exists to provide helper methods for []*Network.
 type Networks []*Network
 
-// NetworkList returns a Networks object using all configured *cosmic.CosmicClient objects.
-func NetworkList(clientMap map[string]*cosmic.CosmicClient) (Networks, error) {
+// ListNetworks returns a Networks object using all configured *cosmic.CosmicClient objects.
+func ListNetworks(clientMap map[string]*cosmic.CosmicClient) (Networks, error) {
 	networks := []*Network{}
 	wg := sync.WaitGroup{}
 	wg.Add(len(clientMap))

@@ -68,7 +68,7 @@ func runCloudOpsListIPCmd(args []string) error {
 	// Filter results so we only return the IP we're looking for.
 	cfg.Filter = []string{fmt.Sprintf("%s=^%s$", "ipaddress", ip)}
 
-	ips, err := cosmic.CloudOpsListIP(cosmic.NewAsyncClients(cfg), ip)
+	ips, err := cosmic.ListIP(cosmic.NewAsyncClients(cfg), ip)
 	if err != nil {
 		return err
 	}

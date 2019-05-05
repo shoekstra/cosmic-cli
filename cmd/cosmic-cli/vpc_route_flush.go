@@ -70,7 +70,7 @@ func runVPCRouteFlushCmd(args []string) error {
 	if err != nil {
 		return err
 	}
-	routes, err := cosmic.VPCRouteList(cosmic.NewAsyncClients(cfg), v.Id)
+	routes, err := cosmic.ListVPCRoutes(cosmic.NewAsyncClients(cfg), v.Id)
 	if err != nil {
 		return err
 	}
@@ -84,7 +84,7 @@ func runVPCRouteFlushCmd(args []string) error {
 			defer wg.Done()
 
 			fmt.Printf("Deleting route cidr:%s, nexthop:%s ... \n", r.Cidr, r.Nexthop)
-			if err := cosmic.VPCRouteDelete(cosmic.NewAsyncClients(cfg), r.Id); err != nil {
+			if err := cosmic.DeleteVPCRoute(cosmic.NewAsyncClients(cfg), r.Id); err != nil {
 				return err
 			}
 

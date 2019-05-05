@@ -69,8 +69,8 @@ func (vms VirtualMachines) Sort(sortBy string, reverseSort bool) {
 	}
 }
 
-// VMList returns a VirtualMachines object using all configured *cosmic.CosmicClient objects.
-func VMList(clientMap map[string]*cosmic.CosmicClient) (VirtualMachines, error) {
+// ListVMs returns a VirtualMachines object using all configured *cosmic.CosmicClient objects.
+func ListVMs(clientMap map[string]*cosmic.CosmicClient) (VirtualMachines, error) {
 	vms := []*VirtualMachine{}
 	wg := sync.WaitGroup{}
 	wg.Add(len(clientMap))

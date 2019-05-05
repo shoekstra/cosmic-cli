@@ -23,17 +23,17 @@ import (
 	"github.com/MissionCriticalCloud/go-cosmic/cosmic"
 )
 
-// Address embeds *cosmic.PublicIpAddress to allow additional fields.
-type Address struct {
+// PublicIPAddress embeds *cosmic.PublicIpAddress to allow additional fields.
+type PublicIPAddress struct {
 	*cosmic.PublicIpAddress
 }
 
-// Addresses exists to provide helper methods for []*Address.
-type Addresses []*Address
+// PublicIPAddresses exists to provide helper methods for []*PublicIPAddress.
+type PublicIPAddresses []*PublicIPAddress
 
-// PublicIPList returns an Addresses object using all configured *cosmic.CosmicClient objects.
-func PublicIPList(clientMap map[string]*cosmic.CosmicClient) (Addresses, error) {
-	publicips := []*Address{}
+// ListPublicIPAddresses returns a PublicIPAddresses object using all configured *cosmic.CosmicClient objects.
+func ListPublicIPAddresses(clientMap map[string]*cosmic.CosmicClient) (PublicIPAddresses, error) {
+	publicips := []*PublicIPAddress{}
 	wg := sync.WaitGroup{}
 	wg.Add(len(clientMap))
 
@@ -52,7 +52,7 @@ func PublicIPList(clientMap map[string]*cosmic.CosmicClient) (Addresses, error) 
 			}
 
 			for _, ip := range resp.PublicIpAddresses {
-				publicips = append(publicips, &Address{
+				publicips = append(publicips, &PublicIPAddress{
 					PublicIpAddress: ip,
 				})
 			}
