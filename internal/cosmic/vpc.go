@@ -103,8 +103,8 @@ func VPCGetByName(client *cosmic.CosmicClient, name string) (*cosmic.VPC, int, e
 	return resp, count, nil
 }
 
-// VPCList returns a slice of *VPC objects using all configured *cosmic.CosmicClient objects.
-func VPCList(clientMap map[string]*cosmic.CosmicClient) (VPCs, error) {
+// ListVPCs returns a slice of *VPC objects using all configured *cosmic.CosmicClient objects.
+func ListVPCs(clientMap map[string]*cosmic.CosmicClient) (VPCs, error) {
 	vpcs := []*VPC{}
 	wg := sync.WaitGroup{}
 	wg.Add(len(clientMap))

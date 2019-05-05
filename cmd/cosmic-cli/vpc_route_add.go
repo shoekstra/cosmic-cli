@@ -77,7 +77,7 @@ func runVPCRouteAddCmd(args []string) error {
 	if err != nil {
 		return err
 	}
-	routes, err := cosmic.VPCRouteList(cosmic.NewAsyncClients(cfg), v.Id)
+	routes, err := cosmic.ListVPCRoutes(cosmic.NewAsyncClients(cfg), v.Id)
 	if err != nil {
 		return err
 	}
@@ -105,7 +105,7 @@ Loop:
 			defer wg.Done()
 
 			fmt.Printf("Creating route cidr:%s, nexthop:%s ... \n", cidr, nextHop)
-			if err := cosmic.VPCRouteCreate(cosmic.NewAsyncClients(cfg), v.Id, nextHop, cidr); err != nil {
+			if err := cosmic.CreateVPCRoute(cosmic.NewAsyncClients(cfg), v.Id, nextHop, cidr); err != nil {
 				return err
 			}
 

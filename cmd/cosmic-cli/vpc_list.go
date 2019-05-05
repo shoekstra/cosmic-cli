@@ -70,14 +70,14 @@ func runVPCListCmd() error {
 		return err
 	}
 
-	vpcs, err := cosmic.VPCList(cosmic.NewAsyncClients(cfg))
+	vpcs, err := cosmic.ListVPCs(cosmic.NewAsyncClients(cfg))
 	if err != nil {
 		return err
 	}
 	vpcs.Sort(cfg.SortBy, cfg.ReverseSort)
 
 	if cfg.ShowSNAT {
-		publicIPs, err := cosmic.PublicIPList(cosmic.NewAsyncClients(cfg))
+		publicIPs, err := cosmic.ListPublicIPAddresses(cosmic.NewAsyncClients(cfg))
 		if err != nil {
 			return err
 		}

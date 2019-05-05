@@ -72,18 +72,18 @@ func runInstanceListCmd() error {
 		return err
 	}
 
-	instances, err := cosmic.VMList(cosmic.NewAsyncClients(cfg))
+	instances, err := cosmic.ListVMs(cosmic.NewAsyncClients(cfg))
 	if err != nil {
 		return err
 	}
 	instances.Sort(cfg.SortBy, cfg.ReverseSort)
 
 	if cfg.ShowNetwork {
-		networks, err := cosmic.NetworkList(cosmic.NewAsyncClients(cfg))
+		networks, err := cosmic.ListNetworks(cosmic.NewAsyncClients(cfg))
 		if err != nil {
 			return err
 		}
-		vpcs, err := cosmic.VPCList(cosmic.NewAsyncClients(cfg))
+		vpcs, err := cosmic.ListVPCs(cosmic.NewAsyncClients(cfg))
 		if err != nil {
 			return err
 		}

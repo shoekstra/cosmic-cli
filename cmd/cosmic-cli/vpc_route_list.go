@@ -77,7 +77,7 @@ func runVPCRouteListCmd() error {
 	if err != nil {
 		return err
 	}
-	routes, err := cosmic.VPCRouteList(cosmic.NewAsyncClients(cfg), v.Id)
+	routes, err := cosmic.ListVPCRoutes(cosmic.NewAsyncClients(cfg), v.Id)
 	if err != nil {
 		return err
 	}

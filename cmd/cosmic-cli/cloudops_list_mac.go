@@ -66,7 +66,7 @@ func runCloudOpsListMACCmd(args []string) error {
 	// Filter results so we only return the MAC address we're looking for.
 	cfg.Filter = []string{fmt.Sprintf("%s=^%s$", "macaddress", mac)}
 
-	macs, err := cosmic.CloudOpsListMAC(cosmic.NewAsyncClients(cfg), mac)
+	macs, err := cosmic.ListMAC(cosmic.NewAsyncClients(cfg), mac)
 	if err != nil {
 		return err
 	}

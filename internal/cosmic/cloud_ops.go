@@ -30,8 +30,8 @@ type WhoHasThisIP struct {
 	Zonename string
 }
 
-// WhoHasThisIps exists to provide helper methods for []*WhoHasThisIP.
-type WhoHasThisIps []*WhoHasThisIP
+// WhoHasThisIPs exists to provide helper methods for []*WhoHasThisIP.
+type WhoHasThisIPs []*WhoHasThisIP
 
 // WhoHasThisMac embeds *cosmic.WhoHasThisMac to allow additional fields.
 type WhoHasThisMac struct {
@@ -43,8 +43,8 @@ type WhoHasThisMac struct {
 // WhoHasThisMacs exists to provide helper methods for []*WhoHasThisMac.
 type WhoHasThisMacs []*WhoHasThisMac
 
-// CloudOpsListIP returns a WhoHasThisIps object using all configured *cosmic.CosmicClient objects.
-func CloudOpsListIP(clientMap map[string]*cosmic.CosmicClient, ipaddress string) (WhoHasThisIps, error) {
+// ListIP returns a WhoHasThisIPs object using all configured *cosmic.CosmicClient objects.
+func ListIP(clientMap map[string]*cosmic.CosmicClient, ipaddress string) (WhoHasThisIPs, error) {
 	ips := []*WhoHasThisIP{}
 	wg := sync.WaitGroup{}
 	wg.Add(len(clientMap))
@@ -143,8 +143,8 @@ func CloudOpsListIP(clientMap map[string]*cosmic.CosmicClient, ipaddress string)
 	return ips, nil
 }
 
-// CloudOpsListMAC returns a WhoHasThisMacs object using all configured *cosmic.CosmicClient objects.
-func CloudOpsListMAC(clientMap map[string]*cosmic.CosmicClient, macaddress string) (WhoHasThisMacs, error) {
+// ListMAC returns a WhoHasThisMacs object using all configured *cosmic.CosmicClient objects.
+func ListMAC(clientMap map[string]*cosmic.CosmicClient, macaddress string) (WhoHasThisMacs, error) {
 	macs := []*WhoHasThisMac{}
 	wg := sync.WaitGroup{}
 	wg.Add(len(clientMap))
