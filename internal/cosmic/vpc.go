@@ -36,8 +36,39 @@ type VPC struct {
 // VPCs exists to provide helper methods for []*VPC.
 type VPCs []*VPC
 
+// FindByID looks for a VPC object by ID in VPCs and returns it if it exists.
+func (v VPCs) FindByID(id string) ([]*VPC, error) {
+	r := []*VPC{}
+	for _, i := range v {
+		if i.Id == id {
+			r = append(r, i)
+		}
+	}
+	if len(r) == 0 {
+		return nil, fmt.Errorf("No match found for vpc with id %s", id)
+	}
+	return r, nil
+}
+
+// FindByName looks for a VPC object by name in VPCs and returns it if it exists.
+func (v VPCs) FindByName(name string) ([]*VPC, error) {
+	r := []*VPC{}
+	for _, i := range v {
+		if i.Name == name {
+			r = append(r, i)
+		}
+	}
+	if len(r) == 0 {
+		return nil, fmt.Errorf("No match found for vpc with name %s", name)
+	}
+	if len(r) > 1 {
+		return r, fmt.Errorf("More than one match found for vpc with name %s, use the --vpc-id option to specify the vpc", name)
+	}
+	return r, nil
+}
+
 // Sort will sort VPCs by either the "cidr", "name", "vpcofferingname" or "zonename" field.
-func (vpcs VPCs) Sort(sortBy string, reverseSort bool) {
+func (v VPCs) Sort(sortBy string, reverseSort bool) {
 	if h.Contains([]string{"cidr", "name", "vpcofferingname", "zonename"}, sortBy) == false {
 		fmt.Println("Invalid sort option provided, provide either \"cidr\", \"name\", \"vpcofferingname\" or \"zonename\".")
 		os.Exit(1)
@@ -45,32 +76,32 @@ func (vpcs VPCs) Sort(sortBy string, reverseSort bool) {
 
 	switch {
 	case strings.EqualFold(sortBy, "Cidr"):
-		sort.SliceStable(vpcs, func(i, j int) bool {
+		sort.SliceStable(v, func(i, j int) bool {
 			if reverseSort {
-				return vpcs[i].Cidr > vpcs[j].Cidr
+				return v[i].Cidr > v[j].Cidr
 			}
-			return vpcs[i].Cidr < vpcs[j].Cidr
+			return v[i].Cidr < v[j].Cidr
 		})
 	case strings.EqualFold(sortBy, "Name"):
-		sort.SliceStable(vpcs, func(i, j int) bool {
+		sort.SliceStable(v, func(i, j int) bool {
 			if reverseSort {
-				return vpcs[i].Name > vpcs[j].Name
+				return v[i].Name > v[j].Name
 			}
-			return vpcs[i].Name < vpcs[j].Name
+			return v[i].Name < v[j].Name
 		})
 	case strings.EqualFold(sortBy, "Vpcofferingname"):
-		sort.SliceStable(vpcs, func(i, j int) bool {
+		sort.SliceStable(v, func(i, j int) bool {
 			if reverseSort {
-				return vpcs[i].Vpcofferingname > vpcs[j].Vpcofferingname
+				return v[i].Vpcofferingname > v[j].Vpcofferingname
 			}
-			return vpcs[i].Vpcofferingname < vpcs[j].Vpcofferingname
+			return v[i].Vpcofferingname < v[j].Vpcofferingname
 		})
 	case strings.EqualFold(sortBy, "Zonename"):
-		sort.SliceStable(vpcs, func(i, j int) bool {
+		sort.SliceStable(v, func(i, j int) bool {
 			if reverseSort {
-				return vpcs[i].Zonename > vpcs[j].Zonename
+				return v[i].Zonename > v[j].Zonename
 			}
-			return vpcs[i].Zonename < vpcs[j].Zonename
+			return v[i].Zonename < v[j].Zonename
 		})
 	}
 }

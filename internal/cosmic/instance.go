@@ -37,6 +37,37 @@ type VirtualMachine struct {
 // VirtualMachines exists to provide helper methods for []*VirtualMachine.
 type VirtualMachines []*VirtualMachine
 
+// FindByID looks for a VirtualMachine object by ID in VirtualMachines and returns it if it exists.
+func (vms VirtualMachines) FindByID(id string) ([]*VirtualMachine, error) {
+	r := []*VirtualMachine{}
+	for _, v := range vms {
+		if v.Id == id {
+			r = append(r, v)
+		}
+	}
+	if len(r) == 0 {
+		return nil, fmt.Errorf("No match found for instance with id %s", id)
+	}
+	return r, nil
+}
+
+// FindByName looks for a VirtualMachine object by name in VirtualMachines and returns it if it exists.
+func (vms VirtualMachines) FindByName(name string) ([]*VirtualMachine, error) {
+	r := []*VirtualMachine{}
+	for _, v := range vms {
+		if v.Name == name {
+			r = append(r, v)
+		}
+	}
+	if len(r) == 0 {
+		return nil, fmt.Errorf("No match found for instance with name %s", name)
+	}
+	if len(r) > 1 {
+		return r, fmt.Errorf("More than one match found for instance with name %s, use the --instance-id option to specify the instance", name)
+	}
+	return r, nil
+}
+
 // Sort will sort VirtualMachines by either the "ipaddress", "name" or "zonename" field.
 func (vms VirtualMachines) Sort(sortBy string, reverseSort bool) {
 	if h.Contains([]string{"ipaddress", "name", "zonename"}, sortBy) == false {
