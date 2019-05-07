@@ -55,7 +55,7 @@ func filterMatch(obj interface{}, filter string) bool {
 		}
 
 		// If we can't read the field directly, we'll then loop through all field names and set
-		// value if we find a matchin field name.
+		// value if we find a matching field name.
 		for i := 0; i < val.NumField(); i++ {
 			typeField := val.Type().Field(i)
 

@@ -27,13 +27,23 @@ import (
 
 // Config contains cosmic-cli options.
 type Config struct {
+	ACLID               string   `mapstructure:"acl-id"`
+	ACLName             string   `mapstructure:"acl-name"`
 	Filter              []string `mapstructure:"filter"`
+	InstanceID          string   `mapstructure:"instance-id"`
+	InstanceName        string   `mapstructure:"instance-name"`
+	NetworkID           string   `mapstructure:"network-id"`
+	NetworkName         string   `mapstructure:"network-name"`
 	Output              string   `mapstructure:"output"`
 	Profile             string   `mapstructure:"profile"`
 	ReverseSort         bool     `mapstructure:"reverse-sort"`
+	ShowDescription     bool     `mapstructure:"show-description"`
 	ShowHost            bool     `mapstructure:"show-host"`
 	ShowID              bool     `mapstructure:"show-id"`
 	ShowMACAddress      bool     `mapstructure:"show-mac-address"`
+	ShowACLID           bool     `mapstructure:"show-acl-id"`
+	ShowACLName         bool     `mapstructure:"show-acl-name"`
+	ShowRuleNumber      bool     `mapstructure:"show-rule-number"`
 	ShowNetwork         bool     `mapstructure:"show-network"`
 	ShowRedundantStatus bool     `mapstructure:"show-redundant-status"`
 	ShowRestartRequired bool     `mapstructure:"show-restart-required"`

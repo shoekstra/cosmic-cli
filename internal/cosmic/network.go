@@ -31,6 +31,37 @@ type Network struct {
 // Networks exists to provide helper methods for []*Network.
 type Networks []*Network
 
+// FindByID looks for a Network object by ID in Networks and returns it if it exists.
+func (n Networks) FindByID(id string) ([]*Network, error) {
+	r := []*Network{}
+	for _, v := range n {
+		if v.Id == id {
+			r = append(r, v)
+		}
+	}
+	if len(r) == 0 {
+		return nil, fmt.Errorf("No match found for network with id %s", id)
+	}
+	return r, nil
+}
+
+// FindByName looks for a Network object by name in Networks and returns it if it exists.
+func (n Networks) FindByName(name string) ([]*Network, error) {
+	r := []*Network{}
+	for _, v := range n {
+		if v.Name == name {
+			r = append(r, v)
+		}
+	}
+	if len(r) == 0 {
+		return nil, fmt.Errorf("No match found for network with name %s", name)
+	}
+	if len(r) > 1 {
+		return r, fmt.Errorf("More than one match found for network with name %s, use the --network-id option to specify the network", name)
+	}
+	return r, nil
+}
+
 // ListNetworks returns a Networks object using all configured *cosmic.CosmicClient objects.
 func ListNetworks(clientMap map[string]*cosmic.CosmicClient) (Networks, error) {
 	networks := []*Network{}
