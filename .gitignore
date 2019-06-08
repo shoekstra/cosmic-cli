@@ -1,2 +1,5 @@
 # Ignore goreleaser generated files
 dist/
+
+# Ignore vendored packages
+vendor/
