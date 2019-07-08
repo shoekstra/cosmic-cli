@@ -37,6 +37,17 @@ type PrivateGateway struct {
 // PrivateGateways exists to provide helper methods for []*PrivateGateway.
 type PrivateGateways []*PrivateGateway
 
+// FindByIPAddress looks for a PrivateGateway object by ID in PrivateGateways and returns it if it exists.
+func (p PrivateGateways) FindByIPAddress(ip string) []*PrivateGateway {
+	pgws := []*PrivateGateway{}
+	for _, pgw := range p {
+		if pgw.Ipaddress == ip {
+			pgws = append(pgws, pgw)
+		}
+	}
+	return pgws
+}
+
 // Sort will sort PrivateGateways by either the "cidr" or "name" field.
 func (p PrivateGateways) Sort(sortBy string, reverseSort bool) {
 	if h.Contains([]string{"cidr", "ipaddress", "vpccidr", "vpcname", "zonename"}, sortBy) == false {

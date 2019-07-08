@@ -20,6 +20,8 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"sort"
+	"strings"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -77,14 +79,35 @@ func runVPCRouteListCmd() error {
 	if err != nil {
 		return err
 	}
+
+	// Fetch list of routes and add the VPC name if the next hop is a private
+	// gateway attached to a VPC.
 	routes, err := cosmic.ListVPCRoutes(cosmic.NewAsyncClients(cfg), v.Id)
 	if err != nil {
 		return err
 	}
+	pgws, err := cosmic.ListVPCPrivateGateways(cosmic.NewAsyncClients(cfg))
+	if err != nil {
+		return err
+	}
+	for _, r := range routes {
+		pgws := cosmic.PrivateGateways(pgws).FindByIPAddress(r.Nexthop)
+		if len(pgws) > 0 {
+			// Just in case we somehow got more than one VPC returned...
+			vpcnames := []string{}
+			for _, pgw := range pgws {
+				vpcnames = append(vpcnames, pgw.Vpcname)
+			}
+			sort.Strings(vpcnames)
+			r.Vpcname = strings.Join(vpcnames, ", ")
+		} else {
+			r.Vpcname = ""
+		}
+	}
 	routes.Sort(cfg.SortBy, cfg.ReverseSort)
 
 	// Print output
-	fields := []string{"CIDR", "NextHop"}
+	fields := []string{"CIDR", "NextHop", "VPCName"}
 	if cfg.ShowID {
 		fields = append(fields, "ID")
 	}
