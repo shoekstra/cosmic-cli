@@ -32,6 +32,7 @@ func newVPCCmd() *cobra.Command {
 	cmd.AddCommand(newVPCListCmd())
 
 	// Add subgroups.
+	cmd.AddCommand(newVPCPrivateGatewayCmd())
 	cmd.AddCommand(newVPCRouteCmd())
 
 	return cmd

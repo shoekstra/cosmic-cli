@@ -30,6 +30,7 @@ import (
 // StaticRoute embeds *cosmic.StaticRoute to allow additional fields.
 type StaticRoute struct {
 	*cosmic.StaticRoute
+	Vpcname string
 }
 
 // StaticRoutes exists to provide helper methods for []*StaticRoute.

@@ -1,5 +1,5 @@
 //
-// Copyright © 2018 Stephen Hoekstra
+// Copyright © 2019 Stephen Hoekstra
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,11 +17,8 @@
 package main
 
 import (
-	"errors"
 	"fmt"
 	"os"
-	"sort"
-	"strings"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -29,10 +26,10 @@ import (
 	"sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/cosmic"
 )
 
-func newVPCRouteListCmd() *cobra.Command {
+func newVPCPrivateGatewayListCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "list",
-		Short: "List VPC routes",
+		Short: "List VPC PrivateGateways",
 		PreRun: func(cmd *cobra.Command, args []string) {
 			// Bind local flags in the PreRun stage to not overwrite bindings in other commands.
 			viper.BindPFlag("filter", cmd.Flags().Lookup("filter"))
@@ -41,11 +38,9 @@ func newVPCRouteListCmd() *cobra.Command {
 			viper.BindPFlag("reverse-sort", cmd.Flags().Lookup("reverse-sort"))
 			viper.BindPFlag("show-id", cmd.Flags().Lookup("show-id"))
 			viper.BindPFlag("sort-by", cmd.Flags().Lookup("sort-by"))
-			viper.BindPFlag("vpc-id", cmd.Flags().Lookup("vpc-id"))
-			viper.BindPFlag("vpc-name", cmd.Flags().Lookup("vpc-name"))
 		},
 		Run: func(cmd *cobra.Command, args []string) {
-			if err := runVPCRouteListCmd(); err != nil {
+			if err := runVPCPrivateGatewayListCmd(); err != nil {
 				fmt.Println(err)
 				os.Exit(1)
 			}
@@ -58,75 +53,31 @@ func newVPCRouteListCmd() *cobra.Command {
 	cmd.Flags().StringSliceP("filter", "f", nil, "filter results (supports regex)")
 	cmd.Flags().StringP("output", "o", "table", "specify output type")
 	cmd.Flags().StringP("profile", "p", "", "specify profile(s) to use")
-	cmd.Flags().StringP("sort-by", "s", "cidr", "field to sort by")
-	cmd.Flags().StringP("vpc-id", "", "", "specify VPC id")
-	cmd.Flags().StringP("vpc-name", "", "", "specify VPC name")
+	cmd.Flags().StringP("sort-by", "s", "ipaddress", "field to sort by")
 
 	return cmd
 }
 
-func runVPCRouteListCmd() error {
+func runVPCPrivateGatewayListCmd() error {
 	cfg, err := config.New()
 	if err != nil {
 		return err
 	}
 
-	if err := validateVPCRouteListCmd(cfg); err != nil {
-		return err
-	}
-
-	v, err := getVPC(cfg)
-	if err != nil {
-		return err
-	}
-
-	// Fetch list of routes and add the VPC name if the next hop is a private
-	// gateway attached to a VPC.
-	routes, err := cosmic.ListVPCRoutes(cosmic.NewAsyncClients(cfg), v.Id)
-	if err != nil {
-		return err
-	}
 	pgws, err := cosmic.ListVPCPrivateGateways(cosmic.NewAsyncClients(cfg))
 	if err != nil {
 		return err
 	}
-	for _, r := range routes {
-		pgws := cosmic.PrivateGateways(pgws).FindByIPAddress(r.Nexthop)
-		if len(pgws) > 0 {
-			// Just in case we somehow got more than one VPC returned...
-			vpcnames := []string{}
-			for _, pgw := range pgws {
-				vpcnames = append(vpcnames, pgw.Vpcname)
-			}
-			sort.Strings(vpcnames)
-			r.Vpcname = strings.Join(vpcnames, ", ")
-		} else {
-			r.Vpcname = ""
-		}
-	}
-	routes.Sort(cfg.SortBy, cfg.ReverseSort)
+	pgws.Sort(cfg.SortBy, cfg.ReverseSort)
 
 	// Print output
-	fields := []string{"CIDR", "NextHop", "VPCName"}
+	fields := []string{"CIDR", "IPAddress", "NetworkName", "VPCCidr", "VPCName", "ZoneName"}
 	if cfg.ShowID {
 		fields = append(fields, "ID")
+		fields = append(fields, "NetworkID")
+		fields = append(fields, "VPCID")
 	}
-	printResult(cfg.Output, "static route", cfg.Filter, fields, routes)
-
-	return nil
-}
-
-func validateVPCRouteListCmd(cfg *config.Config) error {
-	cmd := newVPCRouteListCmd()
-
-	if cfg.VPCID != "" && cfg.VPCName != "" {
-		return errors.New("Cannot specify --vpc-id and --vpc-name together")
-	}
-
-	if cfg.VPCID == "" && cfg.VPCName == "" {
-		cmd.Help()
-		os.Exit(0)
-	}
+	printResult(cfg.Output, "private gateway", cfg.Filter, fields, pgws)
 
 	return nil
 }
