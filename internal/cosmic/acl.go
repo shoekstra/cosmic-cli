@@ -248,6 +248,9 @@ func ListACLRules(clientMap map[string]*cosmic.CosmicClient, aclid string) (ACLR
 				if strings.Contains(err.Error(), fmt.Sprintf("entity does not exist")) {
 					return
 				}
+				if strings.Contains(err.Error(), fmt.Sprintf("Unable to find VPC associated with acl")) {
+					return
+				}
 				errChannel <- profileError{fmt.Sprintf("Error returned using profile \"%s\": %s", client, err)}
 				return
 			}
