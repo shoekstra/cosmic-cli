@@ -41,6 +41,7 @@ func newInstanceListCmd() *cobra.Command {
 			viper.BindPFlag("show-network", cmd.Flags().Lookup("show-network"))
 			viper.BindPFlag("show-service-offering", cmd.Flags().Lookup("show-service-offering"))
 			viper.BindPFlag("show-template", cmd.Flags().Lookup("show-template"))
+			viper.BindPFlag("show-version", cmd.Flags().Lookup("show-version"))
 			viper.BindPFlag("sort-by", cmd.Flags().Lookup("sort-by"))
 		},
 		Run: func(cmd *cobra.Command, args []string) {
@@ -58,6 +59,7 @@ func newInstanceListCmd() *cobra.Command {
 	cmd.Flags().BoolP("show-network", "", false, "show network info in result")
 	cmd.Flags().BoolP("show-service-offering", "", false, "show instance service offering in result")
 	cmd.Flags().BoolP("show-template", "", false, "show instance template name in result")
+	cmd.Flags().BoolP("show-version", "", false, "show instance version in result")
 	cmd.Flags().StringSliceP("filter", "f", nil, "filter results (supports regex)")
 	cmd.Flags().StringP("output", "o", "table", "specify output type")
 	cmd.Flags().StringP("profile", "p", "", "specify profile(s) to use")
@@ -114,15 +116,18 @@ func runInstanceListCmd() error {
 	if cfg.ShowHost {
 		fields = append(fields, "Hostname")
 	}
+	if cfg.ShowNetwork {
+		fields = append(fields, "NetworkName")
+		fields = append(fields, "VPCName")
+	}
 	if cfg.ShowServiceOffering {
 		fields = append(fields, "ServiceOfferingName")
 	}
 	if cfg.ShowTemplate {
 		fields = append(fields, "TemplateName")
 	}
-	if cfg.ShowNetwork {
-		fields = append(fields, "NetworkName")
-		fields = append(fields, "VPCName")
+	if cfg.ShowVersion {
+		fields = append(fields, "Version")
 	}
 	printResult(cfg.Output, "instance", cfg.Filter, fields, instances)
 

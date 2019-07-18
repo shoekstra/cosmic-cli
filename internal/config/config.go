@@ -50,6 +50,7 @@ type Config struct {
 	ShowSNAT            bool     `mapstructure:"show-snat"`
 	ShowServiceOffering bool     `mapstructure:"show-service-offering"`
 	ShowTemplate        bool     `mapstructure:"show-template"`
+	ShowVersion         bool     `mapstructure:"show-version"`
 	SortBy              string   `mapstructure:"sort-by"`
 	VPCID               string   `mapstructure:"vpc-id"`
 	VPCName             string   `mapstructure:"vpc-name"`
