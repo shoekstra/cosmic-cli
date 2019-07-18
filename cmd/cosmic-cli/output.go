@@ -45,6 +45,13 @@ func filterMatch(obj interface{}, filter string) bool {
 			break
 		}
 		fallthrough
+	case strings.EqualFold(filterField, "version"):
+		v := val.FieldByName("Laststartversion")
+		if v.IsValid() == true {
+			value = fmt.Sprintf("%v", v.Interface())
+			break
+		}
+		fallthrough
 	default:
 		// First try to read the field directly; if it exists set the value and break.
 		fn := strings.Title(strings.ToLower(filterField))
@@ -138,6 +145,13 @@ func printTable(cosmicType string, fields []string, result interface{}) {
 			case "Ipaddress":
 				if cosmicType == "instance" {
 					row = append(row, fmt.Sprintf("%v", val.FieldByName("Nic").Index(0).FieldByName("Ipaddress")))
+					break
+				}
+				fallthrough
+			// "Version" is a lot prettier to print and more user friendly than "LastStartVersion".
+			case "Version":
+				if cosmicType == "instance" {
+					row = append(row, fmt.Sprintf("%v", val.FieldByName("Laststartversion")))
 					break
 				}
 				fallthrough
