@@ -14,20 +14,9 @@
 // limitations under the License.
 //
 
-package main
+package cmd
 
-import (
-	"github.com/spf13/cobra"
-)
-
-func newACLRuleCmd() *cobra.Command {
-	cmd := &cobra.Command{
-		Use:   "rule",
-		Short: "ACL rule subcommands",
-	}
-
-	// Add subcommands.
-	cmd.AddCommand(newACLRuleListCmd())
-
-	return cmd
+func ExampleRunVersionCmd() {
+	runVersionCmd()
+	// Output: cosmic-cli v0.1.0
 }

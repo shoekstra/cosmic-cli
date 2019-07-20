@@ -14,20 +14,33 @@
 // limitations under the License.
 //
 
-package main
+package cmd
 
 import (
 	"github.com/spf13/cobra"
 )
 
-func newInstanceCmd() *cobra.Command {
+// NewCosmicCLICmd creates the `cosmic-cli` command and its subcommands.
+func NewCosmicCLICmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "instance",
-		Short: "Instance subcommands",
+		Use:   "cosmic-cli",
+		Short: "A CLI interface to manage Cosmic Cloud resources",
+		Long: `
+cosmic-cli is a CLI interface to manage Cosmic Cloud resources.
+
+It aims to simplify administration of Cosmic Cloud resources by providing single commands for
+actions that may require multiple API calls, whilst running commands against multiple API endpoints
+in parallel.`,
 	}
 
 	// Add subcommands.
-	cmd.AddCommand(newInstanceListCmd())
+	cmd.AddCommand(newVersionCmd())
+
+	// Add subgroups.
+	cmd.AddCommand(newACLCmd())
+	cmd.AddCommand(newCloudOpsCmd())
+	cmd.AddCommand(newInstanceCmd())
+	cmd.AddCommand(newVPCCmd())
 
 	return cmd
 }

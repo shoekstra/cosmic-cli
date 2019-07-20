@@ -14,28 +14,23 @@
 // limitations under the License.
 //
 
-package main
+package cmd
 
 import (
-	"fmt"
-
 	"github.com/spf13/cobra"
 )
 
-const version = "0.1.0"
-
-func newVersionCmd() *cobra.Command {
+func newVPCRouteCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "version",
-		Short: "Print version",
-		Run: func(cmd *cobra.Command, args []string) {
-			runVersionCmd()
-		},
+		Use:   "route",
+		Short: "VPC route subcommands",
 	}
 
-	return cmd
-}
+	// Add subcommands.
+	cmd.AddCommand(newVPCRouteAddCmd())
+	cmd.AddCommand(newVPCRouteDeleteCmd())
+	cmd.AddCommand(newVPCRouteFlushCmd())
+	cmd.AddCommand(newVPCRouteListCmd())
 
-func runVersionCmd() {
-	fmt.Println("cosmic-cli v" + version)
+	return cmd
 }

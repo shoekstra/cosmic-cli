@@ -14,12 +14,13 @@
 // limitations under the License.
 //
 
-package main
+package cmd
 
 import (
 	"errors"
 	"fmt"
 	"os"
+	"sync"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -27,23 +28,18 @@ import (
 	"sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/cosmic"
 )
 
-func newACLListCmd() *cobra.Command {
+func newVPCRouteFlushCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "list",
-		Short: "List ACLs",
+		Use:   "flush",
+		Short: "Flush VPC routes",
 		PreRun: func(cmd *cobra.Command, args []string) {
 			// Bind local flags in the PreRun stage to not overwrite bindings in other commands.
-			viper.BindPFlag("filter", cmd.Flags().Lookup("filter"))
-			viper.BindPFlag("output", cmd.Flags().Lookup("output"))
 			viper.BindPFlag("profile", cmd.Flags().Lookup("profile"))
-			viper.BindPFlag("reverse-sort", cmd.Flags().Lookup("reverse-sort"))
-			viper.BindPFlag("show-description", cmd.Flags().Lookup("show-description"))
-			viper.BindPFlag("sort-by", cmd.Flags().Lookup("sort-by"))
 			viper.BindPFlag("vpc-id", cmd.Flags().Lookup("vpc-id"))
 			viper.BindPFlag("vpc-name", cmd.Flags().Lookup("vpc-name"))
 		},
 		Run: func(cmd *cobra.Command, args []string) {
-			if err := runACLListCmd(); err != nil {
+			if err := runVPCRouteFlushCmd(args); err != nil {
 				fmt.Println(err)
 				os.Exit(1)
 			}
@@ -51,55 +47,65 @@ func newACLListCmd() *cobra.Command {
 	}
 
 	// Add local flags.
-	cmd.Flags().BoolP("reverse-sort", "", false, "reverse sort order")
-	cmd.Flags().BoolP("show-description", "", false, "show ACL description in result")
-	cmd.Flags().StringSliceP("filter", "f", nil, "filter results (supports regex)")
-	cmd.Flags().StringP("output", "o", "table", "specify output type")
 	cmd.Flags().StringP("profile", "p", "", "specify profile(s) to use")
-	cmd.Flags().StringP("sort-by", "s", "vpcname", "field to sort by")
 	cmd.Flags().StringP("vpc-id", "", "", "specify VPC id")
 	cmd.Flags().StringP("vpc-name", "", "", "specify VPC name")
 
 	return cmd
 }
 
-func runACLListCmd() error {
+func runVPCRouteFlushCmd(args []string) error {
 	cfg, err := config.New()
 	if err != nil {
 		return err
 	}
 
-	if err := validateACLListCmd(cfg); err != nil {
+	// Validate the config.
+	if err := validateVPCRouteFlushCmd(cfg); err != nil {
 		return err
 	}
 
-	acls, err := cosmic.ListACLs(cosmic.NewAsyncClients(cfg))
+	// Get a list of existing routes.
+	v, err := getVPC(cfg)
 	if err != nil {
 		return err
 	}
-	acls.Sort(cfg.SortBy, cfg.ReverseSort)
+	routes, err := cosmic.ListVPCRoutes(cosmic.NewAsyncClients(cfg), v.Id)
+	if err != nil {
+		return err
+	}
 
-	// Print output
-	fields := []string{"ID", "Name", "VPCName", "ZoneName"}
-	if cfg.ShowDescription {
-		fields = append(fields, "Description")
+	// Delete routes from VPC.
+	wg := sync.WaitGroup{}
+	wg.Add(len(routes))
+
+	for _, r := range routes {
+		go func(r *cosmic.StaticRoute) error {
+			defer wg.Done()
+
+			fmt.Printf("Deleting route cidr:%s, nexthop:%s ... \n", r.Cidr, r.Nexthop)
+			if err := cosmic.DeleteVPCRoute(cosmic.NewAsyncClients(cfg), r.Id); err != nil {
+				return err
+			}
+
+			return nil
+		}(r)
 	}
-	// Filter results if --vpc-id or --vpc-name flags are used
-	if cfg.VPCID != "" {
-		fields = append(fields, "VPCID")
-		cfg.Filter = []string{fmt.Sprintf("%s=^%s$", "vpcid", cfg.VPCID)}
-	}
-	if cfg.VPCName != "" {
-		cfg.Filter = []string{fmt.Sprintf("%s=^%s$", "vpcname", cfg.VPCName)}
-	}
-	printResult(cfg.Output, "ACL", cfg.Filter, fields, acls)
+	wg.Wait()
 
 	return nil
 }
 
-func validateACLListCmd(cfg *config.Config) error {
+func validateVPCRouteFlushCmd(cfg *config.Config) error {
+	cmd := newVPCRouteFlushCmd()
+
 	if cfg.VPCID != "" && cfg.VPCName != "" {
 		return errors.New("Cannot specify --vpc-id and --vpc-name together")
+	}
+
+	if cfg.VPCID == "" && cfg.VPCName == "" {
+		cmd.Help()
+		os.Exit(0)
 	}
 
 	return nil

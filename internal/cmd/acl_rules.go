@@ -14,19 +14,20 @@
 // limitations under the License.
 //
 
-package main
+package cmd
 
 import (
-	"fmt"
-	"os"
-
-	"sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/cmd"
+	"github.com/spf13/cobra"
 )
 
-func main() {
-	cmd := cmd.NewCosmicCLICmd()
-	if err := cmd.Execute(); err != nil {
-		fmt.Println(err)
-		os.Exit(1)
+func newACLRuleCmd() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "rule",
+		Short: "ACL rule subcommands",
 	}
+
+	// Add subcommands.
+	cmd.AddCommand(newACLRuleListCmd())
+
+	return cmd
 }

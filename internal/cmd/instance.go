@@ -14,20 +14,20 @@
 // limitations under the License.
 //
 
-package main
+package cmd
 
 import (
 	"github.com/spf13/cobra"
 )
 
-func newCloudOpsCmd() *cobra.Command {
+func newInstanceCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "cloudops",
-		Short: "Cloud Ops subcommands",
+		Use:   "instance",
+		Short: "Instance subcommands",
 	}
 
 	// Add subcommands.
-	cmd.AddCommand(newCloudOpsListCmd())
+	cmd.AddCommand(newInstanceListCmd())
 
 	return cmd
 }
