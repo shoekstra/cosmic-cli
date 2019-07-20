@@ -25,15 +25,16 @@ func NewCosmicCLICmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "cosmic-cli",
 		Short: "A CLI interface to manage Cosmic Cloud resources",
-		Long: `
-cosmic-cli is a CLI interface to manage Cosmic Cloud resources.
+		Long: `cosmic-cli is a CLI interface to manage Cosmic Cloud resources.
 
 It aims to simplify administration of Cosmic Cloud resources by providing single commands for
 actions that may require multiple API calls, whilst running commands against multiple API endpoints
 in parallel.`,
+		DisableAutoGenTag: true,
 	}
 
 	// Add subcommands.
+	cmd.AddCommand(newDocsCmd())
 	cmd.AddCommand(newVersionCmd())
 
 	// Add subgroups.

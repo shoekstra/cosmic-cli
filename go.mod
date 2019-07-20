@@ -4,6 +4,7 @@ go 1.12
 
 require (
 	github.com/MissionCriticalCloud/go-cosmic v6.2.6+incompatible
+	github.com/cpuguy83/go-md2man v1.0.10 // indirect
 	github.com/forestgiant/sliceutil v0.0.0-20160425183142-94783f95db6c
 	github.com/inconshreveable/mousetrap v1.0.0 // indirect
 	github.com/mattn/go-runewidth v0.0.4 // indirect
