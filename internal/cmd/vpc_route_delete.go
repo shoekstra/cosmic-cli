@@ -14,12 +14,14 @@
 // limitations under the License.
 //
 
-package main
+package cmd
 
 import (
 	"errors"
 	"fmt"
 	"os"
+	"regexp"
+	"strings"
 	"sync"
 
 	"github.com/spf13/cobra"
@@ -28,10 +30,10 @@ import (
 	"sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/cosmic"
 )
 
-func newVPCRouteFlushCmd() *cobra.Command {
+func newVPCRouteDeleteCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "flush",
-		Short: "Flush VPC routes",
+		Use:   "delete [ cidr=CIDR | nexthop=NEXTHOP ]",
+		Short: "Delete VPC routes",
 		PreRun: func(cmd *cobra.Command, args []string) {
 			// Bind local flags in the PreRun stage to not overwrite bindings in other commands.
 			viper.BindPFlag("profile", cmd.Flags().Lookup("profile"))
@@ -39,7 +41,7 @@ func newVPCRouteFlushCmd() *cobra.Command {
 			viper.BindPFlag("vpc-name", cmd.Flags().Lookup("vpc-name"))
 		},
 		Run: func(cmd *cobra.Command, args []string) {
-			if err := runVPCRouteFlushCmd(args); err != nil {
+			if err := runVPCRouteDeleteCmd(args); err != nil {
 				fmt.Println(err)
 				os.Exit(1)
 			}
@@ -54,14 +56,19 @@ func newVPCRouteFlushCmd() *cobra.Command {
 	return cmd
 }
 
-func runVPCRouteFlushCmd(args []string) error {
+func runVPCRouteDeleteCmd(args []string) error {
 	cfg, err := config.New()
 	if err != nil {
 		return err
 	}
 
+	// Validate args.
+	if err := validateVPCRouteDeleteArgs(args); err != nil {
+		return err
+	}
+
 	// Validate the config.
-	if err := validateVPCRouteFlushCmd(cfg); err != nil {
+	if err := validateVPCRouteDeleteCmd(cfg); err != nil {
 		return err
 	}
 
@@ -76,10 +83,28 @@ func runVPCRouteFlushCmd(args []string) error {
 	}
 
 	// Delete routes from VPC.
-	wg := sync.WaitGroup{}
-	wg.Add(len(routes))
+	split := strings.Split(args[0], "=")
+	deleteRoutes := []*cosmic.StaticRoute{}
+	for _, v := range strings.Split(split[1], ",") {
+		for _, r := range routes {
+			match := false
+			if split[0] == "cidr" {
+				match, _ = regexp.MatchString(v, r.Cidr)
+			}
+			if split[0] == "nexthop" {
+				match, _ = regexp.MatchString(v, r.Nexthop)
+			}
+			// Continue if we don't find a matching cidr or nexthop
+			if match {
+				deleteRoutes = append(deleteRoutes, r)
+			}
+		}
+	}
 
-	for _, r := range routes {
+	wg := sync.WaitGroup{}
+	wg.Add(len(deleteRoutes))
+
+	for _, r := range deleteRoutes {
 		go func(r *cosmic.StaticRoute) error {
 			defer wg.Done()
 
@@ -96,8 +121,27 @@ func runVPCRouteFlushCmd(args []string) error {
 	return nil
 }
 
-func validateVPCRouteFlushCmd(cfg *config.Config) error {
-	cmd := newVPCRouteFlushCmd()
+func validateVPCRouteDeleteArgs(args []string) error {
+	if len(args) == 0 {
+		cmd := newVPCRouteDeleteCmd()
+		cmd.Help()
+		os.Exit(0)
+	}
+
+	if len(args) != 1 {
+		return errors.New("Incorrect number of parameters passed")
+	}
+
+	split := strings.Split(args[0], "=")
+	if (strings.EqualFold("cidr", split[0]) || strings.EqualFold("nexthop", split[0])) == false {
+		return errors.New("This command expects either \"cidr=CIDR[,CIDR,CIDR]\" or \"nexthop=NEXTHOP[,NEXTHOP,NEXTHOP]\"")
+	}
+
+	return nil
+}
+
+func validateVPCRouteDeleteCmd(cfg *config.Config) error {
+	cmd := newVPCRouteDeleteCmd()
 
 	if cfg.VPCID != "" && cfg.VPCName != "" {
 		return errors.New("Cannot specify --vpc-id and --vpc-name together")

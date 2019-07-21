@@ -1,5 +1,5 @@
 //
-// Copyright © 2018 Stephen Hoekstra
+// Copyright © 2019 Stephen Hoekstra
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,9 +14,20 @@
 // limitations under the License.
 //
 
-package main
+package cmd
 
-func ExampleRunVersionCmd() {
-	runVersionCmd()
-	// Output: cosmic-cli v0.1.0
+import (
+	"github.com/spf13/cobra"
+)
+
+func newVPCPrivateGatewayCmd() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "pgw",
+		Short: "VPC private gateway subcommands",
+	}
+
+	// Add subcommands.
+	cmd.AddCommand(newVPCPrivateGatewayListCmd())
+
+	return cmd
 }

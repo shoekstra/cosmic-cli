@@ -1,5 +1,5 @@
 //
-// Copyright © 2018 Stephen Hoekstra
+// Copyright © 2019 Stephen Hoekstra
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,23 +14,40 @@
 // limitations under the License.
 //
 
-package main
+package cmd
 
 import (
+	"fmt"
+	"os"
+
 	"github.com/spf13/cobra"
+	"sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/docs"
 )
 
-func newVPCRouteCmd() *cobra.Command {
+func newDocsCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "route",
-		Short: "VPC route subcommands",
+		Use:    "docs",
+		Short:  "Generate documentation as markdown",
+		Hidden: true,
+		Run: func(cmd *cobra.Command, args []string) {
+			if err := runDocsCmd(args); err != nil {
+				fmt.Println(err)
+				os.Exit(1)
+			}
+		},
 	}
 
-	// Add subcommands.
-	cmd.AddCommand(newVPCRouteAddCmd())
-	cmd.AddCommand(newVPCRouteDeleteCmd())
-	cmd.AddCommand(newVPCRouteFlushCmd())
-	cmd.AddCommand(newVPCRouteListCmd())
-
 	return cmd
+}
+
+func runDocsCmd(args []string) error {
+	path := "./markdown"
+	if len(args) > 0 {
+		path = args[0]
+	}
+	if err := docs.GenMarkdownTree(NewCosmicCLICmd(), path); err != nil {
+		return err
+	}
+
+	return nil
 }

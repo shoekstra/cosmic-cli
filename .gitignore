@@ -1,5 +1,8 @@
 # Ignore goreleaser generated files
 dist/
 
+# Ignore generated MD docs
+markdown/
+
 # Ignore vendored packages
 vendor/

@@ -14,20 +14,23 @@
 // limitations under the License.
 //
 
-package main
+package cmd
 
 import (
 	"github.com/spf13/cobra"
 )
 
-func newACLRuleCmd() *cobra.Command {
+func newVPCRouteCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "rule",
-		Short: "ACL rule subcommands",
+		Use:   "route",
+		Short: "VPC route subcommands",
 	}
 
 	// Add subcommands.
-	cmd.AddCommand(newACLRuleListCmd())
+	cmd.AddCommand(newVPCRouteAddCmd())
+	cmd.AddCommand(newVPCRouteDeleteCmd())
+	cmd.AddCommand(newVPCRouteFlushCmd())
+	cmd.AddCommand(newVPCRouteListCmd())
 
 	return cmd
 }

@@ -14,20 +14,28 @@
 // limitations under the License.
 //
 
-package main
+package cmd
 
 import (
+	"fmt"
+
 	"github.com/spf13/cobra"
 )
 
-func newCloudOpsCmd() *cobra.Command {
+const version = "0.1.0"
+
+func newVersionCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "cloudops",
-		Short: "Cloud Ops subcommands",
+		Use:   "version",
+		Short: "Print version",
+		Run: func(cmd *cobra.Command, args []string) {
+			runVersionCmd()
+		},
 	}
 
-	// Add subcommands.
-	cmd.AddCommand(newCloudOpsListCmd())
-
 	return cmd
+}
+
+func runVersionCmd() {
+	fmt.Println("cosmic-cli v" + version)
 }
