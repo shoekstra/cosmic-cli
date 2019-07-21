@@ -50,6 +50,8 @@ func newCloudOpsListIPCmd() *cobra.Command {
 	cmd.Flags().StringP("output", "o", "table", "specify output type")
 	cmd.Flags().StringP("profile", "p", "", "specify profile(s) to use")
 
+	cmd.Flags().MarkHidden("output") // Not in use yet.
+
 	return cmd
 }
 
