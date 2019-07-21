@@ -55,6 +55,8 @@ func newVPCPrivateGatewayListCmd() *cobra.Command {
 	cmd.Flags().StringP("profile", "p", "", "specify profile(s) to use")
 	cmd.Flags().StringP("sort-by", "s", "ipaddress", "field to sort by")
 
+	cmd.Flags().MarkHidden("output") // Not in use yet.
+
 	return cmd
 }
 

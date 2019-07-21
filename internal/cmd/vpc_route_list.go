@@ -62,6 +62,8 @@ func newVPCRouteListCmd() *cobra.Command {
 	cmd.Flags().StringP("vpc-id", "", "", "specify VPC id")
 	cmd.Flags().StringP("vpc-name", "", "", "specify VPC name")
 
+	cmd.Flags().MarkHidden("output") // Not in use yet.
+
 	return cmd
 }
 
