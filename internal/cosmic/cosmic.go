@@ -1,5 +1,5 @@
 //
-// Copyright © 2018 Stephen Hoekstra
+// Copyright © 2019 Stephen Hoekstra
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ import (
 
 	"github.com/MissionCriticalCloud/go-cosmic/cosmic"
 	"github.com/forestgiant/sliceutil"
-	"sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/config"
+	"github.com/shoekstra/cosmic-cli/internal/config"
 )
 
 // profileError represents a profile config error.

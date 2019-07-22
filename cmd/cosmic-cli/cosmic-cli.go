@@ -1,5 +1,5 @@
 //
-// Copyright © 2018 Stephen Hoekstra
+// Copyright © 2019 Stephen Hoekstra
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ import (
 	"fmt"
 	"os"
 
-	"sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/cmd"
+	"github.com/shoekstra/cosmic-cli/internal/cmd"
 )
 
 func main() {

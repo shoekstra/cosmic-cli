@@ -1,5 +1,5 @@
 //
-// Copyright © 2018 Stephen Hoekstra
+// Copyright © 2019 Stephen Hoekstra
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ import (
 	"strings"
 
 	"github.com/olekukonko/tablewriter"
-	h "sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/helper"
+	h "github.com/shoekstra/cosmic-cli/internal/helper"
 )
 
 func filterMatch(obj interface{}, filter string) bool {

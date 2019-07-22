@@ -1,5 +1,5 @@
 //
-// Copyright © 2018 Stephen Hoekstra
+// Copyright © 2019 Stephen Hoekstra
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,10 +22,10 @@ import (
 	"os"
 	"sync"
 
+	"github.com/shoekstra/cosmic-cli/internal/config"
+	"github.com/shoekstra/cosmic-cli/internal/cosmic"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	"sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/config"
-	"sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/cosmic"
 )
 
 func newVPCRouteFlushCmd() *cobra.Command {

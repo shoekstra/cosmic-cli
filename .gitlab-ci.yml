@@ -25,7 +25,7 @@ build darwin-amd64:
     GOOS: darwin
     GOARCH: amd64
   script:
-    - go build -o cosmic-cli-$GOOS-$GOARCH sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/cmd/cosmic-cli
+    - go build -o cosmic-cli-$GOOS-$GOARCH github.com/shoekstra/cosmic-cli/cmd/cosmic-cli
   artifacts:
     paths:
     - cosmic-cli-*
@@ -36,7 +36,7 @@ build linux-amd64:
     GOOS: linux
     GOARCH: amd64
   script:
-    - go build -o cosmic-cli-$GOOS-$GOARCH sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/cmd/cosmic-cli
+    - go build -o cosmic-cli-$GOOS-$GOARCH github.com/shoekstra/cosmic-cli/cmd/cosmic-cli
   artifacts:
     paths:
     - cosmic-cli-*
@@ -47,7 +47,7 @@ build windows-amd64:
     GOOS: windows
     GOARCH: amd64
   script:
-    - go build -o cosmic-cli-$GOOS-$GOARCH.exe sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/cmd/cosmic-cli
+    - go build -o cosmic-cli-$GOOS-$GOARCH.exe github.com/shoekstra/cosmic-cli/cmd/cosmic-cli
   artifacts:
     paths:
     - cosmic-cli-*
