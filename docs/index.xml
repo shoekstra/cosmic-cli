@@ -1,15 +1,25 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Documentation for Cosmic CLI</title>
+    <title>Cosmic CLI on Documentation for Cosmic CLI</title>
     <link>https://shoekstra.github.io/cosmic-cli/</link>
-    <description>Recent content on Documentation for Cosmic CLI</description>
+    <description>Recent content in Cosmic CLI on Documentation for Cosmic CLI</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Mon, 22 Jul 2019 15:05:55 +0200</lastBuildDate>
+    <lastBuildDate>Sun, 21 Jul 2019 11:14:22 +0200</lastBuildDate>
     
 	<atom:link href="https://shoekstra.github.io/cosmic-cli/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>License</title>
+      <link>https://shoekstra.github.io/cosmic-cli/license/</link>
+      <pubDate>Mon, 22 Jul 2019 16:17:39 +0200</pubDate>
+      
+      <guid>https://shoekstra.github.io/cosmic-cli/license/</guid>
+      <description>This project is is licensed under the Apache 2.0 license.
+Copyright 2019 Stephen Hoekstra &amp;lt;stephenhoekstra@gmail.com&amp;gt; Licensed under the Apache License, Version 2.0 (the &amp;quot;License&amp;quot;); you may not use this file except in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an &amp;quot;AS IS&amp;quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</description>
+    </item>
     
     <item>
       <title>cosmic-cli</title>

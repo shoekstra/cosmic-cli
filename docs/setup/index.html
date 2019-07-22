@@ -9,7 +9,7 @@
 
     <link rel="icon" href="/cosmic-cli/images/favicon.png" type="image/png">
 
-    <title>cosmic-cli vpc route add :: Documentation for Cosmic CLI</title>
+    <title>Setup :: Documentation for Cosmic CLI</title>
 
     
     <link href="/cosmic-cli/css/nucleus.css?1563806738" rel="stylesheet">
@@ -35,7 +35,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/cosmic-cli/commands/cosmic-cli_vpc_route_add/">
+  <body class="" data-url="/cosmic-cli/setup/">
     <nav id="sidebar" class="">
 
   
@@ -99,8 +99,8 @@
 
 
 <li data-nav-id="/cosmic-cli/setup/" title="Setup" class="dd-item
-        
-        
+        parent
+        active
         
         ">
   <a href="/cosmic-cli/setup/">
@@ -121,7 +121,7 @@
 
 
 <li data-nav-id="/cosmic-cli/commands/" title="Commands" class="dd-item
-        parent
+        
         
         
         ">
@@ -468,7 +468,7 @@
 
 
 
-<li data-nav-id="/cosmic-cli/commands/cosmic-cli_vpc_route_add/" title="cosmic-cli vpc route add" class="dd-item active">
+<li data-nav-id="/cosmic-cli/commands/cosmic-cli_vpc_route_add/" title="cosmic-cli vpc route add" class="dd-item ">
   <a href="/cosmic-cli/commands/cosmic-cli_vpc_route_add/">
     cosmic-cli vpc route add
     
@@ -587,7 +587,7 @@
                   
                   
                   <div id="top-github-link">
-                    <a class="github-link" title='Edit this page' href="https://github.com/shoekstra/cosmic-cli-website/edit/master/content/commands/cosmic-cli_vpc_route_add.md" target="blank">
+                    <a class="github-link" title='Edit this page' href="https://github.com/shoekstra/cosmic-cli-website/edit/master/content/setup/_index.md" target="blank">
                       <i class="fas fa-code-branch"></i>
                       <span id="top-github-link-text">Edit this page</span>
                     </a>
@@ -614,13 +614,7 @@
             
           
           
-            
-            
-          
-          
-            <a href='/cosmic-cli/'>Cosmic CLI</a> > <a href='/cosmic-cli/commands/'>Commands</a> > cosmic-cli vpc route add
-          
-         
+            <a href='/cosmic-cli/'>Cosmic CLI</a> > Setup
           
          
           
@@ -631,15 +625,7 @@
                 
                     <div class="progress">
     <div class="wrapper">
-<nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#options">Options</a></li>
-<li><a href="#see-also">SEE ALSO</a></li>
-</ul></li>
-</ul>
-</nav>
+
     </div>
 </div>
 
@@ -655,7 +641,7 @@
           
             <h1>
               
-              cosmic-cli vpc route add
+              Setup
             </h1>
           
 
@@ -664,31 +650,45 @@
 
 
 
+	<p>Cosmic CLI requires a config file at <code>$HOME/.cosmic-cli/config.toml</code> to run. This file should contain each Cosmic API you want to run commands against.</p>
 
-<p>Add VPC routes</p>
+<p>Below is an example config file:</p>
 
-<pre><code class="language-text">cosmic-cli vpc route add CIDR[,CIDR,CIDR] via NEXTHOP [flags]
+<pre><code class="language-text">[profiles.zone1]
+api_url    = &quot;https://zone1/client/api&quot;
+api_key    = &quot;&lt;zone1 api key&gt;&quot;
+secret_key = &quot;&lt;zone1 secret key&gt;&quot;
+
+[profiles.zone2]
+api_url    = &quot;https://zone2/client/api&quot;
+api_key    = &quot;&lt;zone2 api key&gt;&quot;
+secret_key = &quot;&lt;zone2 secret key&gt;&quot;
+
+[profiles.zone3]
+api_url    = &quot;https://zone3/client/api&quot;
+api_key    = &quot;&lt;zone3 api key&gt;&quot;
+secret_key = &quot;&lt;zone3 secret key&gt;&quot;
 </code></pre>
 
-<h2 id="options">Options</h2>
+<p>By default the CLI commands are ran against all configured profiles.  If you want to select which profiles to use you can use the <code>-p</code> option.</p>
 
-<pre><code class="language-text">  -h, --help              help for add
-  -p, --profile string    specify profile(s) to use
-      --vpc-id string     specify VPC id
-      --vpc-name string   specify VPC name
+<p>For example, to run a command against a single profile:</p>
+
+<pre><code>cosmic-cli vpc list -p zone1
 </code></pre>
 
-<h2 id="see-also">SEE ALSO</h2>
+<p>or to run against multiple profiles:</p>
 
-<ul>
-<li><a href="../cosmic-cli_vpc_route/">cosmic-cli vpc route</a> - VPC route subcommands</li>
-</ul>
+<pre><code>cosmic-cli vpc list -p zone1,zone2
+</code></pre>
+
+
+
 
 
 <footer class=" footline" >
 	
 </footer>
-
 
         
         </div> 
@@ -740,38 +740,6 @@
             
                 
                     
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-                        
-            
-            
-                
-                    
-                        
-                        
                     
                 
                 
@@ -783,6 +751,22 @@
                     
             
         
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
                     
                         
             
@@ -1045,7 +1029,6 @@
             
                 
                     
-                    
                 
                 
 
@@ -1062,8 +1045,21 @@
             
                 
                     
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
                         
-                        
+            
+            
+                
                     
                 
                 
@@ -1120,10 +1116,10 @@
 	 
 	 
 		
-			<a class="nav nav-prev" href="/cosmic-cli/commands/cosmic-cli_vpc_route/" title="cosmic-cli vpc route"> <i class="fa fa-chevron-left"></i></a>
+			<a class="nav nav-prev" href="/cosmic-cli/install/" title="Install"> <i class="fa fa-chevron-left"></i></a>
 		
 		
-			<a class="nav nav-next" href="/cosmic-cli/commands/cosmic-cli_vpc_route_delete/" title="cosmic-cli vpc route delete" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+			<a class="nav nav-next" href="/cosmic-cli/commands/" title="Commands" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
 		
 	
     </div>
@@ -1154,4 +1150,3 @@
 
   </body>
 </html>
-

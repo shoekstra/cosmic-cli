@@ -1,17 +1,31 @@
 [
 {
+	"uri": "https://shoekstra.github.io/cosmic-cli/install/",
+	"title": "Install",
+	"tags": [],
+	"description": "",
+	"content": "The following binaries are available from the master branch:\n cosmic-cli-darwin-amd64 (master/unreleased) cosmic-cli-linux-amd64 (master/unreleased) cosmic-cli-windows-amd64.exe (master/unreleased)  "
+},
+{
+	"uri": "https://shoekstra.github.io/cosmic-cli/setup/",
+	"title": "Setup",
+	"tags": [],
+	"description": "",
+	"content": "Cosmic CLI requires a config file at $HOME/.cosmic-cli/config.toml to run. This file should contain each Cosmic API you want to run commands against.\nBelow is an example config file:\n[profiles.zone1] api_url = \u0026quot;https://zone1/client/api\u0026quot; api_key = \u0026quot;\u0026lt;zone1 api key\u0026gt;\u0026quot; secret_key = \u0026quot;\u0026lt;zone1 secret key\u0026gt;\u0026quot; [profiles.zone2] api_url = \u0026quot;https://zone2/client/api\u0026quot; api_key = \u0026quot;\u0026lt;zone2 api key\u0026gt;\u0026quot; secret_key = \u0026quot;\u0026lt;zone2 secret key\u0026gt;\u0026quot; [profiles.zone3] api_url = \u0026quot;https://zone3/client/api\u0026quot; api_key = \u0026quot;\u0026lt;zone3 api key\u0026gt;\u0026quot; secret_key = \u0026quot;\u0026lt;zone3 secret key\u0026gt;\u0026quot;  By default the CLI commands are ran against all configured profiles. If you want to select which profiles to use you can use the -p option.\nFor example, to run a command against a single profile:\ncosmic-cli vpc list -p zone1  or to run against multiple profiles:\ncosmic-cli vpc list -p zone1,zone2  "
+},
+{
 	"uri": "https://shoekstra.github.io/cosmic-cli/commands/",
 	"title": "Commands",
 	"tags": [],
 	"description": "",
-	"content": ""
+	"content": " On the left is a command reference of all Cosmic CLI commands and their sub-commands.\nCommand help Help for a specific subcommand is available by running cosmic-cli help \u0026lt;subcommand\u0026gt; or cosmic-cli \u0026lt;subcommand\u0026gt; -h.\nFiltering results Cosmic CLI commands are ran against all configured profiles, meaning sometimes you\u0026rsquo;ll get many results when you\u0026rsquo;re just looking for one or a few.\nTo filter a result use -f field=value, where field can be any table header and value is parsed as a regex for more flexible filtering. Sometimes you may need to use a --show command to show additional fields for filtering.\nTo filter results where the name field contains \u0026ldquo;vdi\u0026rdquo;:\n-f name=vdi  When filtering for a value with spaces, put the filter in quotes:\n-f 'name=vdi 2'  You can use multiple filters by calling -f multiple times:\n-f name=vdi -f vpcofferingname=default  Or you can pass a list to -f:\n-f name=vdi,vpcofferingname=default  "
 },
 {
-	"uri": "https://shoekstra.github.io/cosmic-cli/",
-	"title": "Documentation for Cosmic CLI",
+	"uri": "https://shoekstra.github.io/cosmic-cli/license/",
+	"title": "License",
 	"tags": [],
 	"description": "",
-	"content": ""
+	"content": "This project is is licensed under the Apache 2.0 license.\nCopyright 2019 Stephen Hoekstra \u0026lt;stephenhoekstra@gmail.com\u0026gt; Licensed under the Apache License, Version 2.0 (the \u0026quot;License\u0026quot;); you may not use this file except in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an \u0026quot;AS IS\u0026quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.  "
 },
 {
 	"uri": "https://shoekstra.github.io/cosmic-cli/commands/cosmic-cli/",
@@ -159,6 +173,13 @@
 	"tags": [],
 	"description": "",
 	"content": " List VPC routes\ncosmic-cli vpc route list [flags]  Options -f, --filter strings filter results (supports regex) -h, --help help for list -p, --profile string specify profile(s) to use --reverse-sort reverse sort order --show-id show VPC id in result -s, --sort-by string field to sort by (default \u0026quot;cidr\u0026quot;) --vpc-id string specify VPC id --vpc-name string specify VPC name  SEE ALSO  cosmic-cli vpc route - VPC route subcommands  "
+},
+{
+	"uri": "https://shoekstra.github.io/cosmic-cli/",
+	"title": "Cosmic CLI",
+	"tags": [],
+	"description": "",
+	"content": " Cosmic CLI Cosmic CLI is a CLI interface to interact with Cosmic Cloud APIs.\nIt aims to simplify administration of Cosmic Cloud resources by providing single commands for actions that may require multiple API calls; it also runs commands against multiple API endpoints in parallel.\nAt this time most of the commands used are for listing resources and not so much for creating or destroying resources.\n Get started  Install Cosmic CLI Setup Cosmic CLI  Command reference  See commands and their usage  "
 },
 {
 	"uri": "https://shoekstra.github.io/cosmic-cli/categories/",

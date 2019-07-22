@@ -12,20 +12,20 @@
     <title>Commands :: Documentation for Cosmic CLI</title>
 
     
-    <link href="/cosmic-cli/css/nucleus.css?1563805846" rel="stylesheet">
-    <link href="/cosmic-cli/css/fontawesome-all.min.css?1563805846" rel="stylesheet">
-    <link href="/cosmic-cli/css/hybrid.css?1563805846" rel="stylesheet">
-    <link href="/cosmic-cli/css/featherlight.min.css?1563805846" rel="stylesheet">
-    <link href="/cosmic-cli/css/perfect-scrollbar.min.css?1563805846" rel="stylesheet">
-    <link href="/cosmic-cli/css/auto-complete.css?1563805846" rel="stylesheet">
-    <link href="/cosmic-cli/css/atom-one-dark-reasonable.css?1563805846" rel="stylesheet">
-    <link href="/cosmic-cli/css/theme.css?1563805846" rel="stylesheet">
-    <link href="/cosmic-cli/css/hugo-theme.css?1563805846" rel="stylesheet">
+    <link href="/cosmic-cli/css/nucleus.css?1563806738" rel="stylesheet">
+    <link href="/cosmic-cli/css/fontawesome-all.min.css?1563806738" rel="stylesheet">
+    <link href="/cosmic-cli/css/hybrid.css?1563806738" rel="stylesheet">
+    <link href="/cosmic-cli/css/featherlight.min.css?1563806738" rel="stylesheet">
+    <link href="/cosmic-cli/css/perfect-scrollbar.min.css?1563806738" rel="stylesheet">
+    <link href="/cosmic-cli/css/auto-complete.css?1563806738" rel="stylesheet">
+    <link href="/cosmic-cli/css/atom-one-dark-reasonable.css?1563806738" rel="stylesheet">
+    <link href="/cosmic-cli/css/theme.css?1563806738" rel="stylesheet">
+    <link href="/cosmic-cli/css/hugo-theme.css?1563806738" rel="stylesheet">
     
-      <link href="/cosmic-cli/css/theme-blue.css?1563805846" rel="stylesheet">
+      <link href="/cosmic-cli/css/theme-blue.css?1563806738" rel="stylesheet">
     
 
-    <script src="/cosmic-cli/js/jquery-3.3.1.min.js?1563805846"></script>
+    <script src="/cosmic-cli/js/jquery-3.3.1.min.js?1563806738"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -53,14 +53,14 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="/cosmic-cli/js/lunr.min.js?1563805846"></script>
-<script type="text/javascript" src="/cosmic-cli/js/auto-complete.js?1563805846"></script>
+<script type="text/javascript" src="/cosmic-cli/js/lunr.min.js?1563806738"></script>
+<script type="text/javascript" src="/cosmic-cli/js/auto-complete.js?1563806738"></script>
 <script type="text/javascript">
     
         var baseurl = "https:\/\/shoekstra.github.io\/cosmic-cli\/";
     
 </script>
-<script type="text/javascript" src="/cosmic-cli/js/search.js?1563805846"></script>
+<script type="text/javascript" src="/cosmic-cli/js/search.js?1563806738"></script>
 
     
   </div>
@@ -69,6 +69,50 @@
     <ul class="topics">
 
       
+      
+      
+
+
+
+
+
+<li data-nav-id="/cosmic-cli/install/" title="Install" class="dd-item
+        
+        
+        
+        ">
+  <a href="/cosmic-cli/install/">
+    Install
+    
+  </a>
+  
+  
+</li>
+
+
+
+      
+      
+
+
+
+
+
+<li data-nav-id="/cosmic-cli/setup/" title="Setup" class="dd-item
+        
+        
+        
+        ">
+  <a href="/cosmic-cli/setup/">
+    Setup
+    
+  </a>
+  
+  
+</li>
+
+
+
       
       
 
@@ -542,6 +586,13 @@
                   
                   
                   
+                  <div id="top-github-link">
+                    <a class="github-link" title='Edit this page' href="https://github.com/shoekstra/cosmic-cli-website/edit/master/content/commands/_index.md" target="blank">
+                      <i class="fas fa-code-branch"></i>
+                      <span id="top-github-link-text">Edit this page</span>
+                    </a>
+                  </div>
+                  
                 
                 
                 <div id="breadcrumbs" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
@@ -563,7 +614,7 @@
             
           
           
-            <a href='/cosmic-cli/'>Documentation for Cosmic CLI</a> > Commands
+            <a href='/cosmic-cli/'>Cosmic CLI</a> > Commands
           
          
           
@@ -574,7 +625,15 @@
                 
                     <div class="progress">
     <div class="wrapper">
-
+<nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#command-help">Command help</a></li>
+<li><a href="#filtering-results">Filtering results</a></li>
+</ul></li>
+</ul>
+</nav>
     </div>
 </div>
 
@@ -600,6 +659,39 @@
 
 
 	
+
+<p>On the left is a command reference of all Cosmic CLI commands and their sub-commands.</p>
+
+<h2 id="command-help">Command help</h2>
+
+<p>Help for a specific subcommand is available by running <code>cosmic-cli help &lt;subcommand&gt;</code> or <code>cosmic-cli &lt;subcommand&gt; -h</code>.</p>
+
+<h2 id="filtering-results">Filtering results</h2>
+
+<p>Cosmic CLI commands are ran against all configured profiles, meaning sometimes you&rsquo;ll get many results when you&rsquo;re just looking for one or a few.</p>
+
+<p>To filter a result use <code>-f field=value</code>, where <code>field</code> can be any table header and <code>value</code> is parsed as a regex for more flexible filtering. Sometimes you may need to use a <code>--show</code> command to show additional fields for filtering.</p>
+
+<p>To filter results where the name field contains &ldquo;vdi&rdquo;:</p>
+
+<pre><code class="language-text">-f name=vdi
+</code></pre>
+
+<p>When filtering for a value with spaces, put the filter in quotes:</p>
+
+<pre><code class="language-text">-f 'name=vdi 2'
+</code></pre>
+
+<p>You can use multiple filters by calling <code>-f</code> multiple times:</p>
+
+<pre><code class="language-text">-f name=vdi -f vpcofferingname=default
+</code></pre>
+
+<p>Or you can pass a list to <code>-f</code>:</p>
+
+<pre><code class="language-text">-f name=vdi,vpcofferingname=default
+</code></pre>
+
 
 
 
@@ -639,6 +731,41 @@
             
                 
                     
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
                     
                 
                 
@@ -999,7 +1126,7 @@
 	 
 	 
 		
-			<a class="nav nav-prev" href="/cosmic-cli/" title="Documentation for Cosmic CLI"> <i class="fa fa-chevron-left"></i></a>
+			<a class="nav nav-prev" href="/cosmic-cli/setup/" title="Setup"> <i class="fa fa-chevron-left"></i></a>
 		
 		
 			<a class="nav nav-next" href="/cosmic-cli/commands/cosmic-cli/" title="cosmic-cli" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
@@ -1012,20 +1139,20 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/cosmic-cli/js/clipboard.min.js?1563805846"></script>
-    <script src="/cosmic-cli/js/perfect-scrollbar.min.js?1563805846"></script>
-    <script src="/cosmic-cli/js/perfect-scrollbar.jquery.min.js?1563805846"></script>
-    <script src="/cosmic-cli/js/jquery.sticky.js?1563805846"></script>
-    <script src="/cosmic-cli/js/featherlight.min.js?1563805846"></script>
-    <script src="/cosmic-cli/js/html5shiv-printshiv.min.js?1563805846"></script>
-    <script src="/cosmic-cli/js/highlight.pack.js?1563805846"></script>
+    <script src="/cosmic-cli/js/clipboard.min.js?1563806738"></script>
+    <script src="/cosmic-cli/js/perfect-scrollbar.min.js?1563806738"></script>
+    <script src="/cosmic-cli/js/perfect-scrollbar.jquery.min.js?1563806738"></script>
+    <script src="/cosmic-cli/js/jquery.sticky.js?1563806738"></script>
+    <script src="/cosmic-cli/js/featherlight.min.js?1563806738"></script>
+    <script src="/cosmic-cli/js/html5shiv-printshiv.min.js?1563806738"></script>
+    <script src="/cosmic-cli/js/highlight.pack.js?1563806738"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/cosmic-cli/js/modernizr.custom-3.6.0.js?1563805846"></script>
-    <script src="/cosmic-cli/js/learn.js?1563805846"></script>
-    <script src="/cosmic-cli/js/hugo-learn.js?1563805846"></script>
+    <script src="/cosmic-cli/js/modernizr.custom-3.6.0.js?1563806738"></script>
+    <script src="/cosmic-cli/js/learn.js?1563806738"></script>
+    <script src="/cosmic-cli/js/hugo-learn.js?1563806738"></script>
 
-    <link href="/cosmic-cli/mermaid/mermaid.css?1563805846" rel="stylesheet" />
-    <script src="/cosmic-cli/mermaid/mermaid.js?1563805846"></script>
+    <link href="/cosmic-cli/mermaid/mermaid.css?1563806738" rel="stylesheet" />
+    <script src="/cosmic-cli/mermaid/mermaid.js?1563806738"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>
