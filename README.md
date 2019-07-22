@@ -64,8 +64,7 @@ Help for a specific subcommand is available by running `cosmic-cli help <subcomm
 ## License
 
 ```
-Copyright 2018 Stephen Hoekstra <shoekstra@schubergphilis.com>
-Copyright 2018 Schuberg Philis
+Copyright 2019 Stephen Hoekstra <stephenhoekstra@gmail.com>
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
