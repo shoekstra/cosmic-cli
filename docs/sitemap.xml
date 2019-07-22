@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>https://shoekstra.github.io/cosmic-cli/commands/</loc>
+    <lastmod>2019-07-22T15:05:55+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://shoekstra.github.io/cosmic-cli/</loc>
+    <lastmod>2019-07-22T15:05:55+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://shoekstra.github.io/cosmic-cli/commands/cosmic-cli/</loc>
+    <lastmod>2019-07-22T15:05:55+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shoekstra.github.io/cosmic-cli/commands/cosmic-cli_acl/</loc>
+    <lastmod>2019-07-22T15:05:55+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shoekstra.github.io/cosmic-cli/commands/cosmic-cli_acl_list/</loc>
+    <lastmod>2019-07-22T15:05:55+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shoekstra.github.io/cosmic-cli/commands/cosmic-cli_acl_rule/</loc>
+    <lastmod>2019-07-22T15:05:55+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shoekstra.github.io/cosmic-cli/commands/cosmic-cli_acl_rule_list/</loc>
+    <lastmod>2019-07-22T15:05:55+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shoekstra.github.io/cosmic-cli/commands/cosmic-cli_cloudops/</loc>
+    <lastmod>2019-07-22T15:05:55+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shoekstra.github.io/cosmic-cli/commands/cosmic-cli_cloudops_list/</loc>
+    <lastmod>2019-07-22T15:05:55+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shoekstra.github.io/cosmic-cli/commands/cosmic-cli_cloudops_list_ip/</loc>
+    <lastmod>2019-07-22T15:05:55+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shoekstra.github.io/cosmic-cli/commands/cosmic-cli_cloudops_list_mac/</loc>
+    <lastmod>2019-07-22T15:05:55+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shoekstra.github.io/cosmic-cli/commands/cosmic-cli_instance/</loc>
+    <lastmod>2019-07-22T15:05:55+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shoekstra.github.io/cosmic-cli/commands/cosmic-cli_instance_list/</loc>
+    <lastmod>2019-07-22T15:05:55+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shoekstra.github.io/cosmic-cli/commands/cosmic-cli_version/</loc>
+    <lastmod>2019-07-22T15:05:55+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shoekstra.github.io/cosmic-cli/commands/cosmic-cli_vpc/</loc>
+    <lastmod>2019-07-22T15:05:55+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shoekstra.github.io/cosmic-cli/commands/cosmic-cli_vpc_list/</loc>
+    <lastmod>2019-07-22T15:05:55+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shoekstra.github.io/cosmic-cli/commands/cosmic-cli_vpc_pgw/</loc>
+    <lastmod>2019-07-22T15:05:55+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shoekstra.github.io/cosmic-cli/commands/cosmic-cli_vpc_pgw_list/</loc>
+    <lastmod>2019-07-22T15:05:55+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shoekstra.github.io/cosmic-cli/commands/cosmic-cli_vpc_route/</loc>
+    <lastmod>2019-07-22T15:05:55+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shoekstra.github.io/cosmic-cli/commands/cosmic-cli_vpc_route_add/</loc>
+    <lastmod>2019-07-22T15:05:55+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shoekstra.github.io/cosmic-cli/commands/cosmic-cli_vpc_route_delete/</loc>
+    <lastmod>2019-07-22T15:05:55+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shoekstra.github.io/cosmic-cli/commands/cosmic-cli_vpc_route_flush/</loc>
+    <lastmod>2019-07-22T15:05:55+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shoekstra.github.io/cosmic-cli/commands/cosmic-cli_vpc_route_list/</loc>
+    <lastmod>2019-07-22T15:05:55+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shoekstra.github.io/cosmic-cli/categories/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://shoekstra.github.io/cosmic-cli/tags/</loc>
+    <priority>0</priority>
+  </url>
+  
+</urlset>

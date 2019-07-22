@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Documentation for Cosmic CLI</title>
+    <link>https://shoekstra.github.io/cosmic-cli/</link>
+    <description>Recent content on Documentation for Cosmic CLI</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <lastBuildDate>Mon, 22 Jul 2019 15:05:55 +0200</lastBuildDate>
+    
+	<atom:link href="https://shoekstra.github.io/cosmic-cli/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>cosmic-cli</title>
+      <link>https://shoekstra.github.io/cosmic-cli/commands/cosmic-cli/</link>
+      <pubDate>Mon, 22 Jul 2019 15:05:55 +0200</pubDate>
+      
+      <guid>https://shoekstra.github.io/cosmic-cli/commands/cosmic-cli/</guid>
+      <description> A CLI interface to manage Cosmic Cloud resources
+Synopsis cosmic-cli is a CLI interface to manage Cosmic Cloud resources.
+It aims to simplify administration of Cosmic Cloud resources by providing single commands for actions that may require multiple API calls, whilst running commands against multiple API endpoints in parallel.
+Options -h, --help help for cosmic-cli  SEE ALSO  cosmic-cli acl - ACL subcommands cosmic-cli cloudops - Cloud Ops subcommands cosmic-cli instance - Instance subcommands cosmic-cli version - Print version cosmic-cli vpc - VPC subcommands  </description>
+    </item>
+    
+    <item>
+      <title>cosmic-cli acl</title>
+      <link>https://shoekstra.github.io/cosmic-cli/commands/cosmic-cli_acl/</link>
+      <pubDate>Mon, 22 Jul 2019 15:05:55 +0200</pubDate>
+      
+      <guid>https://shoekstra.github.io/cosmic-cli/commands/cosmic-cli_acl/</guid>
+      <description> ACL subcommands
+Options -h, --help help for acl  SEE ALSO  cosmic-cli - A CLI interface to manage Cosmic Cloud resources cosmic-cli acl list - List ACLs cosmic-cli acl rule - ACL rule subcommands  </description>
+    </item>
+    
+    <item>
+      <title>cosmic-cli acl list</title>
+      <link>https://shoekstra.github.io/cosmic-cli/commands/cosmic-cli_acl_list/</link>
+      <pubDate>Mon, 22 Jul 2019 15:05:55 +0200</pubDate>
+      
+      <guid>https://shoekstra.github.io/cosmic-cli/commands/cosmic-cli_acl_list/</guid>
+      <description> List ACLs
+cosmic-cli acl list [flags]  Options -f, --filter strings filter results (supports regex) -h, --help help for list -p, --profile string specify profile(s) to use --reverse-sort reverse sort order --show-description show ACL description in result -s, --sort-by string field to sort by (default &amp;quot;vpcname&amp;quot;) --vpc-id string specify VPC id --vpc-name string specify VPC name  SEE ALSO  cosmic-cli acl - ACL subcommands  </description>
+    </item>
+    
+    <item>
+      <title>cosmic-cli acl rule</title>
+      <link>https://shoekstra.github.io/cosmic-cli/commands/cosmic-cli_acl_rule/</link>
+      <pubDate>Mon, 22 Jul 2019 15:05:55 +0200</pubDate>
+      
+      <guid>https://shoekstra.github.io/cosmic-cli/commands/cosmic-cli_acl_rule/</guid>
+      <description> ACL rule subcommands
+Options -h, --help help for rule  SEE ALSO  cosmic-cli acl - ACL subcommands cosmic-cli acl rule list - List rules in an ACL  </description>
+    </item>
+    
+    <item>
+      <title>cosmic-cli acl rule list</title>
+      <link>https://shoekstra.github.io/cosmic-cli/commands/cosmic-cli_acl_rule_list/</link>
+      <pubDate>Mon, 22 Jul 2019 15:05:55 +0200</pubDate>
+      
+      <guid>https://shoekstra.github.io/cosmic-cli/commands/cosmic-cli_acl_rule_list/</guid>
+      <description> List rules in an ACL
+cosmic-cli acl rule list [flags]  Options --acl-id string specify ACL id --acl-name string specify ACL name -f, --filter strings filter results (supports regex) -h, --help help for list --instance-id string specify instance id --instance-name string specify instance name --network-id string specify network id --network-name string specify network name -p, --profile string specify profile(s) to use --reverse-sort reverse sort order --show-acl-id show ACL id in result --show-acl-name show ACL name in result --show-id show ACL rule id in result --show-rule-number show ACL rule number in result -s, --sort-by string field to sort by (default &amp;quot;number&amp;quot;)  SEE ALSO  cosmic-cli acl rule - ACL rule subcommands  </description>
+    </item>
+    
+    <item>
+      <title>cosmic-cli cloudops</title>
+      <link>https://shoekstra.github.io/cosmic-cli/commands/cosmic-cli_cloudops/</link>
+      <pubDate>Mon, 22 Jul 2019 15:05:55 +0200</pubDate>
+      
+      <guid>https://shoekstra.github.io/cosmic-cli/commands/cosmic-cli_cloudops/</guid>
+      <description> Cloud Ops subcommands
+Options -h, --help help for cloudops  SEE ALSO  cosmic-cli - A CLI interface to manage Cosmic Cloud resources cosmic-cli cloudops list - Cloud Ops list subcommands  </description>
+    </item>
+    
+    <item>
+      <title>cosmic-cli cloudops list</title>
+      <link>https://shoekstra.github.io/cosmic-cli/commands/cosmic-cli_cloudops_list/</link>
+      <pubDate>Mon, 22 Jul 2019 15:05:55 +0200</pubDate>
+      
+      <guid>https://shoekstra.github.io/cosmic-cli/commands/cosmic-cli_cloudops_list/</guid>
+      <description> Cloud Ops list subcommands
+Options -h, --help help for list  SEE ALSO  cosmic-cli cloudops - Cloud Ops subcommands cosmic-cli cloudops list ip - List IP details cosmic-cli cloudops list mac - List MAC address details  </description>
+    </item>
+    
+    <item>
+      <title>cosmic-cli cloudops list ip</title>
+      <link>https://shoekstra.github.io/cosmic-cli/commands/cosmic-cli_cloudops_list_ip/</link>
+      <pubDate>Mon, 22 Jul 2019 15:05:55 +0200</pubDate>
+      
+      <guid>https://shoekstra.github.io/cosmic-cli/commands/cosmic-cli_cloudops_list_ip/</guid>
+      <description> List IP details
+cosmic-cli cloudops list ip IPADDRESS [flags]  Options -h, --help help for ip -p, --profile string specify profile(s) to use --show-mac-address show MAC address in result  SEE ALSO  cosmic-cli cloudops list - Cloud Ops list subcommands  </description>
+    </item>
+    
+    <item>
+      <title>cosmic-cli cloudops list mac</title>
+      <link>https://shoekstra.github.io/cosmic-cli/commands/cosmic-cli_cloudops_list_mac/</link>
+      <pubDate>Mon, 22 Jul 2019 15:05:55 +0200</pubDate>
+      
+      <guid>https://shoekstra.github.io/cosmic-cli/commands/cosmic-cli_cloudops_list_mac/</guid>
+      <description> List MAC address details
+cosmic-cli cloudops list mac MACADDRESS [flags]  Options -h, --help help for mac -p, --profile string specify profile(s) to use  SEE ALSO  cosmic-cli cloudops list - Cloud Ops list subcommands  </description>
+    </item>
+    
+    <item>
+      <title>cosmic-cli instance</title>
+      <link>https://shoekstra.github.io/cosmic-cli/commands/cosmic-cli_instance/</link>
+      <pubDate>Mon, 22 Jul 2019 15:05:55 +0200</pubDate>
+      
+      <guid>https://shoekstra.github.io/cosmic-cli/commands/cosmic-cli_instance/</guid>
+      <description> Instance subcommands
+Options -h, --help help for instance  SEE ALSO  cosmic-cli - A CLI interface to manage Cosmic Cloud resources cosmic-cli instance list - List instances  </description>
+    </item>
+    
+    <item>
+      <title>cosmic-cli instance list</title>
+      <link>https://shoekstra.github.io/cosmic-cli/commands/cosmic-cli_instance_list/</link>
+      <pubDate>Mon, 22 Jul 2019 15:05:55 +0200</pubDate>
+      
+      <guid>https://shoekstra.github.io/cosmic-cli/commands/cosmic-cli_instance_list/</guid>
+      <description> List instances
+cosmic-cli instance list [flags]  Options -f, --filter strings filter results (supports regex) -h, --help help for list -p, --profile string specify profile(s) to use --reverse-sort reverse sort order --show-host show hypervisor hostname in result --show-id show instance id in result --show-network show network info in result --show-service-offering show instance service offering in result --show-template show instance template name in result --show-version show instance version in result -s, --sort-by string field to sort by (default &amp;quot;name&amp;quot;)  SEE ALSO  cosmic-cli instance - Instance subcommands  </description>
+    </item>
+    
+    <item>
+      <title>cosmic-cli version</title>
+      <link>https://shoekstra.github.io/cosmic-cli/commands/cosmic-cli_version/</link>
+      <pubDate>Mon, 22 Jul 2019 15:05:55 +0200</pubDate>
+      
+      <guid>https://shoekstra.github.io/cosmic-cli/commands/cosmic-cli_version/</guid>
+      <description> Print version
+cosmic-cli version [flags]  Options -h, --help help for version  SEE ALSO  cosmic-cli - A CLI interface to manage Cosmic Cloud resources  </description>
+    </item>
+    
+    <item>
+      <title>cosmic-cli vpc</title>
+      <link>https://shoekstra.github.io/cosmic-cli/commands/cosmic-cli_vpc/</link>
+      <pubDate>Mon, 22 Jul 2019 15:05:55 +0200</pubDate>
+      
+      <guid>https://shoekstra.github.io/cosmic-cli/commands/cosmic-cli_vpc/</guid>
+      <description> VPC subcommands
+Options -h, --help help for vpc  SEE ALSO  cosmic-cli - A CLI interface to manage Cosmic Cloud resources cosmic-cli vpc list - List VPCs cosmic-cli vpc pgw - VPC private gateway subcommands cosmic-cli vpc route - VPC route subcommands  </description>
+    </item>
+    
+    <item>
+      <title>cosmic-cli vpc list</title>
+      <link>https://shoekstra.github.io/cosmic-cli/commands/cosmic-cli_vpc_list/</link>
+      <pubDate>Mon, 22 Jul 2019 15:05:55 +0200</pubDate>
+      
+      <guid>https://shoekstra.github.io/cosmic-cli/commands/cosmic-cli_vpc_list/</guid>
+      <description> List VPCs
+cosmic-cli vpc list [flags]  Options -f, --filter strings filter results (supports regex) -h, --help help for list -p, --profile string specify profile(s) to use --reverse-sort reverse sort order --show-id show VPC id in result --show-redundant-status show VPC redundant router status in result --show-restart-required show VPC restart required status in result --show-snat show VPC Source NAT IP in result -s, --sort-by string field to sort by (default &amp;quot;name&amp;quot;)  SEE ALSO  cosmic-cli vpc - VPC subcommands  </description>
+    </item>
+    
+    <item>
+      <title>cosmic-cli vpc pgw</title>
+      <link>https://shoekstra.github.io/cosmic-cli/commands/cosmic-cli_vpc_pgw/</link>
+      <pubDate>Mon, 22 Jul 2019 15:05:55 +0200</pubDate>
+      
+      <guid>https://shoekstra.github.io/cosmic-cli/commands/cosmic-cli_vpc_pgw/</guid>
+      <description> VPC private gateway subcommands
+Options -h, --help help for pgw  SEE ALSO  cosmic-cli vpc - VPC subcommands cosmic-cli vpc pgw list - List VPC PrivateGateways  </description>
+    </item>
+    
+    <item>
+      <title>cosmic-cli vpc pgw list</title>
+      <link>https://shoekstra.github.io/cosmic-cli/commands/cosmic-cli_vpc_pgw_list/</link>
+      <pubDate>Mon, 22 Jul 2019 15:05:55 +0200</pubDate>
+      
+      <guid>https://shoekstra.github.io/cosmic-cli/commands/cosmic-cli_vpc_pgw_list/</guid>
+      <description> List VPC PrivateGateways
+cosmic-cli vpc pgw list [flags]  Options -f, --filter strings filter results (supports regex) -h, --help help for list -p, --profile string specify profile(s) to use --reverse-sort reverse sort order --show-id show VPC id in result -s, --sort-by string field to sort by (default &amp;quot;ipaddress&amp;quot;)  SEE ALSO  cosmic-cli vpc pgw - VPC private gateway subcommands  </description>
+    </item>
+    
+    <item>
+      <title>cosmic-cli vpc route</title>
+      <link>https://shoekstra.github.io/cosmic-cli/commands/cosmic-cli_vpc_route/</link>
+      <pubDate>Mon, 22 Jul 2019 15:05:55 +0200</pubDate>
+      
+      <guid>https://shoekstra.github.io/cosmic-cli/commands/cosmic-cli_vpc_route/</guid>
+      <description> VPC route subcommands
+Options -h, --help help for route  SEE ALSO  cosmic-cli vpc - VPC subcommands cosmic-cli vpc route add - Add VPC routes cosmic-cli vpc route delete - Delete VPC routes cosmic-cli vpc route flush - Flush VPC routes cosmic-cli vpc route list - List VPC routes  </description>
+    </item>
+    
+    <item>
+      <title>cosmic-cli vpc route add</title>
+      <link>https://shoekstra.github.io/cosmic-cli/commands/cosmic-cli_vpc_route_add/</link>
+      <pubDate>Mon, 22 Jul 2019 15:05:55 +0200</pubDate>
+      
+      <guid>https://shoekstra.github.io/cosmic-cli/commands/cosmic-cli_vpc_route_add/</guid>
+      <description> Add VPC routes
+cosmic-cli vpc route add CIDR[,CIDR,CIDR] via NEXTHOP [flags]  Options -h, --help help for add -p, --profile string specify profile(s) to use --vpc-id string specify VPC id --vpc-name string specify VPC name  SEE ALSO  cosmic-cli vpc route - VPC route subcommands  </description>
+    </item>
+    
+    <item>
+      <title>cosmic-cli vpc route delete</title>
+      <link>https://shoekstra.github.io/cosmic-cli/commands/cosmic-cli_vpc_route_delete/</link>
+      <pubDate>Mon, 22 Jul 2019 15:05:55 +0200</pubDate>
+      
+      <guid>https://shoekstra.github.io/cosmic-cli/commands/cosmic-cli_vpc_route_delete/</guid>
+      <description> Delete VPC routes
+cosmic-cli vpc route delete [ cidr=CIDR | nexthop=NEXTHOP ] [flags]  Options -h, --help help for delete -p, --profile string specify profile(s) to use --vpc-id string specify VPC id --vpc-name string specify VPC name  SEE ALSO  cosmic-cli vpc route - VPC route subcommands  </description>
+    </item>
+    
+    <item>
+      <title>cosmic-cli vpc route flush</title>
+      <link>https://shoekstra.github.io/cosmic-cli/commands/cosmic-cli_vpc_route_flush/</link>
+      <pubDate>Mon, 22 Jul 2019 15:05:55 +0200</pubDate>
+      
+      <guid>https://shoekstra.github.io/cosmic-cli/commands/cosmic-cli_vpc_route_flush/</guid>
+      <description> Flush VPC routes
+cosmic-cli vpc route flush [flags]  Options -h, --help help for flush -p, --profile string specify profile(s) to use --vpc-id string specify VPC id --vpc-name string specify VPC name  SEE ALSO  cosmic-cli vpc route - VPC route subcommands  </description>
+    </item>
+    
+    <item>
+      <title>cosmic-cli vpc route list</title>
+      <link>https://shoekstra.github.io/cosmic-cli/commands/cosmic-cli_vpc_route_list/</link>
+      <pubDate>Mon, 22 Jul 2019 15:05:55 +0200</pubDate>
+      
+      <guid>https://shoekstra.github.io/cosmic-cli/commands/cosmic-cli_vpc_route_list/</guid>
+      <description> List VPC routes
+cosmic-cli vpc route list [flags]  Options -f, --filter strings filter results (supports regex) -h, --help help for list -p, --profile string specify profile(s) to use --reverse-sort reverse sort order --show-id show VPC id in result -s, --sort-by string field to sort by (default &amp;quot;cidr&amp;quot;) --vpc-id string specify VPC id --vpc-name string specify VPC name  SEE ALSO  cosmic-cli vpc route - VPC route subcommands  </description>
+    </item>
+    
+  </channel>
+</rss>
