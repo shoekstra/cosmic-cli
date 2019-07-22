@@ -17,7 +17,6 @@ import (
 const fmTemplate = `---
 date: %s
 title: "%s"
-url: %s
 ---
 `
 
@@ -145,8 +144,7 @@ func GenMarkdownTree(cmd *cobra.Command, dir string) error {
 		now := time.Now().Format(time.RFC3339)
 		name := filepath.Base(filename)
 		base := strings.TrimSuffix(name, path.Ext(name))
-		url := "/commands/" + strings.ToLower(base) + "/"
-		return fmt.Sprintf(fmTemplate, now, strings.Replace(base, "_", " ", -1), url)
+		return fmt.Sprintf(fmTemplate, now, strings.Replace(base, "_", " ", -1))
 	}
 
 	return GenMarkdownTreeCustom(cmd, dir, filePrepender, linkHandler)
