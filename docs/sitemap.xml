@@ -3,15 +3,23 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://shoekstra.github.io/cosmic-cli/commands/</loc>
-    <lastmod>2019-07-22T15:05:55+02:00</lastmod>
-    <priority>0</priority>
+    <loc>https://shoekstra.github.io/cosmic-cli/install/</loc>
+    <lastmod>2019-07-21T11:28:45+02:00</lastmod>
   </url>
   
   <url>
-    <loc>https://shoekstra.github.io/cosmic-cli/</loc>
-    <lastmod>2019-07-22T15:05:55+02:00</lastmod>
-    <priority>0</priority>
+    <loc>https://shoekstra.github.io/cosmic-cli/setup/</loc>
+    <lastmod>2019-07-21T11:28:51+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shoekstra.github.io/cosmic-cli/commands/</loc>
+    <lastmod>2019-07-21T11:28:02+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shoekstra.github.io/cosmic-cli/license/</loc>
+    <lastmod>2019-07-22T16:17:39+02:00</lastmod>
   </url>
   
   <url>
@@ -117,6 +125,11 @@
   <url>
     <loc>https://shoekstra.github.io/cosmic-cli/commands/cosmic-cli_vpc_route_list/</loc>
     <lastmod>2019-07-22T15:05:55+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shoekstra.github.io/cosmic-cli/</loc>
+    <lastmod>2019-07-21T11:14:22+02:00</lastmod>
   </url>
   
   <url>

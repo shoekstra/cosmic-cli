@@ -9,7 +9,7 @@
 
     <link rel="icon" href="/cosmic-cli/images/favicon.png" type="image/png">
 
-    <title>cosmic-cli vpc route add :: Documentation for Cosmic CLI</title>
+    <title>Install :: Documentation for Cosmic CLI</title>
 
     
     <link href="/cosmic-cli/css/nucleus.css?1563806738" rel="stylesheet">
@@ -35,7 +35,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/cosmic-cli/commands/cosmic-cli_vpc_route_add/">
+  <body class="" data-url="/cosmic-cli/install/">
     <nav id="sidebar" class="">
 
   
@@ -77,8 +77,8 @@
 
 
 <li data-nav-id="/cosmic-cli/install/" title="Install" class="dd-item
-        
-        
+        parent
+        active
         
         ">
   <a href="/cosmic-cli/install/">
@@ -121,7 +121,7 @@
 
 
 <li data-nav-id="/cosmic-cli/commands/" title="Commands" class="dd-item
-        parent
+        
         
         
         ">
@@ -468,7 +468,7 @@
 
 
 
-<li data-nav-id="/cosmic-cli/commands/cosmic-cli_vpc_route_add/" title="cosmic-cli vpc route add" class="dd-item active">
+<li data-nav-id="/cosmic-cli/commands/cosmic-cli_vpc_route_add/" title="cosmic-cli vpc route add" class="dd-item ">
   <a href="/cosmic-cli/commands/cosmic-cli_vpc_route_add/">
     cosmic-cli vpc route add
     
@@ -587,7 +587,7 @@
                   
                   
                   <div id="top-github-link">
-                    <a class="github-link" title='Edit this page' href="https://github.com/shoekstra/cosmic-cli-website/edit/master/content/commands/cosmic-cli_vpc_route_add.md" target="blank">
+                    <a class="github-link" title='Edit this page' href="https://github.com/shoekstra/cosmic-cli-website/edit/master/content/install/_index.md" target="blank">
                       <i class="fas fa-code-branch"></i>
                       <span id="top-github-link-text">Edit this page</span>
                     </a>
@@ -614,13 +614,7 @@
             
           
           
-            
-            
-          
-          
-            <a href='/cosmic-cli/'>Cosmic CLI</a> > <a href='/cosmic-cli/commands/'>Commands</a> > cosmic-cli vpc route add
-          
-         
+            <a href='/cosmic-cli/'>Cosmic CLI</a> > Install
           
          
           
@@ -631,15 +625,7 @@
                 
                     <div class="progress">
     <div class="wrapper">
-<nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#options">Options</a></li>
-<li><a href="#see-also">SEE ALSO</a></li>
-</ul></li>
-</ul>
-</nav>
+
     </div>
 </div>
 
@@ -655,7 +641,7 @@
           
             <h1>
               
-              cosmic-cli vpc route add
+              Install
             </h1>
           
 
@@ -664,31 +650,21 @@
 
 
 
-
-<p>Add VPC routes</p>
-
-<pre><code class="language-text">cosmic-cli vpc route add CIDR[,CIDR,CIDR] via NEXTHOP [flags]
-</code></pre>
-
-<h2 id="options">Options</h2>
-
-<pre><code class="language-text">  -h, --help              help for add
-  -p, --profile string    specify profile(s) to use
-      --vpc-id string     specify VPC id
-      --vpc-name string   specify VPC name
-</code></pre>
-
-<h2 id="see-also">SEE ALSO</h2>
+	<p>The following binaries are available from the master branch:</p>
 
 <ul>
-<li><a href="../cosmic-cli_vpc_route/">cosmic-cli vpc route</a> - VPC route subcommands</li>
+<li><code>cosmic-cli-darwin-amd64</code> (<a href="https://sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/-/jobs/artifacts/master/download?job=build+darwin-amd64">master/unreleased</a>)</li>
+<li><code>cosmic-cli-linux-amd64</code> (<a href="https://sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/-/jobs/artifacts/master/download?job=build+linux-amd64">master/unreleased</a>)</li>
+<li><code>cosmic-cli-windows-amd64.exe</code> (<a href="https://sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/-/jobs/artifacts/master/download?job=build+windows-amd64">master/unreleased</a>)</li>
 </ul>
+
+
+
 
 
 <footer class=" footline" >
 	
 </footer>
-
 
         
         </div> 
@@ -721,8 +697,6 @@
             
                 
                     
-                        
-                        
                     
                 
                 
@@ -734,36 +708,6 @@
                     
             
         
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                    
-                
-                
-
-                    
-                    
-                    
-
                     
                         
             
@@ -796,9 +740,6 @@
                     
                     
 
-                    
-            
-        
                     
                         
             
@@ -1045,6 +986,21 @@
             
                 
                     
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
                     
                 
                 
@@ -1062,8 +1018,21 @@
             
                 
                     
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
                         
-                        
+            
+            
+                
                     
                 
                 
@@ -1120,10 +1089,10 @@
 	 
 	 
 		
-			<a class="nav nav-prev" href="/cosmic-cli/commands/cosmic-cli_vpc_route/" title="cosmic-cli vpc route"> <i class="fa fa-chevron-left"></i></a>
+			<a class="nav nav-prev" href="/cosmic-cli/" title="Cosmic CLI"> <i class="fa fa-chevron-left"></i></a>
 		
 		
-			<a class="nav nav-next" href="/cosmic-cli/commands/cosmic-cli_vpc_route_delete/" title="cosmic-cli vpc route delete" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+			<a class="nav nav-next" href="/cosmic-cli/setup/" title="Setup" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
 		
 	
     </div>
@@ -1154,4 +1123,3 @@
 
   </body>
 </html>
-
