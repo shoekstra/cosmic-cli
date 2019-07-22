@@ -24,10 +24,10 @@ import (
 	"strings"
 	"sync"
 
+	"github.com/shoekstra/cosmic-cli/internal/config"
+	"github.com/shoekstra/cosmic-cli/internal/cosmic"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	"sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/config"
-	"sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/cosmic"
 )
 
 func newVPCRouteAddCmd() *cobra.Command {

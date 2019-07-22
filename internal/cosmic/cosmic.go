@@ -22,7 +22,7 @@ import (
 
 	"github.com/MissionCriticalCloud/go-cosmic/cosmic"
 	"github.com/forestgiant/sliceutil"
-	"sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/config"
+	"github.com/shoekstra/cosmic-cli/internal/config"
 )
 
 // profileError represents a profile config error.

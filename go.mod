@@ -1,4 +1,4 @@
-module sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli
+module github.com/shoekstra/cosmic-cli
 
 go 1.12
 

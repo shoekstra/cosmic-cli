@@ -24,7 +24,7 @@ import (
 	"sync"
 
 	"github.com/MissionCriticalCloud/go-cosmic/cosmic"
-	h "sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/helper"
+	h "github.com/shoekstra/cosmic-cli/internal/helper"
 )
 
 // StaticRoute embeds *cosmic.StaticRoute to allow additional fields.

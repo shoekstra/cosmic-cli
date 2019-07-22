@@ -20,7 +20,7 @@ import (
 	"fmt"
 	"os"
 
-	"sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/cmd"
+	"github.com/shoekstra/cosmic-cli/internal/cmd"
 )
 
 func main() {

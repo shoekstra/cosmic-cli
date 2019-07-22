@@ -1,5 +1,5 @@
 PROJECT_NAME := $(shell basename `pwd`)
-PKG := "sbp.gitlab.schubergphilis.com/shoekstra/$(PROJECT_NAME)"
+PKG := "github.com/shoekstra/$(PROJECT_NAME)"
 PKG_LIST := $(shell go list ${PKG}/... | grep -v /vendor/)
 
 .PHONY: all test-dep lint test build-dep build-snapshot build-tag help

@@ -25,7 +25,7 @@ import (
 	"strings"
 
 	"github.com/olekukonko/tablewriter"
-	h "sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/helper"
+	h "github.com/shoekstra/cosmic-cli/internal/helper"
 )
 
 func filterMatch(obj interface{}, filter string) bool {

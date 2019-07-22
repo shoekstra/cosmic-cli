@@ -17,9 +17,9 @@
 package cmd
 
 import (
+	"github.com/shoekstra/cosmic-cli/internal/config"
+	"github.com/shoekstra/cosmic-cli/internal/cosmic"
 	"github.com/spf13/cobra"
-	"sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/config"
-	"sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/cosmic"
 )
 
 func newACLCmd() *cobra.Command {

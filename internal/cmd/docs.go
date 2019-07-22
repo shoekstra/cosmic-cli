@@ -20,8 +20,8 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/shoekstra/cosmic-cli/internal/docs"
 	"github.com/spf13/cobra"
-	"sbp.gitlab.schubergphilis.com/shoekstra/cosmic-cli/internal/docs"
 )
 
 func newDocsCmd() *cobra.Command {
