@@ -40,7 +40,7 @@ func newVPCRouteFlushCmd() *cobra.Command {
 		},
 		Run: func(cmd *cobra.Command, args []string) {
 			if err := runVPCRouteFlushCmd(args); err != nil {
-				fmt.Println(err)
+				printErr(err)
 				os.Exit(1)
 			}
 		},

@@ -102,9 +102,10 @@ func New() (*Config, error) {
 	viper.SetConfigName("config")
 	viper.SetConfigType("toml")
 
-	// Try to read in a config file, but do not check for errors
-	// as a config file is not mandatory for all commands.
-	_ = viper.ReadInConfig()
+	// Try to read in the config file
+	if err := viper.ReadInConfig(); err != nil {
+		return nil, fmt.Errorf("Error loading config: %s", err)
+	}
 
 	// Unmarshal the resulting config into our Config struct.
 	cfg := &Config{}

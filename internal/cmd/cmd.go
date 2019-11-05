@@ -17,6 +17,9 @@
 package cmd
 
 import (
+	"fmt"
+	"regexp"
+
 	"github.com/spf13/cobra"
 )
 
@@ -44,4 +47,15 @@ in parallel.`,
 	cmd.AddCommand(newVPCCmd())
 
 	return cmd
+}
+
+// printErr prints the error after santizing the output.
+func printErr(err error) {
+	s := err.Error()
+	reapi := regexp.MustCompile(`apiKey=([aA0-zZ9%-]+)`)
+	s = fmt.Sprint(reapi.ReplaceAllString(s, "apiKey=**redacted**"))
+	resig := regexp.MustCompile(`signature=([aA0-zZ9%-]+):`)
+	s = fmt.Sprint(resig.ReplaceAllString(s, "signature=**redacted**:"))
+
+	fmt.Println(s)
 }

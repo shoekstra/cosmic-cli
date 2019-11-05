@@ -38,7 +38,7 @@ func newCloudOpsListMACCmd() *cobra.Command {
 		},
 		Run: func(cmd *cobra.Command, args []string) {
 			if err := runCloudOpsListMACCmd(args); err != nil {
-				fmt.Println(err)
+				printErr(err)
 				os.Exit(1)
 			}
 		},
