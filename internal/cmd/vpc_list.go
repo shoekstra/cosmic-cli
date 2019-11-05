@@ -17,7 +17,6 @@
 package cmd
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/shoekstra/cosmic-cli/internal/config"
@@ -44,7 +43,7 @@ func newVPCListCmd() *cobra.Command {
 		},
 		Run: func(cmd *cobra.Command, args []string) {
 			if err := runVPCListCmd(); err != nil {
-				fmt.Println(err)
+				printErr(err)
 				os.Exit(1)
 			}
 		},

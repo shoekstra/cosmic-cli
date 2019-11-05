@@ -17,36 +17,13 @@
 package cmd
 
 import (
-	"os"
-
-	"github.com/shoekstra/cosmic-cli/internal/docs"
-	"github.com/spf13/cobra"
+	"errors"
 )
 
-func newDocsCmd() *cobra.Command {
-	cmd := &cobra.Command{
-		Use:    "docs",
-		Short:  "Generate documentation as markdown",
-		Hidden: true,
-		Run: func(cmd *cobra.Command, args []string) {
-			if err := runDocsCmd(args); err != nil {
-				printErr(err)
-				os.Exit(1)
-			}
-		},
-	}
+func ExampleprintErr() {
+	err := errors.New("Error returned using profile \"profile1\": Get https://api.cosmic.local/client/api/?apiKey=jDCMCLD8GGeSupR8rFyBRBRKX3AffGKVtycc6B6hjjFNb5D4-ThsU-KrnVJKxzBccTKLx2qArrymxT4xDevr6J&command=listVirtualMachines&response=json&signature=nx963U5Qv08Wm5ey2nRV0U%2B02m4%3D: dial tcp: lookup api.cosmic.local: no such host")
+	printErr(err)
 
-	return cmd
-}
-
-func runDocsCmd(args []string) error {
-	path := "./markdown"
-	if len(args) > 0 {
-		path = args[0]
-	}
-	if err := docs.GenMarkdownTree(NewCosmicCLICmd(), path); err != nil {
-		return err
-	}
-
-	return nil
+	// Output:
+	// Error returned using profile "profile1": Get https://api.cosmic.local/client/api/?apiKey=**redacted**&command=listVirtualMachines&response=json&signature=**redacted**: dial tcp: lookup api.cosmic.local: no such host
 }

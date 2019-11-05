@@ -42,7 +42,7 @@ func newVPCRouteAddCmd() *cobra.Command {
 		},
 		Run: func(cmd *cobra.Command, args []string) {
 			if err := runVPCRouteAddCmd(args); err != nil {
-				fmt.Println(err)
+				printErr(err)
 				os.Exit(1)
 			}
 		},

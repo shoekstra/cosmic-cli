@@ -17,7 +17,6 @@
 package cmd
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/shoekstra/cosmic-cli/internal/config"
@@ -41,7 +40,7 @@ func newVPCPrivateGatewayListCmd() *cobra.Command {
 		},
 		Run: func(cmd *cobra.Command, args []string) {
 			if err := runVPCPrivateGatewayListCmd(); err != nil {
-				fmt.Println(err)
+				printErr(err)
 				os.Exit(1)
 			}
 		},

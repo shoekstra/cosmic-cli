@@ -42,7 +42,7 @@ func newVPCRouteDeleteCmd() *cobra.Command {
 		},
 		Run: func(cmd *cobra.Command, args []string) {
 			if err := runVPCRouteDeleteCmd(args); err != nil {
-				fmt.Println(err)
+				printErr(err)
 				os.Exit(1)
 			}
 		},

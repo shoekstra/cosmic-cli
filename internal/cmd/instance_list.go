@@ -17,7 +17,6 @@
 package cmd
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/shoekstra/cosmic-cli/internal/config"
@@ -46,7 +45,7 @@ func newInstanceListCmd() *cobra.Command {
 		},
 		Run: func(cmd *cobra.Command, args []string) {
 			if err := runInstanceListCmd(); err != nil {
-				fmt.Println(err)
+				printErr(err)
 				os.Exit(1)
 			}
 		},
