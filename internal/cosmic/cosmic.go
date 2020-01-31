@@ -72,7 +72,7 @@ func getProfile(cfg *config.Config) []string {
 		for i := len(result) - 1; i >= 0; i-- {
 			r := result[i]
 
-			if sliceutil.Contains(profiles, r) == false {
+			if !sliceutil.Contains(profiles, r) {
 				result = append(result[:i], result[i+1:]...)
 			}
 		}

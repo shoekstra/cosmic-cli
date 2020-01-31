@@ -63,7 +63,7 @@ type Config struct {
 
 // ValidProfile will check the profile exists.
 func (c *Config) ValidProfile(p string) {
-	if _, ok := c.Profiles[p]; ok == false {
+	if _, ok := c.Profiles[p]; !ok {
 		log.Fatalf("Cannot find config for specified profile \"%v\"", p)
 	}
 }

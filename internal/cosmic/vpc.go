@@ -69,7 +69,7 @@ func (v VPCs) FindByName(name string) ([]*VPC, error) {
 
 // Sort will sort VPCs by either the "cidr", "name", "vpcofferingname" or "zonename" field.
 func (v VPCs) Sort(sortBy string, reverseSort bool) {
-	if h.Contains([]string{"cidr", "name", "vpcofferingname", "zonename"}, sortBy) == false {
+	if !h.Contains([]string{"cidr", "name", "vpcofferingname", "zonename"}, sortBy) {
 		fmt.Println("Invalid sort option provided, provide either \"cidr\", \"name\", \"vpcofferingname\" or \"zonename\".")
 		os.Exit(1)
 	}
@@ -188,10 +188,7 @@ func VPCGetAllByID(clientMap map[string]*cosmic.CosmicClient, id string) ([]*VPC
 		go func(client string) {
 			defer wg.Done()
 
-			vpc, count, err := VPCGetByID(clientMap[client], id)
-			if err != nil {
-				// return nil, err
-			}
+			vpc, count, _ := VPCGetByID(clientMap[client], id)
 			if count == 1 {
 				vpcs = append(vpcs, &VPC{
 					VPC: vpc,
@@ -222,10 +219,7 @@ func VPCGetAllByName(clientMap map[string]*cosmic.CosmicClient, name string) ([]
 		go func(client string) {
 			defer wg.Done()
 
-			vpc, count, err := VPCGetByName(clientMap[client], name)
-			if err != nil {
-				// return nil, err
-			}
+			vpc, count, _ := VPCGetByName(clientMap[client], name)
 			if count == 1 {
 				vpcs = append(vpcs, &VPC{
 					VPC: vpc,

@@ -133,7 +133,7 @@ func validateVPCRouteDeleteArgs(args []string) error {
 	}
 
 	split := strings.Split(args[0], "=")
-	if (strings.EqualFold("cidr", split[0]) || strings.EqualFold("nexthop", split[0])) == false {
+	if !(strings.EqualFold("cidr", split[0]) || strings.EqualFold("nexthop", split[0])) {
 		return errors.New("This command expects either \"cidr=CIDR[,CIDR,CIDR]\" or \"nexthop=NEXTHOP[,NEXTHOP,NEXTHOP]\"")
 	}
 
