@@ -188,10 +188,7 @@ func VPCGetAllByID(clientMap map[string]*cosmic.CosmicClient, id string) ([]*VPC
 		go func(client string) {
 			defer wg.Done()
 
-			vpc, count, err := VPCGetByID(clientMap[client], id)
-			if err != nil {
-				// return nil, err
-			}
+			vpc, count, _ := VPCGetByID(clientMap[client], id)
 			if count == 1 {
 				vpcs = append(vpcs, &VPC{
 					VPC: vpc,
@@ -222,10 +219,7 @@ func VPCGetAllByName(clientMap map[string]*cosmic.CosmicClient, name string) ([]
 		go func(client string) {
 			defer wg.Done()
 
-			vpc, count, err := VPCGetByName(clientMap[client], name)
-			if err != nil {
-				// return nil, err
-			}
+			vpc, count, _ := VPCGetByName(clientMap[client], name)
 			if count == 1 {
 				vpcs = append(vpcs, &VPC{
 					VPC: vpc,
