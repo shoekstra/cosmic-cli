@@ -70,7 +70,7 @@ func (a ACLs) FindByName(name string) ([]*ACL, error) {
 
 // Sort will sort ACLs by either the "name", "vpcname" or "zonename" field.
 func (a ACLs) Sort(sortBy string, reverseSort bool) {
-	if h.Contains([]string{"name", "vpcname", "zonename"}, sortBy) == false {
+	if !h.Contains([]string{"name", "vpcname", "zonename"}, sortBy) {
 		fmt.Println("Invalid sort option provided, provide either \"name\", \"vpcname\" or \"zonename\".")
 		os.Exit(1)
 	}
@@ -184,7 +184,7 @@ type ACLRules []*ACLRule
 
 // Sort will sort ACLs by either the "name", "vpcname" or "zonename" field.
 func (rules ACLRules) Sort(sortBy string, reverseSort bool) {
-	if h.Contains([]string{"action", "cidrlist", "endport", "number", "startport"}, sortBy) == false {
+	if !h.Contains([]string{"action", "cidrlist", "endport", "number", "startport"}, sortBy) {
 		fmt.Println("Invalid sort option provided, provide either \"action\", \"cidrlist\", \"endport\", \"number\" or \"startport\".")
 		os.Exit(1)
 	}

@@ -128,7 +128,7 @@ func validateVPCRouteAddArgs(args []string) error {
 		return errors.New("Incorrect number of parameters passed, this command expects \"<network> via <nexthop>\"")
 	}
 
-	if strings.EqualFold(args[1], "via") == false {
+	if !strings.EqualFold(args[1], "via") {
 		return errors.New("Invalid parameters passed, this command expects \"<network> via <nexthop>\"")
 	}
 

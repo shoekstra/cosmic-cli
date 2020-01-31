@@ -50,7 +50,7 @@ func (p PrivateGateways) FindByIPAddress(ip string) []*PrivateGateway {
 
 // Sort will sort PrivateGateways by either the "cidr" or "name" field.
 func (p PrivateGateways) Sort(sortBy string, reverseSort bool) {
-	if h.Contains([]string{"cidr", "ipaddress", "vpccidr", "vpcname", "zonename"}, sortBy) == false {
+	if !h.Contains([]string{"cidr", "ipaddress", "vpccidr", "vpcname", "zonename"}, sortBy) {
 		fmt.Println("Invalid sort option provided, provide either \"cidr\", \"ipaddress\", \"vpccidr\", \"vpcname\" or \"zonename\".")
 		os.Exit(1)
 	}

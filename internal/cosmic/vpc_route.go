@@ -38,7 +38,7 @@ type StaticRoutes []*StaticRoute
 
 // Sort will sort StaticRoutes by either the "cidr" or "nexthop" field.
 func (srs StaticRoutes) Sort(sortBy string, reverseSort bool) {
-	if h.Contains([]string{"cidr", "nexthop"}, sortBy) == false {
+	if !h.Contains([]string{"cidr", "nexthop"}, sortBy) {
 		fmt.Println("Invalid sort option provided, provide either \"cidr\" or \"nexthop\".")
 		os.Exit(1)
 	}

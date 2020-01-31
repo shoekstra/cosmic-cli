@@ -69,7 +69,7 @@ func (v VPCs) FindByName(name string) ([]*VPC, error) {
 
 // Sort will sort VPCs by either the "cidr", "name", "vpcofferingname" or "zonename" field.
 func (v VPCs) Sort(sortBy string, reverseSort bool) {
-	if h.Contains([]string{"cidr", "name", "vpcofferingname", "zonename"}, sortBy) == false {
+	if !h.Contains([]string{"cidr", "name", "vpcofferingname", "zonename"}, sortBy) {
 		fmt.Println("Invalid sort option provided, provide either \"cidr\", \"name\", \"vpcofferingname\" or \"zonename\".")
 		os.Exit(1)
 	}

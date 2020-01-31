@@ -40,14 +40,14 @@ func filterMatch(obj interface{}, filter string) bool {
 	switch {
 	case strings.EqualFold(filterField, "ipaddress"):
 		v := val.FieldByName("Nic")
-		if v.IsValid() == true {
+		if v.IsValid() {
 			value = fmt.Sprintf("%v", v.Index(0).FieldByName("Ipaddress"))
 			break
 		}
 		fallthrough
 	case strings.EqualFold(filterField, "version"):
 		v := val.FieldByName("Laststartversion")
-		if v.IsValid() == true {
+		if v.IsValid() {
 			value = fmt.Sprintf("%v", v.Interface())
 			break
 		}
@@ -79,7 +79,7 @@ func filterMatch(obj interface{}, filter string) bool {
 	}
 
 	match, _ := regexp.MatchString(strings.ToLower(filterString), strings.ToLower(value))
-	if match == true {
+	if match {
 		return true
 	}
 
@@ -98,7 +98,7 @@ func filterOutput(result interface{}, filter string) interface{} {
 	}
 
 	for i := 0; i < len(slice); i++ {
-		if filterMatch(slice[i], filter) == false {
+		if !filterMatch(slice[i], filter) {
 			slice = append(slice[:i], slice[i+1:]...)
 			i-- // -1 as the slice just got shorter.
 		}
@@ -108,7 +108,7 @@ func filterOutput(result interface{}, filter string) interface{} {
 }
 
 func filterSplit(filter string) (field, value string) {
-	if validFilter, _ := regexp.MatchString("=", filter); validFilter == false {
+	if validFilter, _ := regexp.MatchString("=", filter); !validFilter {
 		fmt.Println("Invalid filter string passed, filters should be in the form of \"field=value\".")
 		os.Exit(1)
 	}
@@ -157,7 +157,7 @@ func printTable(cosmicType string, fields []string, result interface{}) {
 				fallthrough
 			default:
 				v := val.FieldByName(fn)
-				if v.IsValid() == false {
+				if !v.IsValid() {
 					break
 				}
 				row = append(row, fmt.Sprintf("%v", v))

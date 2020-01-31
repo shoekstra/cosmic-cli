@@ -70,7 +70,7 @@ func (vms VirtualMachines) FindByName(name string) ([]*VirtualMachine, error) {
 
 // Sort will sort VirtualMachines by either the "ipaddress", "name" or "zonename" field.
 func (vms VirtualMachines) Sort(sortBy string, reverseSort bool) {
-	if h.Contains([]string{"ipaddress", "name", "zonename"}, sortBy) == false {
+	if !h.Contains([]string{"ipaddress", "name", "zonename"}, sortBy) {
 		fmt.Println("Invalid sort option provided, provide either \"ipaddress\", \"name\" or \"zonename\".")
 		os.Exit(1)
 	}

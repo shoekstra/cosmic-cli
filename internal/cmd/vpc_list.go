@@ -83,7 +83,7 @@ func runVPCListCmd() error {
 			return err
 		}
 		for _, p := range publicIPs {
-			if p.Issourcenat == false {
+			if !p.Issourcenat {
 				continue
 			}
 
