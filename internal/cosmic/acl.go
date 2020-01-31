@@ -245,6 +245,9 @@ func ListACLRules(clientMap map[string]*cosmic.CosmicClient, aclid string) (ACLR
 			params.SetAclid(aclid)
 			resp, err := clientMap[client].NetworkACL.ListNetworkACLs(params)
 			if err != nil {
+				if strings.Contains(err.Error(), fmt.Sprintf("does not have permission")) {
+					return
+				}
 				if strings.Contains(err.Error(), fmt.Sprintf("entity does not exist")) {
 					return
 				}
