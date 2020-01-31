@@ -79,11 +79,8 @@ func filterMatch(obj interface{}, filter string) bool {
 	}
 
 	match, _ := regexp.MatchString(strings.ToLower(filterString), strings.ToLower(value))
-	if match {
-		return true
-	}
 
-	return false
+	return match
 }
 
 func filterOutput(result interface{}, filter string) interface{} {
